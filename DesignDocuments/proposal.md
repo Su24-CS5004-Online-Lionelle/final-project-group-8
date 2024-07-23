@@ -24,6 +24,8 @@ Our team is proposing to build an application that allows a user to manage a col
 
 - Interactive trivia player.
 
+WIP
+
 Go over your initial design.
 Special emphasis should be placed on how you plan to break it up
 MVC, presenter, file management, different input validation, testing, documentation, etc.
