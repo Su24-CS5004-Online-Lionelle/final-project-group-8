@@ -28,42 +28,86 @@ title: TriviaApp Initial Design
 ---
 classDiagram
    direction LR
-   TriviaApp --> MainController : creates
-   TriviaApp --> MainView : creates
-   MainController --> ModelInterface : creates
-   MainController <--> MainView : uses
-   ModelInterface --> TriviaQuestions : contains
-   ModelImplement --> NetUtils : uses
-   ModelImplement --> FileUtils : uses
-   ModelImplement --> ModelHelpers : uses
-   ModelHelpers --> TriviaQuestions : processes
-   ApiFetcher --> NetUtils : uses
-   NetUtils --> TriviaEnums : uses
-   ModelInterface <|-- ModelImplement
+   TriviaApp --> IMainController : creates
+   IMainController <|-- MainController : implements
+   TriviaApp --> IMainView : creates
+   IMainView <|-- MainView : implements
+   TriviaApp --> IMainModel : creates
+   IMainModel <|-- MainModel : implements
+
+   MainController <--> MainModel : uses
+   MainView <--> MainController : uses
    MainView --> ViewHelpers : uses
+   MainModel --> APIFetcher : uses
+   MainModel --> Filtering : uses
+   MainModel --> Sorting : uses
+   MainController --> ControllerHelpers : uses
+
+   IMainModel --> TriviaQuestion : contains
+   MainModel --> ModelHelpers : uses
 
    class TriviaApp {
-      +main(String[] args) : void
+      + main(String[] args) : void
+   }
+
+   class IMainController {
+      <<interface>>
    }
 
    class MainController {
-      -Model model
-      +getHelp() : String
-      +parseArguments(String[] args) : void
-      +run() : void
+      - IMainModel : model
+      + getHelp() : String
+      + parseArguments(String[] args) : void
+      + run() : void
    }
 
-   class ModelInterface {
+   class IMainModel {
       <<interface>>
    }
-   
-   class ModelImplement {
 
+   class MainModel {
+      - mainCollection : ?
+      - userCollection : Set<TriviaQuestion>
+      + saveQuestion(TriviaQuestion question)
+      + removeQuestion(TriviaQuestion question)
+      + loadUserCollection(InputStream in)
+      + saveUserCollection(OutputStream out)
    }
-   
+
    class ModelHelpers {
        
    }
+
+   class IMainView{
+      <<interface>>
+   }
+
+   class MainView {
+      - IMainController : controller
+   }
+
+   class ViewHelpers {
+       
+   }
    
+   class TriviaQuestion {
+
+   }
+
+   class APIFetcher {
+
+   }
+   
+   class TriviaAttrEnum {
+
+   }
+
+   class Filtering {
+
+   }
+
+   class Sorting {
+
+   }
 
 ```
