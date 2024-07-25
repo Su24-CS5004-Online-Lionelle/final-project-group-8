@@ -4,18 +4,20 @@
 - **Group8**
   - TriviaApp.java (main())
   - **Controller/**
+    - IMainController.java
     - MainController.java
-    - ControllerHelper.java
+    - ControllerHelpers.java
   - **Model/**
-    - ModelInterface.java
-    - ModelImplement.java
-    - ApiFetcher.java
+    - ITriviaCollection.java
+    - TriviaCollection.java
+    - APITriviaCollection.java
+    - UserTriviaCollection.java
+    - Filtering.java
+    - Sorting.java
     - ModelHelpers.java
-    - TriviaEnums
     - **Utils/**
-      - FileUtils.java
-      - NetUtils.java
   - **View/**
+    - IMainView.java
     - MainView.java
     - ViewHelpers.java
 
@@ -28,23 +30,29 @@ title: TriviaApp Initial Design
 ---
 classDiagram
    direction LR
-   TriviaApp --> IMainController : creates
-   IMainController <|-- MainController : implements
-   TriviaApp --> IMainView : creates
-   IMainView <|-- MainView : implements
-   TriviaApp --> IMainModel : creates
-   IMainModel <|-- MainModel : implements
 
-   MainController <--> MainModel : uses
+   TriviaApp --> ITriviaCollection : creates UserTriviaCollection
+   TriviaApp --> ITriviaCollection : creates APITriviaCollection
+   TriviaApp --> IMainView : creates
+   TriviaApp --> IMainController : creates
+
+   IMainController <|-- MainController : implements
+   IMainView <|-- MainView : implements
+
+   TriviaCollection --> Filtering
+   TriviaCollection --> Sorting
+   APITriviaCollection  --|> TriviaCollection : extends
+   UserTriviaCollection --|> TriviaCollection : extends
+   ITriviaCollection <|-- TriviaCollection : implements
+
+   MainController --> ITriviaCollection : uses
+
    MainView <--> MainController : uses
    MainView --> ViewHelpers : uses
-   MainModel --> APIFetcher : uses
-   MainModel --> Filtering : uses
-   MainModel --> Sorting : uses
+   ModelHelpers --> APIFetcher : uses
    MainController --> ControllerHelpers : uses
 
-   IMainModel --> TriviaQuestion : contains
-   MainModel --> ModelHelpers : uses
+   TriviaCollection --> TriviaQuestion : contains
 
    class TriviaApp {
       + main(String[] args) : void
@@ -55,23 +63,32 @@ classDiagram
    }
 
    class MainController {
-      - IMainModel : model
+      - user : ITriviaCollection
+      - api : ITriviaCollection
       + getHelp() : String
       + parseArguments(String[] args) : void
       + run() : void
    }
 
-   class IMainModel {
-      <<interface>>
-   }
-
-   class MainModel {
-      - mainCollection : ?
-      - userCollection : Set<TriviaQuestion>
+   class UserTriviaCollection {
+      - collection : Set<TriviaQuestion>
       + saveQuestion(TriviaQuestion question)
       + removeQuestion(TriviaQuestion question)
       + loadUserCollection(InputStream in)
       + saveUserCollection(OutputStream out)
+   }
+
+   class APITriviaCollection {
+      - collection : Set<TriviaQuestion>
+   }
+
+   class ITriviaCollection {
+      <<interface>>
+
+   }
+
+   class TriviaCollection {
+
    }
 
    class ModelHelpers {
@@ -91,14 +108,7 @@ classDiagram
    }
    
    class TriviaQuestion {
-
-   }
-
-   class APIFetcher {
-
-   }
-   
-   class TriviaAttrEnum {
+      <<record>>
 
    }
 
