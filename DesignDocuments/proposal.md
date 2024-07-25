@@ -61,3 +61,12 @@ Wednesday, August 7th: Have controller / view completed / tested.
 Wednesday, August 7th - August 8th: Finishing touches / debugging / demonstration rehearsal.
 Friday, August 9th: Product demo.
 Monday, August 12th: Final product + retrospective due.
+
+## Discussion Track
+
+1. Adam - Elevator Pitch
+2. Round robin to introduce specific model features (in above order) - at this point, showcase the GUI rendering
+3. Rachael - UML showcase (open discussion)
+4. Stop and listen for feedback.
+5. Open Questions
+   1. 
