@@ -30,23 +30,5 @@ public final class Filters {
 
     }
 
-    public List<TriviaQuestion> applyFilters(List<TriviaQuestion> questions) {
-    return questions.stream()
-            .filter(this::matchesType)
-            .filter(this::matchesDifficulty)
-            .filter(this::matchesCategory)
-            .collect(Collectors.toList());
-    }
-
-    private boolean matchesType(TriviaQuestion question) {
-        return typeFilters.isEmpty() || typeFilters.contains(question.type());
-    }
-
-    private boolean matchesDifficulty(TriviaQuestion question) {
-        return difficultyFilters.isEmpty() || difficultyFilters.contains(question.difficulty());
-    }
-
-    private boolean matchesCategory(TriviaQuestion question) {
-        return categoryFilters.isEmpty() || categoryFilters.contains(question.category());
-    }
+   
 }
