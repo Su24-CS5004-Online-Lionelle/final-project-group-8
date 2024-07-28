@@ -1,5 +1,13 @@
 package group8.model;
 
-public class TriviaCollection {
-    
+import java.util.Set;
+
+public abstract class TriviaCollection implements ITriviaCollection {
+    /**
+     * The collection of trivia questions.
+     */
+    private Set<TriviaQuestion> collection;
+
+    //add constructors and methods
+
 }

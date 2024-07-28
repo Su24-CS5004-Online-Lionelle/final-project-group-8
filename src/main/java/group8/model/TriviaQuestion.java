@@ -8,7 +8,7 @@ import java.util.List;
 
 
 /**
- * Primary record to pass around between objects.
+ * Question record to be used in collection objects.
  * 
  * @param type             the question type (multiple or true/false)
  * @param difficulty       the level of difficulty
