@@ -72,8 +72,6 @@ classDiagram
 
    class UserTriviaCollection {
       - collection : Set<TriviaQuestion>
-      + saveQuestion(TriviaQuestion question)
-      + removeQuestion(TriviaQuestion question)
       + loadUserCollection(InputStream in)
       + saveUserCollection(OutputStream out)
    }
@@ -84,7 +82,12 @@ classDiagram
 
    class ITriviaCollection {
       <<interface>>
-
+      + getAllQuestions() : Set<TriviaQuestion>
+      + addQuestion(TriviaQuestion) : void
+      + removeQuestion(TriviaQuestion) : void
+      + filter() : void
+      + sort() : void
+      + reset() : void
    }
 
    class TriviaCollection {

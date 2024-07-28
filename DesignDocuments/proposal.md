@@ -69,4 +69,8 @@ Monday, August 12th: Final product + retrospective due.
 3. Rachael - UML showcase (open discussion)
 4. Stop and listen for feedback.
 5. Open Questions
-   1. 
+   1. Model structures; should it be one file?
+   2. Will this API use cover the project requirement?
+   3. Double check on whether we are covering our "save out" requirement?
+   4. Clarification on the use of packages?
+   5. Do we need to account for gradle?
