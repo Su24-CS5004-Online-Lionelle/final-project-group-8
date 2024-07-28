@@ -63,11 +63,26 @@ classDiagram
    }
 
    class MainController {
-      - user : ITriviaCollection
-      - api : ITriviaCollection
+      - userCollection : ITriviaCollection
+      - apiCollection : ITriviaCollection
       + getHelp() : String
       + parseArguments(String[] args) : void
       + run() : void
+   }
+
+   class ITriviaCollection {
+      <<interface>>
+      + getAllQuestions() : Set<TriviaQuestion>
+      + filter() : void
+      + sort() : void
+      + reset() : void
+      + addQuestion(TriviaQuestion) : void
+      + removeQuestion(TriviaQuestion) : void
+      + exchangeQuestion(ITriviaCollection, TriviaQuestion) : void
+   }
+
+   class TriviaCollection {
+
    }
 
    class UserTriviaCollection {
@@ -78,19 +93,21 @@ classDiagram
 
    class APITriviaCollection {
       - collection : Set<TriviaQuestion>
+      + setAPICollection() : void
+      + callAPICollection() : Set<TriviaQuestion>
+      + callAPI(Enum, int) : Set<TriviaQuestion>
    }
 
-   class ITriviaCollection {
-      <<interface>>
-      + getAllQuestions() : Set<TriviaQuestion>
-      + addQuestion(TriviaQuestion) : void
-      + removeQuestion(TriviaQuestion) : void
-      + filter() : void
-      + sort() : void
-      + reset() : void
+   class TriviaQuestion {
+      <<record>>
+
    }
 
-   class TriviaCollection {
+   class Filter {
+
+   }
+
+   class Sort {
 
    }
 
@@ -108,19 +125,6 @@ classDiagram
 
    class ViewHelpers {
        
-   }
-   
-   class TriviaQuestion {
-      <<record>>
-
-   }
-
-   class Filtering {
-
-   }
-
-   class Sorting {
-
    }
 
 ```
