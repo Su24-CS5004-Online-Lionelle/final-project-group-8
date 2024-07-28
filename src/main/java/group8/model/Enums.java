@@ -28,8 +28,8 @@ public class Enums {
         CELEBRITIES,
         @JsonProperty("history")
         HISTORY,
-        @JsonProperty("geology")
-        GEOLOGY
+        @JsonProperty("geography")
+        GEOGRAPHY
     }
 
     public enum Field {
