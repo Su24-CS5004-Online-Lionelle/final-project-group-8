@@ -31,4 +31,10 @@ public class Enums {
         @JsonProperty("geology")
         GEOLOGY
     }
+
+    public enum Field {
+        TYPE,
+        DIFFICULTY,
+        CATEGORY
+    }
 }
