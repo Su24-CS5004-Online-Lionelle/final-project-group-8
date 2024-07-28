@@ -1,4 +1,4 @@
-package group8.model;
+package group8.model.helpers;
 
 public class Sort {
     

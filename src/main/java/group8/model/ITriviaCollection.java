@@ -2,6 +2,9 @@ package group8.model;
 
 import java.util.Set;
 
+import group8.model.helpers.Filters;
+import group8.model.helpers.Sort;
+
 public interface ITriviaCollection {
 
     /**

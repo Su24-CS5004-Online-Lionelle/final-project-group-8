@@ -8,6 +8,5 @@ public abstract class TriviaCollection implements ITriviaCollection {
      */
     private Set<TriviaQuestion> collection;
 
-    //add constructors and methods
 
 }
