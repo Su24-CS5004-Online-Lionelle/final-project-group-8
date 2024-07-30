@@ -192,6 +192,61 @@ public class APIUtils {
         }
     }
 
+    /**
+     * Enumeration for trivia question type.
+     */
+    public enum QuestionType {
+        MULTIPLE("multiple"),
+        BOOLEAN("boolean");
+    
+        private final String type;
+    
+        QuestionType(String type) {
+            this.type = type;
+        }
+    
+        public String getType() {
+            return type;
+        }
+    
+        public static QuestionType fromString(String type) {
+            for (QuestionType qType : QuestionType.values()) {
+                if (qType.type.equalsIgnoreCase(type)) {
+                    return qType;
+                }
+            }
+            throw new IllegalArgumentException("Unknown type: " + type);
+        }
+    }
+
+    /**
+     * Enumeration for trivia question difficulty.
+     */
+    public enum DifficultyLevel {
+        EASY("easy"),
+        MEDIUM("medium"),
+        HARD("hard");
+    
+        private final String difficulty;
+    
+        DifficultyLevel(String difficulty) {
+            this.difficulty = difficulty;
+        }
+    
+        public String getDifficulty() {
+            return difficulty;
+        }
+    
+        public static DifficultyLevel fromString(String difficulty) {
+            for (DifficultyLevel dLevel : DifficultyLevel.values()) {
+                if (dLevel.difficulty.equalsIgnoreCase(difficulty)) {
+                    return dLevel;
+                }
+            }
+            throw new IllegalArgumentException("Unknown difficulty: " + difficulty);
+        }
+    }
+
     /** 
      * Main method for testing.
      */
