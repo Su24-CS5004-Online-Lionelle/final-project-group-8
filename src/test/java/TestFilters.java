@@ -10,15 +10,17 @@ import group8.model.ITriviaCollection;
 import group8.model.TriviaQuestion;
 import group8.model.helpers.Filters;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFilters {
-    private ITriviaCollection mainCollection;
+    private static ITriviaCollection mainCollection;
    
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll //only initializing collection once
+    public static void setUpOnce() {
         TriviaQuestion question1 = new TriviaQuestion(
             QuestionType.BOOLEAN,
             Difficulty.HARD,
