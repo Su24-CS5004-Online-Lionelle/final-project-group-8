@@ -15,7 +15,11 @@ public class APITriviaCollection extends TriviaCollection{
     }
 
     /**
-     * Default constructor that initializes an empty collection of trivia questions.
+     * Constructor that initializes the collection with a given set of trivia
+     * questions.
+     *
+     * @param questions the initial collection of trivia questions to be added to
+     *                  this collection
      */
     public APITriviaCollection(Collection<TriviaQuestion> questions) {
         super(questions);
