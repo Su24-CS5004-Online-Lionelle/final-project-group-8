@@ -27,76 +27,8 @@ public class APIUtils {
     /** Object mapper used for binding record to JSON. */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Fetches trivia questions from the Open Trivia Database API.
-     *
-     * @param amount Number of questions to fetch.
-     * @param category Category of questions.
-     * @param difficulty Difficulty level of questions.
-     * @param type Type of questions (e.g., multiple choice).
-     * @return JsonNode containing the API response.
-     * @throws Exception if an error occurs during the request.
-     */
-    public static JsonNode fetchQuestions(int amount, String category, String difficulty, String type) throws Exception {
-
-        String urlString = BASE_URL + "api.php?amount=" + amount +
-                            (category != null ? "&category=" + category : "") +
-                            (difficulty != null ? "&difficulty=" + difficulty : "") +
-                            (type != null ? "&type=" + type : "");
-        return sendGetRequest(urlString);
-
-    }
-
-    /**
-     * Converts a JsonNode containing trivia questions to a list of TriviaQuestion records.
-     *
-     * @param jsonNode JsonNode containing the API response.
-     * @return List of TriviaQuestion records.
-     * @throws Exception if an error occurs during conversion.
-     */
-    public static List<TriviaQuestion> convertQuestions(JsonNode jsonNode) throws Exception {
-
-        JsonNode resultsNode = jsonNode.get("results");
-        if (resultsNode == null || !resultsNode.isArray()) {
-            throw new IllegalArgumentException("Invalid JSON format: 'results' field is missing or not an array");
-        }
-        return objectMapper.readValue(resultsNode.toString(), new TypeReference<List<TriviaQuestion>>() {});
-
-    }
-
-    /**
-     * Fetches and converts trivia questions; handles API errors based on the response code.
-     *
-     * @param amount Number of questions to fetch.
-     * @param category Category of questions.
-     * @param difficulty Difficulty level of questions.
-     * @param type Type of questions (e.g., multiple choice).
-     * @return List of TriviaQuestion records.
-     * @throws Exception if an error occurs during the request or conversion.
-     */
-    public static List<TriviaQuestion> getQuestions(int amount, String category, String difficulty, String type) throws Exception {
-
-        JsonNode questionsJsonNode = fetchQuestions(amount, category, difficulty, type);
-        int responseCode = questionsJsonNode.get("response_code").asInt();
-
-        switch (responseCode) {
-            case 0:
-                return convertQuestions(questionsJsonNode);
-            case 1:
-                throw new TriviaApiException("No Results: The API doesn't have enough questions for your query.");
-            case 2:
-                throw new TriviaApiException("Invalid Parameter: Contains an invalid parameter.");
-            case 3:
-                throw new TriviaApiException("Token Not Found: Session Token does not exist.");
-            case 4:
-                throw new TriviaApiException("Token Empty: Session Token has returned all possible questions for the specified query. Resetting the Token is necessary."); // Unlikely, but should handle.
-            case 5:
-                throw new TriviaApiException("Rate Limit: Too many requests have occurred. Each IP can only access the API once every 5 seconds.");
-            default:
-                throw new TriviaApiException("Unknown Error: An unknown error occurred with response code " + responseCode);
-        }
-
-    }
+    /** Session token for API requests. */
+    private static String sessionToken = null;    
 
     /**
      * Fetches trivia questions in batches with a 5 second delay between batches,
@@ -134,10 +66,126 @@ public class APIUtils {
             totalFetched += batchQuestions.size();
 
             // Wait for 5 seconds before fetching the next batch.
-            TimeUnit.SECONDS.sleep(5);
+            if (numberOfBatches > 1) {
+                TimeUnit.SECONDS.sleep(5);
+            }
         }
 
         return allQuestions;
+    }
+
+    /**
+     * Fetches and converts trivia questions; handles API errors based on the response code.
+     *
+     * @param amount Number of questions to fetch.
+     * @param category Category of questions.
+     * @param difficulty Difficulty level of questions.
+     * @param type Type of questions (e.g., multiple choice).
+     * @return List of TriviaQuestion records.
+     * @throws Exception if an error occurs during the request or conversion.
+     */
+    public static List<TriviaQuestion> getQuestions(int amount, String category, String difficulty, String type) throws Exception {
+
+        if (sessionToken == null) {
+            throw new TriviaApiException("Token Not Set: Request token to start new session.");
+        }
+
+        JsonNode questionsJsonNode = fetchQuestions(amount, category, difficulty, type);
+        int responseCode = questionsJsonNode.get("response_code").asInt();
+
+        switch (responseCode) {
+            case 0:
+                return convertQuestions(questionsJsonNode);
+            case 1:
+                throw new TriviaApiException("No Results: The API doesn't have enough questions for your query.");
+            case 2:
+                throw new TriviaApiException("Invalid Parameter: Contains an invalid parameter.");
+            case 3:
+                throw new TriviaApiException("Token Not Found: Session Token does not exist.");
+            case 4:
+                throw new TriviaApiException("Token Empty: Session Token has returned all possible questions for the specified query. Resetting the Token is necessary."); // Unlikely, but should handle.
+            case 5:
+                throw new TriviaApiException("Rate Limit: Too many requests have occurred. Each IP can only access the API once every 5 seconds.");
+            default:
+                throw new TriviaApiException("Unknown Error: An unknown error occurred with response code " + responseCode);
+        }
+
+    }
+
+    /**
+     * Converts a JsonNode containing trivia questions to a list of TriviaQuestion records.
+     *
+     * @param jsonNode JsonNode containing the API response.
+     * @return List of TriviaQuestion records.
+     * @throws Exception if an error occurs during conversion.
+     */
+    public static List<TriviaQuestion> convertQuestions(JsonNode jsonNode) throws Exception {
+
+        JsonNode resultsNode = jsonNode.get("results");
+        if (resultsNode == null || !resultsNode.isArray()) {
+            throw new IllegalArgumentException("Invalid JSON format: 'results' field is missing or not an array");
+        }
+        return objectMapper.readValue(resultsNode.toString(), new TypeReference<List<TriviaQuestion>>() {});
+
+    }
+
+    /**
+     * Fetches trivia questions from the Open Trivia Database API.
+     *
+     * @param amount Number of questions to fetch.
+     * @param category Category of questions.
+     * @param difficulty Difficulty level of questions.
+     * @param type Type of questions (e.g., multiple choice).
+     * @return JsonNode containing the API response.
+     * @throws Exception if an error occurs during the request.
+     */
+    public static JsonNode fetchQuestions(int amount, String category, String difficulty, String type) throws Exception {
+
+        String urlString = BASE_URL + "api.php?amount=" + amount +
+                            (category != null ? "&category=" + category : "") +
+                            (difficulty != null ? "&difficulty=" + difficulty : "") +
+                            (type != null ? "&type=" + type : "") +
+                            (sessionToken != null ? "&token=" + sessionToken : "");;
+        return sendGetRequest(urlString);
+
+    }
+
+    /**
+     * Resets the current session token in the Open Trivia Database API.
+     *
+     * @throws Exception if an error occurs during the request.
+     */
+    public static void resetToken() throws Exception {
+        if (sessionToken == null) {
+            throw new TriviaApiException("No session token to reset. Please request a new token first.");
+        }
+
+        String urlString = BASE_URL + "api_token.php?command=reset&token=" + sessionToken;
+        JsonNode response = sendGetRequest(urlString);
+        int responseCode = response.get("response_code").asInt();
+
+        if (responseCode == 0) {
+            sessionToken = response.get("token").asText();
+        } else {
+            throw new TriviaApiException("Failed to reset token. Response code: " + responseCode);
+        }
+    }
+
+    /**
+     * Requests a new session token from the Open Trivia Database API.
+     *
+     * @throws Exception if an error occurs during the request.
+     */
+    public static void requestNewToken() throws Exception {
+        String urlString = BASE_URL + "api_token.php?command=request";
+        JsonNode response = sendGetRequest(urlString);
+        int responseCode = response.get("response_code").asInt();
+
+        if (responseCode == 0) {
+            sessionToken = response.get("token").asText();
+        } else {
+            throw new TriviaApiException("Failed to request new token. Response code: " + responseCode);
+        }
     }
 
     /**
@@ -192,69 +240,18 @@ public class APIUtils {
         }
     }
 
-    /**
-     * Enumeration for trivia question type.
-     */
-    public enum QuestionType {
-        MULTIPLE("multiple"),
-        BOOLEAN("boolean");
-    
-        private final String type;
-    
-        QuestionType(String type) {
-            this.type = type;
-        }
-    
-        public String getType() {
-            return type;
-        }
-    
-        public static QuestionType fromString(String type) {
-            for (QuestionType qType : QuestionType.values()) {
-                if (qType.type.equalsIgnoreCase(type)) {
-                    return qType;
-                }
-            }
-            throw new IllegalArgumentException("Unknown type: " + type);
-        }
-    }
-
-    /**
-     * Enumeration for trivia question difficulty.
-     */
-    public enum DifficultyLevel {
-        EASY("easy"),
-        MEDIUM("medium"),
-        HARD("hard");
-    
-        private final String difficulty;
-    
-        DifficultyLevel(String difficulty) {
-            this.difficulty = difficulty;
-        }
-    
-        public String getDifficulty() {
-            return difficulty;
-        }
-    
-        public static DifficultyLevel fromString(String difficulty) {
-            for (DifficultyLevel dLevel : DifficultyLevel.values()) {
-                if (dLevel.difficulty.equalsIgnoreCase(difficulty)) {
-                    return dLevel;
-                }
-            }
-            throw new IllegalArgumentException("Unknown difficulty: " + difficulty);
-        }
-    }
-
     /** 
      * Main method for testing.
      */
     public static void main(String[] args) {
         
         try {
-            List<TriviaQuestion> questions = getBatchedQuestions(51, null, null, null);
+            requestNewToken();
+            System.out.println(sessionToken);
+            List<TriviaQuestion> questions = getBatchedQuestions(1, null, null, null);
             System.out.println(questions.size());
+            requestNewToken();
+            System.out.println(sessionToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
