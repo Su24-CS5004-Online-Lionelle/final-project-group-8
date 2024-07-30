@@ -25,7 +25,7 @@ public class TestTriviaQuestion {
         assertEquals(QuestionType.MULTIPLE, question.type());
         assertEquals(Difficulty.EASY, question.difficulty());
         assertEquals(Category.SPORTS, question.category());
-        assertEquals("Which country hosted the 2018 FIFA World Cup?", question.questionText());
+        assertEquals("Which country hosted the 2018 FIFA World Cup?", question.question());
         assertEquals("Russia", question.correctAnswer());
         assertEquals(List.of("Germany", "United States", "Saudi Arabia"), question.incorrectAnswers());
     }
