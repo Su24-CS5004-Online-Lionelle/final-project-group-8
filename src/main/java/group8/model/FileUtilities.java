@@ -21,7 +21,6 @@ public final class FileUtilities {
     /** Header for answers text file. */
     private static final String ANSWER_HEADER = "TRIVIA ANSWERS:";
 
-
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -39,6 +38,10 @@ public final class FileUtilities {
      */
     public static void saveTrivia(Collection<TriviaQuestion> questions, String jsonFilePath,
                                   String questionsFilePath, String answersFilePath) throws IOException {
+        // Null check
+        if (questions == null || questions.isEmpty()) {
+            throw new IllegalArgumentException("No questions to save. The collection is empty.");
+        }
         saveAsJson(questions, jsonFilePath); // Saves to JSON format
         saveAsText(questions, questionsFilePath, answersFilePath); // Saves to question/answer text format
     }
@@ -50,9 +53,14 @@ public final class FileUtilities {
      * @throws IOException If unable to read files.
      */
     public static List<TriviaQuestion> loadTrivia(String jsonFilePath) throws IOException {
+        File file = new File(jsonFilePath);
+        // Checks that file is not empty
+        if (file.length() == 0) {
+            throw new IllegalArgumentException("The JSON file is empty: " + jsonFilePath);
+        }
         try {
             // Reads JSON, and convert it to a list of objects
-            return mapper.readValue(new File(jsonFilePath),
+            return mapper.readValue(file,
                     mapper.getTypeFactory().constructCollectionType(List.class, TriviaQuestion.class));
         } catch (IOException e) {
             throw new IOException("Unable to load JSON file", e);
@@ -74,13 +82,14 @@ public final class FileUtilities {
         }
     }
 
-
     private static void saveAsText(Collection<TriviaQuestion> questions, String questionsFilePath, String answersFilePath) throws IOException {
         try (PrintWriter questionOut = new PrintWriter(questionsFilePath);
              PrintWriter answerOut = new PrintWriter(answersFilePath)) {
             // Adding headers
             questionOut.println(QUESTION_HEADER);
+            questionOut.println();
             answerOut.println(ANSWER_HEADER);
+            answerOut.println();
             // Iterate through questions, and writes to both files
             int i = 1;
             for (TriviaQuestion question : questions) {
@@ -89,11 +98,11 @@ public final class FileUtilities {
                 questionOut.println(); // Newline to split questions
                 // Writes answer
                 answerOut.println(i + ". Correct Answer: " + question.correctAnswer());
-                // Writes incorrect answer. Joins the list of incorrect answer to a string
+                // Writes incorrect answer. Convert answer to string
                 String incorrectAnswersString = String.join(", ", question.incorrectAnswers());
                 answerOut.println("   Incorrect Answers: " + incorrectAnswersString);
                 answerOut.println(); // Newline to split answers
-                i++; // Increments question
+                i++; // Increments trivia
             }
             System.out.println("Success! Questions saved to " + questionsFilePath);
             System.out.println("Success! Answers saved to " + answersFilePath);
