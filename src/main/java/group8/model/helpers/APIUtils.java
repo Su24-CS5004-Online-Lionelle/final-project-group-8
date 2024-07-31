@@ -3,15 +3,18 @@ package group8.model.helpers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import group8.model.Enums;
+import group8.model.TriviaQuestion;
 
 /**
  * Utility class for interacting with the Open Trivia Database API.
@@ -21,29 +24,34 @@ public class APIUtils {
     /** URL for Open Trivia database. */
     private static final String BASE_URL = "https://opentdb.com/";
 
+    /** URL for Open Trivia categories. */
+    private static final String CATEGORY_URL = "https://opentdb.com/api_category.php";
+
     /** API call limit. */
     private static final int BATCH_SIZE = 50; // Number of questions per batch
 
-    /** Object mapper used for binding record to JSON. */
+    /** Object converting between Java objects and JSON. */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    /** Session token for API requests. */
-    private static String sessionToken = null;    
+    /** Session token for API. */
+    private static String sessionToken;    
+
+    /** Category mapping for API. */
+    private static Map<String, String> categoryMap;
 
     /**
-     * Fetches trivia questions in batches with a 5 second delay between batches,
-     * and returns a combined list of questions based on the requested amount.
-     * 
+     * Fetches trivia questions in batches, with a 5 second delay between batches.
+     * Returns a combined list of questions, based on the requested amount.
      * Typically used for requests over the call limit (i.e., 50).
      *
-     * @param amount Number of questions to fetch.
-     * @param category Category of questions.
-     * @param difficulty Difficulty level of questions.
-     * @param type Type of questions (e.g., multiple choice).
+     * @param amount - number of questions to fetch.
+     * @param category - category of questions.
+     * @param difficulty - difficulty level of questions.
+     * @param type - type of questions (e.g., multiple choice).
      * @return Combined list of trivia questions.
      * @throws Exception if an error occurs during the requests or conversion.
      */
-    public static List<TriviaQuestion> getBatchedQuestions(int amount, String category, String difficulty, String type) throws Exception {
+    public static List<TriviaQuestion> getBatchedQuestions(int amount, Enums.Category category, Enums.Difficulty difficulty, Enums.QuestionType type) throws Exception {
 
         // Check for valid argument.
         if (amount <= 0) {
@@ -77,20 +85,20 @@ public class APIUtils {
     /**
      * Fetches and converts trivia questions; handles API errors based on the response code.
      *
-     * @param amount Number of questions to fetch.
-     * @param category Category of questions.
-     * @param difficulty Difficulty level of questions.
-     * @param type Type of questions (e.g., multiple choice).
+     * @param amount - number of questions to fetch.
+     * @param category - category of questions.
+     * @param difficulty - difficulty level of questions.
+     * @param type - type of questions (e.g., multiple choice).
      * @return List of TriviaQuestion records.
      * @throws Exception if an error occurs during the request or conversion.
      */
-    public static List<TriviaQuestion> getQuestions(int amount, String category, String difficulty, String type) throws Exception {
+    public static List<TriviaQuestion> getQuestions(int amount, Enums.Category category, Enums.Difficulty difficulty, Enums.QuestionType type) throws Exception {
 
         if (sessionToken == null) {
             throw new TriviaApiException("Token Not Set: Request token to start new session.");
         }
 
-        JsonNode questionsJsonNode = fetchQuestions(amount, category, difficulty, type);
+        JsonNode questionsJsonNode = fetchQuestions(amount, category != null ? categoryMap.get(category.getValue()) : "", difficulty != null ? difficulty.getValue() : "", type != null ? type.getValue() : "");
         int responseCode = questionsJsonNode.get("response_code").asInt();
 
         switch (responseCode) {
@@ -115,7 +123,7 @@ public class APIUtils {
     /**
      * Converts a JsonNode containing trivia questions to a list of TriviaQuestion records.
      *
-     * @param jsonNode JsonNode containing the API response.
+     * @param jsonNode - JsonNode containing the API response.
      * @return List of TriviaQuestion records.
      * @throws Exception if an error occurs during conversion.
      */
@@ -132,20 +140,20 @@ public class APIUtils {
     /**
      * Fetches trivia questions from the Open Trivia Database API.
      *
-     * @param amount Number of questions to fetch.
-     * @param category Category of questions.
-     * @param difficulty Difficulty level of questions.
-     * @param type Type of questions (e.g., multiple choice).
+     * @param amount - number of questions to fetch.
+     * @param category - category of questions.
+     * @param difficulty - difficulty level of questions.
+     * @param type - type of questions (e.g., multiple choice).
      * @return JsonNode containing the API response.
      * @throws Exception if an error occurs during the request.
      */
     public static JsonNode fetchQuestions(int amount, String category, String difficulty, String type) throws Exception {
 
         String urlString = BASE_URL + "api.php?amount=" + amount +
-                            (category != null ? "&category=" + category : "") +
-                            (difficulty != null ? "&difficulty=" + difficulty : "") +
-                            (type != null ? "&type=" + type : "") +
-                            (sessionToken != null ? "&token=" + sessionToken : "");;
+                            (category != null ? "&category=" + category: "") +
+                            (difficulty != null ? "&difficulty=" + difficulty: "") +
+                            (type != null ? "&type=" + type: "") +
+                            (sessionToken != null ? "&token=" + sessionToken: "");
         return sendGetRequest(urlString);
 
     }
@@ -176,7 +184,7 @@ public class APIUtils {
      *
      * @throws Exception if an error occurs during the request.
      */
-    public static void requestNewToken() throws Exception {
+    public static void requestToken() throws Exception {
         String urlString = BASE_URL + "api_token.php?command=request";
         JsonNode response = sendGetRequest(urlString);
         int responseCode = response.get("response_code").asInt();
@@ -189,9 +197,35 @@ public class APIUtils {
     }
 
     /**
+     * Obtains question categories from API.
+     * 
+     * @return Map<String, String> mapping of category name to identifier.
+     * @throws Exception if an error occurs during the request.
+     */
+    public static void requestCategories() throws Exception {
+        String urlString = CATEGORY_URL;
+        JsonNode categoriesJsonNode = sendGetRequest(urlString);
+
+        Map<String, String> map = new HashMap<>();
+        JsonNode triviaCategories = categoriesJsonNode.get("trivia_categories");
+
+        if (triviaCategories != null && triviaCategories.isArray()) {
+            for (JsonNode categoryNode : triviaCategories) {
+                String categoryName = categoryNode.get("name").asText();
+                String categoryId = categoryNode.get("id").asText();
+                map.put(categoryName, categoryId);
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid JSON format: 'trivia_categories' field is missing or not an array");
+        }
+
+        categoryMap = map;
+    }
+
+    /**
      * Sends a GET request to the specified URL and returns the response as a JsonNode.
      *
-     * @param urlString URL to send the GET request to.
+     * @param urlString - URL to send the GET request to.
      * @return JsonNode containing the response.
      * @throws Exception if an error occurs during the request.
      */
@@ -219,41 +253,12 @@ public class APIUtils {
     }
 
     /**
-     * Record to represent each trivia question.
-     */
-    public static record TriviaQuestion(
-
-        String type,
-        String difficulty,
-        String category,
-        String question,
-        @JsonProperty("correct_answer") String correctAnswer,
-        @JsonProperty("incorrect_answers") List<String> incorrectAnswers) {}
-
-    /**
      * Custom exception for API-related errors.
      */
     public static class TriviaApiException extends Exception {
 
         public TriviaApiException(String message) {
             super(message);
-        }
-    }
-
-    /** 
-     * Main method for testing.
-     */
-    public static void main(String[] args) {
-        
-        try {
-            requestNewToken();
-            System.out.println(sessionToken);
-            List<TriviaQuestion> questions = getBatchedQuestions(1, null, null, null);
-            System.out.println(questions.size());
-            requestNewToken();
-            System.out.println(sessionToken);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
