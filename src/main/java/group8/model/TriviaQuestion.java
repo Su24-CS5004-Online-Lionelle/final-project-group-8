@@ -5,6 +5,7 @@ import group8.model.Enums.Difficulty;
 import group8.model.Enums.QuestionType;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
@@ -22,8 +23,8 @@ public record TriviaQuestion(
         Difficulty difficulty,
         Category category,
         String question,
-        String correctAnswer,
-        List<String> incorrectAnswers) {
+        @JsonProperty("correct_answer") String correctAnswer,
+        @JsonProperty("incorrect_answers") List<String> incorrectAnswers) {
         
         @Override
         public String toString() {
