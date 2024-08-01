@@ -1,5 +1,6 @@
 package group8.model;
 
+import java.util.Collection;
 import java.util.Set;
 
 import group8.model.helpers.Filters;
@@ -22,6 +23,13 @@ public interface ITriviaCollection {
     void addQuestion(TriviaQuestion question);
 
     /**
+     * Add a collection of trivia questions to the collection.
+     *
+     * @param question the trivia question to add
+     */
+    void addQuestions(Collection<TriviaQuestion> questions);
+
+    /**
      * Remove a trivia question from the collection.
      *
      * @param question the trivia question to remove
@@ -33,14 +41,14 @@ public interface ITriviaCollection {
      *
      * @param filter the filter criteria
      */
-    void filterQuestions(Filters filter);
+    Set<TriviaQuestion> filterQuestions(Filters filter);
 
     /**
      * Sort the trivia questions in the collection based on a sort criterion.
      *
      * @param sort the sort criterion
      */
-    void sortQuestions(Sort sort);
+    Set<TriviaQuestion> sortQuestions(Sort sort);
 
     /**
      * Reset the trivia question collection to its initial state.
