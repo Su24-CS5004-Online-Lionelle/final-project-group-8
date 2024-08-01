@@ -5,7 +5,7 @@ import java.util.Set;
 
 
 public class APITriviaCollection extends TriviaCollection{
-    private Set<TriviaQuestion> collection;
+    private Set<TriviaQuestion> apiCollection;
 
     /**
      * Default constructor that initializes an empty collection of trivia questions.
@@ -30,8 +30,9 @@ public class APITriviaCollection extends TriviaCollection{
      *
      * @param questions the trivia questions to add
      */
+    @Override
     public void addQuestions(Collection<TriviaQuestion> questions) {
-        collection.addAll(questions);
+        getAllQuestions().addAll(questions);
     }
 
 }
