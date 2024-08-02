@@ -12,6 +12,7 @@ public class APITriviaCollection extends TriviaCollection{
      */
     public APITriviaCollection() {
         super();
+        this.apiCollection = this.originalCollection;
     }
 
     /**
@@ -23,6 +24,7 @@ public class APITriviaCollection extends TriviaCollection{
      */
     public APITriviaCollection(Collection<TriviaQuestion> questions) {
         super(questions);
+        this.apiCollection = this.originalCollection;
     }
 
     /**
@@ -32,7 +34,7 @@ public class APITriviaCollection extends TriviaCollection{
      */
     @Override
     public void addQuestions(Collection<TriviaQuestion> questions) {
-        getAllQuestions().addAll(questions);
+        apiCollection.addAll(questions);
     }
 
 }

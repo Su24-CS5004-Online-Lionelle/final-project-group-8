@@ -10,6 +10,7 @@ public class UserTriviaCollection extends TriviaCollection {
      */
     public UserTriviaCollection() {
         super();
+        this.userCollection = this.originalCollection;
     }
 
     /**
@@ -21,6 +22,7 @@ public class UserTriviaCollection extends TriviaCollection {
      */
     public UserTriviaCollection(Collection<TriviaQuestion> questions) {
         super(questions);
+        this.userCollection = this.originalCollection;
     }
 
     /**
@@ -30,7 +32,7 @@ public class UserTriviaCollection extends TriviaCollection {
      */
     @Override
     public void addQuestions(Collection<TriviaQuestion> questions) {
-        getAllQuestions().addAll(questions);
+        userCollection.addAll(questions);
     }
 
 }

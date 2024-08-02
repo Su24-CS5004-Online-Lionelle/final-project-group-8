@@ -14,7 +14,7 @@ public abstract class TriviaCollection implements ITriviaCollection {
     /**
      * The collection of trivia questions.
      */
-    private Set<TriviaQuestion> originalCollection;
+    protected Set<TriviaQuestion> originalCollection;
 
     /**
      * Default constructor that initializes an empty collection of trivia questions.
