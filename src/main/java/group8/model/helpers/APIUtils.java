@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import group8.model.Enums;
 import group8.model.TriviaQuestion;
+import java.time.Instant;
 
 /**
  * Utility class for interacting with the Open Trivia Database API.
@@ -38,6 +39,13 @@ public class APIUtils {
 
     /** Category mapping for API. */
     private static Map<String, String> categoryMap;
+
+    /** Last request time for API. */
+    private static Instant lastRequestTime;
+
+    public APIUtils() {
+        // Empty constructor.
+    }
 
     /**
      * Fetches trivia questions in batches, with a 5 second delay between batches.
@@ -69,14 +77,10 @@ public class APIUtils {
             int batchAmount = Math.min(BATCH_SIZE, amount - totalFetched);
 
             // Fetch and add questions for the current batch.
-            List<TriviaQuestion> batchQuestions = getQuestions(batchAmount, category, difficulty, type);
+            List<TriviaQuestion> batchQuestions = getSingleQuestions(batchAmount, category, difficulty, type);
             allQuestions.addAll(batchQuestions);
             totalFetched += batchQuestions.size();
 
-            // Wait for 5 seconds before fetching the next batch.
-            if (numberOfBatches > 1) {
-                TimeUnit.SECONDS.sleep(5);
-            }
         }
 
         return allQuestions;
@@ -92,10 +96,14 @@ public class APIUtils {
      * @return List of TriviaQuestion records.
      * @throws Exception if an error occurs during the request or conversion.
      */
-    public static List<TriviaQuestion> getQuestions(int amount, Enums.Category category, Enums.Difficulty difficulty, Enums.QuestionType type) throws Exception {
+    public static List<TriviaQuestion> getSingleQuestions(int amount, Enums.Category category, Enums.Difficulty difficulty, Enums.QuestionType type) throws Exception {
 
         if (sessionToken == null) {
             throw new TriviaApiException("Token Not Set: Request token to start new session.");
+        }
+
+        if (amount > 50) {
+            throw new TriviaApiException("Single Request Too Large: API only handles 50 questions per call.");
         }
 
         JsonNode questionsJsonNode = fetchQuestions(amount, category != null ? categoryMap.get(category.getValue()) : "", difficulty != null ? difficulty.getValue() : "", type != null ? type.getValue() : "");
@@ -149,6 +157,8 @@ public class APIUtils {
      */
     public static JsonNode fetchQuestions(int amount, String category, String difficulty, String type) throws Exception {
 
+        waitForRateLimit();
+
         String urlString = BASE_URL + "api.php?amount=" + amount +
                             (category != null ? "&category=" + category: "") +
                             (difficulty != null ? "&difficulty=" + difficulty: "") +
@@ -156,6 +166,24 @@ public class APIUtils {
                             (sessionToken != null ? "&token=" + sessionToken: "");
         return sendGetRequest(urlString);
 
+    }
+
+    /**
+     * Ensures a minimum delay of 5 seconds between API requests.
+     * 
+     * @throws InterruptedException.
+     */
+    private static void waitForRateLimit() throws InterruptedException {
+
+        if (lastRequestTime != null) {
+            Instant now = Instant.now();
+            long timeElapsed = now.getEpochSecond() - lastRequestTime.getEpochSecond();
+            if (timeElapsed < 5) {
+                TimeUnit.SECONDS.sleep(5 - timeElapsed);
+            }
+        }
+
+        lastRequestTime = Instant.now();
     }
 
     /**
