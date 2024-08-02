@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -5,10 +6,12 @@ import java.util.Set;
 import group8.model.APITriviaCollection;
 import group8.model.Enums.Category;
 import group8.model.Enums.Difficulty;
+import group8.model.Enums.Field;
 import group8.model.Enums.QuestionType;
 import group8.model.ITriviaCollection;
 import group8.model.TriviaQuestion;
 import group8.model.helpers.Filters;
+import group8.model.helpers.QuestionSortStrategy;
 
 import org.junit.jupiter.api.BeforeAll;
 
@@ -237,5 +240,7 @@ public class TestFilters {
 
         assertEquals(filteredSet.size(), 3);
     }
+
+  
     
 }

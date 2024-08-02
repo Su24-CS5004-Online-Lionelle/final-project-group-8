@@ -5,7 +5,10 @@ import java.util.stream.Collectors;
 import group8.model.TriviaQuestion;
 import group8.model.Enums.Difficulty;
 import group8.model.Enums.QuestionType;
+import group8.model.TriviaCollection;
+
 import group8.model.Enums.Category;
+
 
 
 /**

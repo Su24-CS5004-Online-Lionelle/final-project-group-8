@@ -1,9 +1,13 @@
 package group8.model;
+import group8.model.Enums.Field;
 import group8.model.helpers.Filters;
-import group8.model.helpers.Sort;
+import group8.model.helpers.QuestionSortStrategy;
+import group8.model.helpers.Sorter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,13 +18,19 @@ public abstract class TriviaCollection implements ITriviaCollection {
     /**
      * The collection of trivia questions.
      */
-    private Set<TriviaQuestion> originalCollection;
+    private TreeSet<TriviaQuestion> originalCollection;
+
+    private List<TriviaQuestion> listToSort;
 
     /**
      * Default constructor that initializes an empty collection of trivia questions.
      */
     public TriviaCollection() {
-        this.originalCollection = new TreeSet<>(Comparator.comparing(TriviaQuestion::question));
+        this.originalCollection = new TreeSet<>(Comparator.comparing(TriviaQuestion::question, 
+                String.CASE_INSENSITIVE_ORDER));
+
+        this.listToSort = new ArrayList<>(originalCollection);
+
     }
 
     /**
@@ -31,8 +41,11 @@ public abstract class TriviaCollection implements ITriviaCollection {
      *                  this collection
      */
     public TriviaCollection(Collection<TriviaQuestion> questions) {
-        this.originalCollection = new TreeSet<>(Comparator.comparing(TriviaQuestion::question));
+        this.originalCollection = new TreeSet<>(Comparator.comparing(TriviaQuestion::question, 
+                String.CASE_INSENSITIVE_ORDER));
         this.originalCollection.addAll(questions);
+
+        this.listToSort = new ArrayList<>(originalCollection);
     }
 
      /**
@@ -76,8 +89,8 @@ public abstract class TriviaCollection implements ITriviaCollection {
      *
      * @param sort the sort criterion
      */
-    public Set<TriviaQuestion> sortQuestions(Sort sort) {
-        return originalCollection;
+    public List<TriviaQuestion> sortQuestions(Sorter sort) {
+       return sort.sortCollection(originalCollection);
     }
 
     /**
