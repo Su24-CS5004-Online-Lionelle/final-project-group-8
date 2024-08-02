@@ -5,13 +5,14 @@ import java.util.Set;
 
 
 public class APITriviaCollection extends TriviaCollection{
-    private Set<TriviaQuestion> collection;
+    private Set<TriviaQuestion> apiCollection;
 
     /**
      * Default constructor that initializes an empty collection of trivia questions.
      */
     public APITriviaCollection() {
         super();
+        this.apiCollection = this.originalCollection;
     }
 
     /**
@@ -23,6 +24,7 @@ public class APITriviaCollection extends TriviaCollection{
      */
     public APITriviaCollection(Collection<TriviaQuestion> questions) {
         super(questions);
+        this.apiCollection = this.originalCollection;
     }
 
     /**
@@ -30,8 +32,9 @@ public class APITriviaCollection extends TriviaCollection{
      *
      * @param questions the trivia questions to add
      */
+    @Override
     public void addQuestions(Collection<TriviaQuestion> questions) {
-        collection.addAll(questions);
+        apiCollection.addAll(questions);
     }
 
 }
