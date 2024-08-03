@@ -1,4 +1,4 @@
-package group8.view.helpers;
+package group8.controller.listeners;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

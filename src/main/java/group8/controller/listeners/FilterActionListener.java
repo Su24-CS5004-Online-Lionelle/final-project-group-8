@@ -1,6 +1,7 @@
-package group8.view.helpers;
+package group8.controller.listeners;
 
 import group8.view.MainView;
+import group8.view.helpers.MainViewState;
 
 import javax.swing.*;
 import java.awt.*;

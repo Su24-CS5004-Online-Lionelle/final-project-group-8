@@ -171,7 +171,7 @@ public class APIUtils {
     /**
      * Ensures a minimum delay of 5 seconds between API requests.
      * 
-     * @throws InterruptedException.
+     * @throws InterruptedException
      */
     private static void waitForRateLimit() throws InterruptedException {
 
@@ -288,5 +288,13 @@ public class APIUtils {
         public TriviaApiException(String message) {
             super(message);
         }
+    }
+
+    public static String getSessionToken() {
+        return sessionToken;
+    }
+
+    public static Map<String, String> getCategoryMap() {
+        return categoryMap;
     }
 }
