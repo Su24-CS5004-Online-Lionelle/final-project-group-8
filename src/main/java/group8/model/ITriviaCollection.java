@@ -26,7 +26,7 @@ public interface ITriviaCollection {
     /**
      * Add a collection of trivia questions to the collection.
      *
-     * @param question the trivia question to add
+     * @param questions the trivia question to add
      */
     void addQuestions(Collection<TriviaQuestion> questions);
 

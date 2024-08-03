@@ -18,9 +18,7 @@ public abstract class TriviaCollection implements ITriviaCollection {
     /**
      * The collection of trivia questions.
      */
-    private TreeSet<TriviaQuestion> originalCollection;
-
-    private List<TriviaQuestion> listToSort;
+    protected Set<TriviaQuestion> originalCollection;
 
     /**
      * Default constructor that initializes an empty collection of trivia questions.
@@ -78,7 +76,7 @@ public abstract class TriviaCollection implements ITriviaCollection {
     /**
      * Filter the trivia questions in the collection based on a filter.
      *
-     * @param filter the filter criteria
+     * @param filters the filter criteria
      */
     public Set<TriviaQuestion> filterQuestions(Filters filters) {
         return filters.applyFilters(originalCollection);
@@ -108,4 +106,7 @@ public abstract class TriviaCollection implements ITriviaCollection {
         originalCollection = new TreeSet<>();
     }
 
+    public boolean contains(TriviaQuestion question) {
+        return originalCollection.contains(question);
+    }
 }
