@@ -1,18 +1,14 @@
 package group8.view;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import group8.model.Enums;
 import group8.view.helpers.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * MainView class represents the main user interface for the Trivia Generator application.
@@ -26,14 +22,12 @@ public class MainView extends JFrame {
     private JButton toUserButton;
     private JButton toApiButton;
     private MainViewState state;
-    private List<Enums.Category> selectedCategories;
 
     /**
      * Constructor for MainView. Sets up the main interface components.
      */
     public MainView() {
         state = new MainViewState();
-        selectedCategories = null;
 
         // Set the FlatLaf Dark look and feel
         try {
@@ -84,7 +78,6 @@ public class MainView extends JFrame {
         // Add main panel to frame
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
-
     }
 
     /**
@@ -207,16 +200,7 @@ public class MainView extends JFrame {
     private JPanel createApiBottomPanel() {
         JPanel apiBottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton apiPullButton = new JButton("Generate New List");
-        apiPullButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showCategorySelection();
-                if (selectedCategories != null) {
-                    new ApiPullActionListener(apiListModel, selectedCategories).actionPerformed(e);
-                }
-            }
-        });
-
+        apiPullButton.addActionListener(new ApiPullActionListener(apiListModel));
         apiBottomPanel.add(apiPullButton);
         return apiBottomPanel;
     }
@@ -292,13 +276,6 @@ public class MainView extends JFrame {
      */
     private void resetFilters() {
         // Logic to reset filters
-    }
-
-    private void showCategorySelection() {
-        CategorySelection dialog = new CategorySelection(frame);
-        if (dialog.showDialog()) {
-            selectedCategories = dialog.getSelectedCategories();
-        }
     }
 
     /**
