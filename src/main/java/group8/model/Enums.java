@@ -6,12 +6,13 @@ public class Enums {
 
     public enum QuestionType {
 
-        @JsonProperty("multiple")
-        MULTIPLE("multiple"),
-        
         @JsonProperty("boolean")
-        BOOLEAN("boolean");
-    
+        BOOLEAN("boolean"),
+
+        @JsonProperty("multiple")
+        MULTIPLE("multiple");
+        
+     
         private final String value;
     
         // Constructor to initialize the string value
@@ -71,77 +72,77 @@ public class Enums {
 
     public enum Category {
 
-        @JsonProperty("Entertainment: Film")
-        ENTERTAINMENT_FILM("Entertainment: Film"),
-        
-        @JsonProperty("Geography")
-        GEOGRAPHY("Geography"),
-        
-        @JsonProperty("Entertainment: Cartoon & Animations")
-        ENTERTAINMENT_CARTOON_ANIMATIONS("Entertainment: Cartoon & Animations"),
-        
-        @JsonProperty("Art")
-        ART("Art"),
-        
-        @JsonProperty("Entertainment: Music")
-        ENTERTAINMENT_MUSIC("Entertainment: Music"),
-        
-        @JsonProperty("Entertainment: Books")
-        ENTERTAINMENT_BOOKS("Entertainment: Books"),
-        
-        @JsonProperty("Science: Computers")
-        SCIENCE_COMPUTERS("Science: Computers"),
-        
-        @JsonProperty("Science & Nature")
-        SCIENCE_NATURE("Science & Nature"),
-        
-        @JsonProperty("History")
-        HISTORY("History"),
-        
-        @JsonProperty("Entertainment: Comics")
-        ENTERTAINMENT_COMICS("Entertainment: Comics"),
-        
-        @JsonProperty("Vehicles")
-        VEHICLES("Vehicles"),
-        
-        @JsonProperty("General Knowledge")
-        GENERAL_KNOWLEDGE("General Knowledge"),
-        
-        @JsonProperty("Entertainment: Board Games")
-        ENTERTAINMENT_BOARD_GAMES("Entertainment: Board Games"),
-        
-        @JsonProperty("Celebrities")
-        CELEBRITIES("Celebrities"),
-        
-        @JsonProperty("Entertainment: Japanese Anime & Manga")
-        ENTERTAINMENT_JAPANESE_ANIME_MANGA("Entertainment: Japanese Anime & Manga"),
-        
-        @JsonProperty("Science: Mathematics")
-        SCIENCE_MATHEMATICS("Science: Mathematics"),
-        
         @JsonProperty("Animals")
         ANIMALS("Animals"),
-        
-        @JsonProperty("Entertainment: Television")
-        ENTERTAINMENT_TELEVISION("Entertainment: Television"),
-        
-        @JsonProperty("Mythology")
-        MYTHOLOGY("Mythology"),
-        
+
+        @JsonProperty("Art")
+        ART("Art"),
+
+        @JsonProperty("Celebrities")
+        CELEBRITIES("Celebrities"),
+
+        @JsonProperty("Entertainment: Board Games")
+        ENTERTAINMENT_BOARD_GAMES("Entertainment: Board Games"),
+
+        @JsonProperty("Entertainment: Books")
+        ENTERTAINMENT_BOOKS("Entertainment: Books"),
+
+        @JsonProperty("Entertainment: Cartoon & Animations")
+        ENTERTAINMENT_CARTOON_ANIMATIONS("Entertainment: Cartoon & Animations"),
+
+        @JsonProperty("Entertainment: Comics")
+        ENTERTAINMENT_COMICS("Entertainment: Comics"),
+
+        @JsonProperty("Entertainment: Film")
+        ENTERTAINMENT_FILM("Entertainment: Film"),
+
+        @JsonProperty("Entertainment: Japanese Anime & Manga")
+        ENTERTAINMENT_JAPANESE_ANIME_MANGA("Entertainment: Japanese Anime & Manga"),
+
+        @JsonProperty("Entertainment: Music")
+        ENTERTAINMENT_MUSIC("Entertainment: Music"),
+
         @JsonProperty("Entertainment: Musicals & Theatres")
         ENTERTAINMENT_MUSICALS_THEATRES("Entertainment: Musicals & Theatres"),
-        
-        @JsonProperty("Politics")
-        POLITICS("Politics"),
-        
-        @JsonProperty("Science: Gadgets")
-        SCIENCE_GADGETS("Science: Gadgets"),
-        
+
+        @JsonProperty("Entertainment: Television")
+        ENTERTAINMENT_TELEVISION("Entertainment: Television"),
+
         @JsonProperty("Entertainment: Video Games")
         ENTERTAINMENT_VIDEO_GAMES("Entertainment: Video Games"),
-        
+
+        @JsonProperty("General Knowledge")
+        GENERAL_KNOWLEDGE("General Knowledge"),
+
+        @JsonProperty("Geography")
+        GEOGRAPHY("Geography"),
+
+        @JsonProperty("History")
+        HISTORY("History"),
+
+        @JsonProperty("Mythology")
+        MYTHOLOGY("Mythology"),
+
+        @JsonProperty("Politics")
+        POLITICS("Politics"),
+
+        @JsonProperty("Science & Nature")
+        SCIENCE_NATURE("Science & Nature"),
+
+        @JsonProperty("Science: Computers")
+        SCIENCE_COMPUTERS("Science: Computers"),
+
+        @JsonProperty("Science: Gadgets")
+        SCIENCE_GADGETS("Science: Gadgets"),
+
+        @JsonProperty("Science: Mathematics")
+        SCIENCE_MATHEMATICS("Science: Mathematics"),
+
         @JsonProperty("Sports")
-        SPORTS("Sports");
+        SPORTS("Sports"),
+
+        @JsonProperty("Vehicles")
+        VEHICLES("Vehicles");
     
         private final String value;
     

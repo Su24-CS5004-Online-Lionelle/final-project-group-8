@@ -1,12 +1,8 @@
 package group8.model;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import group8.model.Enums.Field;
-import group8.model.helpers.Sorter;
 
 
 public class APITriviaCollection extends TriviaCollection{
@@ -42,14 +38,5 @@ public class APITriviaCollection extends TriviaCollection{
         apiCollection.addAll(questions);
     }
 
-    @Override
-    public List<TriviaQuestion> sortQuestions(Field field, boolean ascending) {
-        System.out.println("TESTING" + originalCollection.stream()
-                .sorted(Sorter.getSort(field, ascending))
-                .collect(Collectors.toList()));
-        return originalCollection.stream()
-                .sorted(Sorter.getSort(field, ascending))
-                .collect(Collectors.toList());
-    }
 
 }

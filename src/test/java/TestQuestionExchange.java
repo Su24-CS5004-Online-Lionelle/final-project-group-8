@@ -35,21 +35,21 @@ public class TestQuestionExchange {
         apiCollection.addQuestions(STATIC_QUESTIONS);
     }
 
-    private void printCollections(String stage) {
-        System.out.println(stage);
-        System.out.println("API Collection: ");
-        apiCollection.getAllQuestions().forEach(System.out::println);
-        System.out.println("User Collection: ");
-        userCollection.getAllQuestions().forEach(System.out::println);
-        System.out.println("------------------------------------------------");
-    }
+    // private void printCollections(String stage) {
+    //     System.out.println(stage);
+    //     System.out.println("API Collection: ");
+    //     apiCollection.getAllQuestions().forEach(System.out::println);
+    //     System.out.println("User Collection: ");
+    //     userCollection.getAllQuestions().forEach(System.out::println);
+    //     System.out.println("------------------------------------------------");
+    // }
 
     @Test
     public void testMoveToUserCollection() {
-        printCollections("Before testMoveToUserCollection");
+        // printCollections("Before testMoveToUserCollection");
         TriviaQuestion question = STATIC_QUESTIONS.get(0);
         questionExchange.moveToUserCollection(question);
-        printCollections("After testMoveToUserCollection");
+        // printCollections("After testMoveToUserCollection");
 
         assertTrue(userCollection.getAllQuestions().contains(question));
         assertTrue(!apiCollection.getAllQuestions().contains(question));
@@ -59,10 +59,10 @@ public class TestQuestionExchange {
     public void testMoveToApiCollection() {
         TriviaQuestion question = STATIC_QUESTIONS.get(1);
         questionExchange.moveToUserCollection(question);
-        printCollections("Before testMoveToApiCollection");
+        // printCollections("Before testMoveToApiCollection");
 
         questionExchange.moveToApiCollection(question);
-        printCollections("After testMoveToApiCollection");
+        // printCollections("After testMoveToApiCollection");
 
         assertTrue(apiCollection.getAllQuestions().contains(question));
         assertTrue(!userCollection.getAllQuestions().contains(question));

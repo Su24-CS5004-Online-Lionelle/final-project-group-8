@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import group8.model.helpers.Filters;
-import group8.model.helpers.Sorter;
+import group8.model.Enums.Field;
 
 public interface ITriviaCollection {
 
@@ -49,7 +49,7 @@ public interface ITriviaCollection {
      *
      * @param sort the sort criterion
      */
-    List<TriviaQuestion> sortQuestions(Sorter sort);
+    List<TriviaQuestion> sortQuestions(Field field, boolean ascending);
 
     /**
      * Reset the trivia question collection to its initial state.
