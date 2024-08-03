@@ -99,7 +99,7 @@ class FileUtilitiesTest {
         assertTrue(jsonContent.contains("\"type\" : \"boolean\""));
         assertTrue(jsonContent.contains("\"difficulty\" : \"hard\""));
         assertTrue(jsonContent.contains("\"category\" : \"history\""));
-        assertTrue(jsonContent.contains("\"questionText\" : \"The Berlin Wall fell in 1989.\""));
+        assertTrue(jsonContent.contains("\"question\" : \"The Berlin Wall fell in 1989.\""));
         assertTrue(jsonContent.contains("\"correctAnswer\" : \"True\""));
     }
 
@@ -139,7 +139,7 @@ class FileUtilitiesTest {
         assertEquals(QuestionType.BOOLEAN, firstQuestion.type());
         assertEquals(Difficulty.HARD, firstQuestion.difficulty());
         assertEquals(Category.HISTORY, firstQuestion.category());
-        assertEquals("The Berlin Wall fell in 1989.", firstQuestion.questionText());
+        assertEquals("The Berlin Wall fell in 1989.", firstQuestion.question());
         assertEquals("True", firstQuestion.correctAnswer());
         assertEquals(List.of("False"), firstQuestion.incorrectAnswers());
 
@@ -148,7 +148,7 @@ class FileUtilitiesTest {
         assertEquals(QuestionType.MULTIPLE, secondQuestion.type());
         assertEquals(Difficulty.EASY, secondQuestion.difficulty());
         assertEquals(Category.SPORTS, secondQuestion.category());
-        assertEquals("Which boxer was banned for taking a bite out of Evander Holyfield's ear in 1997?", secondQuestion.questionText());
+        assertEquals("Which boxer was banned for taking a bite out of Evander Holyfield's ear in 1997?", secondQuestion.question());
         assertEquals("Mike Tyson", secondQuestion.correctAnswer());
         assertEquals(Arrays.asList("Roy Jones Jr.", "Evander Holyfield", "Lennox Lewis"), secondQuestion.incorrectAnswers());
     }

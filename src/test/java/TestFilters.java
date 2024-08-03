@@ -11,7 +11,6 @@ import group8.model.Enums.QuestionType;
 import group8.model.ITriviaCollection;
 import group8.model.TriviaQuestion;
 import group8.model.helpers.Filters;
-import group8.model.helpers.QuestionSortStrategy;
 
 import org.junit.jupiter.api.BeforeAll;
 

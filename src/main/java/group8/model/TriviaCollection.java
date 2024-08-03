@@ -1,7 +1,6 @@
 package group8.model;
 import group8.model.Enums.Field;
 import group8.model.helpers.Filters;
-import group8.model.helpers.QuestionSortStrategy;
 import group8.model.helpers.Sorter;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class representing a collection of trivia questions.
@@ -87,10 +87,18 @@ public abstract class TriviaCollection implements ITriviaCollection {
     /**
      * Sort the trivia questions in the collection based on a sort criterion.
      *
-     * @param sort the sort criterion
+     * @param field     The field to sort by.
+     * @param ascending If true, sorts in ascending order; if false, in descending
+     *                  order.
+     * @return a list of sorted TriviaQuestion
      */
-    public List<TriviaQuestion> sortQuestions(Sorter sort) {
-       return sort.sortCollection(originalCollection);
+    public List<TriviaQuestion> sortQuestions(Field field, boolean ascending) {
+        System.out.println("TESTING" + originalCollection.stream()
+                .sorted(Sorter.getSort(field, ascending))
+                .collect(Collectors.toList()));
+        return originalCollection.stream()
+                .sorted(Sorter.getSort(field, ascending))
+                .collect(Collectors.toList());
     }
 
     /**
