@@ -1,8 +1,10 @@
 package group8.view;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import group8.controller.listeners.*;
 import group8.model.Enums;
 import group8.view.helpers.*;
+import group8.controller.helpers.QuestionExchange;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -27,6 +29,7 @@ public class MainView extends JFrame {
     private JButton toApiButton;
     private MainViewState state;
     private List<Enums.Category> selectedCategories;
+    private QuestionExchange questionExchange;
 
     /**
      * Constructor for MainView. Sets up the main interface components.
@@ -176,6 +179,8 @@ public class MainView extends JFrame {
         toApiButton = new JButton("<<");
         toUserButton.setEnabled(false);
         toApiButton.setEnabled(false);
+        toUserButton.addActionListener(new MoveToUserActionListener(apiList, apiListModel, userListModel, questionExchange));
+        toApiButton.addActionListener(new MoveToApiActionListener(userList, userListModel, apiListModel, questionExchange));
         centerPanel.add(toUserButton, arrowGbc);
         centerPanel.add(toApiButton, arrowGbc);
         return centerPanel;

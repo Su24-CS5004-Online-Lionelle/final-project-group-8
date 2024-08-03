@@ -1,4 +1,4 @@
-package group8.model.helpers;
+package group8.controller.helpers;
 
 import group8.model.APITriviaCollection;
 import group8.model.TriviaQuestion;
@@ -49,5 +49,23 @@ public class QuestionExchange {
             userCollection.removeQuestion(question);
             apiCollection.addQuestion(question);
         }
+    }
+
+    /**
+     * Gets the API trivia collection.
+     *
+     * @return the API trivia collection
+     */
+    public APITriviaCollection getApiCollection() {
+        return apiCollection;
+    }
+
+    /**
+     * Gets the user trivia collection.
+     *
+     * @return the user trivia collection
+     */
+    public UserTriviaCollection getUserCollection() {
+        return userCollection;
     }
 }

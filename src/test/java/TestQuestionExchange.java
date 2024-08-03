@@ -2,7 +2,7 @@ import group8.model.APITriviaCollection;
 import group8.model.Enums;
 import group8.model.TriviaQuestion;
 import group8.model.UserTriviaCollection;
-import group8.model.helpers.QuestionExchange;
+import group8.controller.helpers.QuestionExchange;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

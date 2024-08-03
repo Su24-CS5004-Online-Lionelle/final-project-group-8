@@ -1,4 +1,4 @@
-package group8.view.helpers;
+package group8.controller.listeners;
 
 import group8.model.Enums;
 import group8.model.TriviaQuestion;

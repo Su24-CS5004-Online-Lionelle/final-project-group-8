@@ -1,4 +1,5 @@
 package group8.model;
+
 import group8.model.helpers.Filters;
 import group8.model.helpers.Sort;
 
@@ -89,5 +90,20 @@ public abstract class TriviaCollection implements ITriviaCollection {
 
     public boolean contains(TriviaQuestion question) {
         return originalCollection.contains(question);
+    }
+
+    /**
+     * Gets a trivia question by its string representation.
+     *
+     * @param questionString the string representation of the trivia question
+     * @return the trivia question, or null if not found
+     */
+    public TriviaQuestion getQuestionByString(String questionString) {
+        for (TriviaQuestion question : originalCollection) {
+            if (question.toString().equals(questionString)) {
+                return question;
+            }
+        }
+        return null;
     }
 }
