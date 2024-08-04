@@ -43,28 +43,52 @@ public class LoadActionListener implements ActionListener {
                 FileNameExtensionFilter("JSON Files", "json"));
 
         int result = fileChooser.showOpenDialog(null);
-
+        // Pulls in Trivia questions from loaded file.
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String filePath = selectedFile.getAbsolutePath();
 
             try {
+                // Save incoming questions as loadedQuestions
                 List<TriviaQuestion> loadedQuestions = FileUtilities.loadTrivia(filePath);
-
-
-                // Testing function
-            System.out.println("Loaded objects via LoadedQuestions");
-            for (TriviaQuestion q : loadedQuestions) {
-                System.out.println(q.question());
-            }
-                // Testing function
-
-
-                // Display function here.
-
+                // Counters to display loaded vs skipped questions
+                int addedQuestionCount = 0;
+                int duplicateQuestionCount = 0;
+                // Iterates and checks if questions are duplicate
+                for (TriviaQuestion question : loadedQuestions) {
+                    if (!isDuplicate(question, userListModel)) {
+                        userListModel.addElement(question);
+                        addedQuestionCount++;
+                    } else {
+                        duplicateQuestionCount++;
+                    }
+                }
+                // Message of loaded vs skipped questions
+                String loadMessage = String.format("Loaded %d new questions. %d duplicates were skipped.",
+                        addedQuestionCount, duplicateQuestionCount);
+                // Success Message
+                JOptionPane.showMessageDialog(null, loadMessage, "Load Complete", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error loading trivia: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                // Failed message
+                JOptionPane.showMessageDialog(null, "Error loading trivia: " + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    /**
+     * Helper method to detect if incoming questions are duplicates by question name only.
+     * @param newQuestion Incoming Trivial question.
+     * @param currentQuestions Currently loaded Trivial Question.
+     * @return Boolean True if question is duplicate, false otherwise.
+     */
+    private boolean isDuplicate(TriviaQuestion newQuestion, DefaultListModel<TriviaQuestion> currentQuestions) {
+        for (int i = 0; i < currentQuestions.getSize(); i++) {
+            TriviaQuestion existingQuestion = currentQuestions.getElementAt(i);
+            if (existingQuestion.question().equals(newQuestion.question())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

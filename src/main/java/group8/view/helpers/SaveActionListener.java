@@ -53,6 +53,14 @@ public class SaveActionListener implements ActionListener {
                 "Au",
                 List.of("Ag", "Fe", "Cu")
         ));
+        questions.add(new TriviaQuestion(
+                Enums.QuestionType.MULTIPLE,
+                Enums.Difficulty.MEDIUM,
+                Enums.Category.ART,
+                "What is the chemical symbol for SUGAR?",
+                "DIABETES",
+                List.of("Ag", "Fe", "Cu")
+        ));
         //Hardcoded questions for testing. to delete
 
 
