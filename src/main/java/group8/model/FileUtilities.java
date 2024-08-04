@@ -21,6 +21,15 @@ public final class FileUtilities {
     /** Header for answers text file. */
     private static final String ANSWER_HEADER = "TRIVIA ANSWERS:";
 
+    /** Default filename for JSON save file. */
+    private static final String JSON_FILE = "trivia.json";
+
+    /** Default filename for questions text file. */
+    private static final String QUESTION_FILE = "questions.txt";
+
+    /** Default filename for answers text file. */
+    private static final String ANSWER_FILE = "answers.txt";
+
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -31,17 +40,28 @@ public final class FileUtilities {
     /**
      * Saves trivia questions to output paths. In both JSON format and readable print format.
      * @param questions List of trivia questions to save.
-     * @param jsonFilePath Filepath to store JSON file.
-     * @param questionsFilePath Filepath to store trivia question text file.
-     * @param answersFilePath Filepath to store trivia answer text file.
+     * @param folderName folder location to save the JSON, question and answer text file.
      * @throws IOException If unable to save files.
      */
-    public static void saveTrivia(Collection<TriviaQuestion> questions, String jsonFilePath,
-                                  String questionsFilePath, String answersFilePath) throws IOException {
+    public static void saveTrivia(Collection<TriviaQuestion> questions, String folderName) throws IOException {
         // Null check
         if (questions == null || questions.isEmpty()) {
             throw new IllegalArgumentException("No questions to save. The collection is empty.");
         }
+
+        // Create folder if it doesn't exist
+        File folder = new File(folderName);
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                throw new IOException("Failed to create directory: " + folderName);
+            }
+        }
+
+        // Update file paths
+        String jsonFilePath = folderName + File.separator + JSON_FILE;
+        String questionsFilePath = folderName + File.separator + QUESTION_FILE;
+        String answersFilePath = folderName + File.separator + ANSWER_FILE;
+
         saveAsJson(questions, jsonFilePath); // Saves to JSON format
         saveAsText(questions, questionsFilePath, answersFilePath); // Saves to question/answer text format
     }
