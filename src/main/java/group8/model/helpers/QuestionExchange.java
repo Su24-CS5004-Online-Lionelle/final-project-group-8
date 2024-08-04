@@ -50,7 +50,7 @@ public class QuestionExchange {
             apiCollection.addQuestion(question);
         }
     }
-
+  
     /**
      * Gets the API trivia collection.
      *
