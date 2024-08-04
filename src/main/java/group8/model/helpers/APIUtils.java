@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import group8.model.Enums;
 import group8.model.TriviaQuestion;
 import java.time.Instant;
@@ -138,7 +140,21 @@ public class APIUtils {
         if (resultsNode == null || !resultsNode.isArray()) {
             throw new IllegalArgumentException("Invalid JSON format: 'results' field is missing or not an array");
         }
-        return objectMapper.readValue(resultsNode.toString(), new TypeReference<List<TriviaQuestion>>() {});
+
+        List<TriviaQuestion> triviaQuestions = new ArrayList<>();
+
+        // Iterate over each node in the results array
+        for (JsonNode node : resultsNode) {
+            // Format the question field
+            String formattedQuestion = htmlConverter(node.get("question").asText());
+            ((ObjectNode) node).put("question", formattedQuestion);
+
+            // Deserialize the node into a TriviaQuestion object
+            TriviaQuestion triviaQuestion = objectMapper.treeToValue(node, TriviaQuestion.class);
+            triviaQuestions.add(triviaQuestion);
+        }
+
+        return triviaQuestions;
 
     }
 

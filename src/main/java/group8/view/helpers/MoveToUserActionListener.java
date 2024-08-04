@@ -1,7 +1,7 @@
-package group8.controller.listeners;
+package group8.view.helpers;
 
 import group8.model.TriviaQuestion;
-import group8.controller.helpers.QuestionExchange;
+import group8.model.helpers.QuestionExchange;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

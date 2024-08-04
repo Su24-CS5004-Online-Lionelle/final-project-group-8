@@ -148,7 +148,7 @@ class FileUtilitiesTest {
         assertEquals(QuestionType.MULTIPLE, secondQuestion.type());
         assertEquals(Difficulty.EASY, secondQuestion.difficulty());
         assertEquals(Category.SPORTS, secondQuestion.category());
-        assertEquals("Which boxer was banned for taking a bite out of Evander Holyfield's ear in 1997?", secondQuestion.questionText());
+        assertEquals("Which boxer was banned for taking a bite out of Evander Holyfield's ear in 1997?", secondQuestion.question());
         assertEquals("Mike Tyson", secondQuestion.correctAnswer());
         assertEquals(Arrays.asList("Roy Jones Jr.", "Evander Holyfield", "Lennox Lewis"), secondQuestion.incorrectAnswers());
     }

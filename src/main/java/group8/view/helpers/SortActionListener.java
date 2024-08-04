@@ -1,4 +1,6 @@
-package group8.controller.listeners;
+package group8.view.helpers;
+
+import group8.model.TriviaQuestion;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,14 +11,14 @@ import java.awt.event.ActionListener;
  */
 public class SortActionListener implements ActionListener {
     /** The list model for the user collection. */
-    private DefaultListModel<String> userListModel;
+    private DefaultListModel<TriviaQuestion> userListModel;
 
     /**
      * Constructs a SortActionListener with the specified user list model.
      *
      * @param userListModel the list model for the user collection
      */
-    public SortActionListener(DefaultListModel<String> userListModel) {
+    public SortActionListener(DefaultListModel<TriviaQuestion> userListModel) {
         this.userListModel = userListModel;
     }
 

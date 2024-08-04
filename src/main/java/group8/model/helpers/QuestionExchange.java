@@ -1,4 +1,4 @@
-package group8.controller.helpers;
+package group8.model.helpers;
 
 import group8.model.APITriviaCollection;
 import group8.model.TriviaQuestion;

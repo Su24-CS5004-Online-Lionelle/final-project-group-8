@@ -1,10 +1,10 @@
 package group8.view;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import group8.controller.listeners.*;
+import group8.controller.MainController;
 import group8.model.Enums;
+import group8.model.TriviaQuestion;
 import group8.view.helpers.*;
-import group8.controller.helpers.QuestionExchange;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,20 +21,23 @@ import java.util.List;
  */
 public class MainView extends JFrame {
     private JFrame frame;
-    private JList<String> apiList;
-    private JList<String> userList;
-    private DefaultListModel<String> apiListModel;
-    private DefaultListModel<String> userListModel;
+    private JList<TriviaQuestion> apiList;
+    private JList<TriviaQuestion> userList;
+    private DefaultListModel<TriviaQuestion> apiListModel;
+    private DefaultListModel<TriviaQuestion> userListModel;
     private JButton toUserButton;
     private JButton toApiButton;
     private MainViewState state;
     private List<Enums.Category> selectedCategories;
-    private QuestionExchange questionExchange;
+    private MainController controller;
 
     /**
      * Constructor for MainView. Sets up the main interface components.
+     *
+     * @param controller the controller to manage the interaction with the API and user trivia collections.
      */
-    public MainView() {
+    public MainView(MainController controller) {
+        this.controller = controller;
         state = new MainViewState();
         selectedCategories = null;
 
@@ -87,7 +90,6 @@ public class MainView extends JFrame {
         // Add main panel to frame
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
-
     }
 
     /**
@@ -100,6 +102,7 @@ public class MainView extends JFrame {
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 5));
         apiListModel = new DefaultListModel<>();
         apiList = new JList<>(apiListModel);
+        apiList.setCellRenderer(new QuestionRenderer());
         apiList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         apiList.addListSelectionListener(e -> updateButtons());
         JScrollPane apiScrollPane = new JScrollPane(apiList);
@@ -136,6 +139,7 @@ public class MainView extends JFrame {
         rightPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 10));
         userListModel = new DefaultListModel<>();
         userList = new JList<>(userListModel);
+        userList.setCellRenderer(new QuestionRenderer());
         userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         userList.addListSelectionListener(e -> updateButtons());
         JScrollPane userScrollPane = new JScrollPane(userList);
@@ -179,8 +183,6 @@ public class MainView extends JFrame {
         toApiButton = new JButton("<<");
         toUserButton.setEnabled(false);
         toApiButton.setEnabled(false);
-        toUserButton.addActionListener(new MoveToUserActionListener(apiList, apiListModel, userListModel, questionExchange));
-        toApiButton.addActionListener(new MoveToApiActionListener(userList, userListModel, apiListModel, questionExchange));
         centerPanel.add(toUserButton, arrowGbc);
         centerPanel.add(toApiButton, arrowGbc);
         return centerPanel;
@@ -217,13 +219,25 @@ public class MainView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 showCategorySelection();
                 if (selectedCategories != null) {
-                    new ApiPullActionListener(apiListModel, selectedCategories).actionPerformed(e);
+                    new ApiPullActionListener(MainView.this, selectedCategories, controller).actionPerformed(e);
                 }
             }
         });
 
         apiBottomPanel.add(apiPullButton);
         return apiBottomPanel;
+    }
+
+    /**
+     * Updates the API list model with a new list of trivia questions.
+     *
+     * @param questions the list of trivia questions to update the model with.
+     */
+    public void updateApiListModel(List<TriviaQuestion> questions) {
+        apiListModel.clear();
+        for (TriviaQuestion question : questions) {
+            apiListModel.addElement(question);
+        }
     }
 
     /**
@@ -259,8 +273,8 @@ public class MainView extends JFrame {
     /**
      * Creates a button with an icon image.
      *
-     * @param path  the path to the image file
-     * @param width the desired width of the icon
+     * @param path   the path to the image file
+     * @param width  the desired width of the icon
      * @param height the desired height of the icon
      * @return JButton with the specified icon
      */
@@ -299,19 +313,13 @@ public class MainView extends JFrame {
         // Logic to reset filters
     }
 
+    /**
+     * Shows the category selection dialog and updates the selected categories.
+     */
     private void showCategorySelection() {
         CategorySelection dialog = new CategorySelection(frame);
         if (dialog.showDialog()) {
             selectedCategories = dialog.getSelectedCategories();
         }
-    }
-
-    /**
-     * Main method to launch the Trivia Generator application.
-     *
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainView::new);
     }
 }
