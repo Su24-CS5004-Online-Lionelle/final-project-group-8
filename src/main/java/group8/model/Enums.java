@@ -78,7 +78,7 @@ public class Enums {
         GEOGRAPHY("Geography"),
         
         @JsonProperty("Entertainment: Cartoon & Animations")
-        ENTERTAINMENT_CARTOON_ANIMATIONS("Entertainment: Cartoon & Animations"),
+        ENTERTAINMENT_CARTOON_ANIMATIONS("Entertainment: Cartoon &amp; Animations"),
         
         @JsonProperty("Art")
         ART("Art"),
@@ -93,7 +93,7 @@ public class Enums {
         SCIENCE_COMPUTERS("Science: Computers"),
         
         @JsonProperty("Science & Nature")
-        SCIENCE_NATURE("Science & Nature"),
+        SCIENCE_NATURE("Science &amp; Nature"),
         
         @JsonProperty("History")
         HISTORY("History"),
@@ -114,7 +114,7 @@ public class Enums {
         CELEBRITIES("Celebrities"),
         
         @JsonProperty("Entertainment: Japanese Anime & Manga")
-        ENTERTAINMENT_JAPANESE_ANIME_MANGA("Entertainment: Japanese Anime & Manga"),
+        ENTERTAINMENT_JAPANESE_ANIME_MANGA("Entertainment: Japanese Anime &amp; Manga"),
         
         @JsonProperty("Science: Mathematics")
         SCIENCE_MATHEMATICS("Science: Mathematics"),
@@ -129,7 +129,7 @@ public class Enums {
         MYTHOLOGY("Mythology"),
         
         @JsonProperty("Entertainment: Musicals & Theatres")
-        ENTERTAINMENT_MUSICALS_THEATRES("Entertainment: Musicals & Theatres"),
+        ENTERTAINMENT_MUSICALS_THEATRES("Entertainment: Musicals &amp; Theatres"),
         
         @JsonProperty("Politics")
         POLITICS("Politics"),

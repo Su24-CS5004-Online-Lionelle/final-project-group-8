@@ -50,4 +50,22 @@ public class QuestionExchange {
             apiCollection.addQuestion(question);
         }
     }
+  
+    /**
+     * Gets the API trivia collection.
+     *
+     * @return the API trivia collection
+     */
+    public APITriviaCollection getApiCollection() {
+        return apiCollection;
+    }
+
+    /**
+     * Gets the user trivia collection.
+     *
+     * @return the user trivia collection
+     */
+    public UserTriviaCollection getUserCollection() {
+        return userCollection;
+    }
 }
