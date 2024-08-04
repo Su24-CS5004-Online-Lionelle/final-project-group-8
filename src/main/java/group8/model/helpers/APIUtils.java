@@ -8,11 +8,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import group8.model.Enums;
 import group8.model.TriviaQuestion;
 import java.time.Instant;
@@ -141,7 +140,21 @@ public class APIUtils {
         if (resultsNode == null || !resultsNode.isArray()) {
             throw new IllegalArgumentException("Invalid JSON format: 'results' field is missing or not an array");
         }
-        return objectMapper.readValue(resultsNode.toString(), new TypeReference<List<TriviaQuestion>>() {});
+
+        List<TriviaQuestion> triviaQuestions = new ArrayList<>();
+
+        // Iterate over each node in the results array
+        for (JsonNode node : resultsNode) {
+            // Format the question field
+            String formattedQuestion = htmlConverter(node.get("question").asText());
+            ((ObjectNode) node).put("question", formattedQuestion);
+
+            // Deserialize the node into a TriviaQuestion object
+            TriviaQuestion triviaQuestion = objectMapper.treeToValue(node, TriviaQuestion.class);
+            triviaQuestions.add(triviaQuestion);
+        }
+
+        return triviaQuestions;
 
     }
 
@@ -171,7 +184,7 @@ public class APIUtils {
     /**
      * Ensures a minimum delay of 5 seconds between API requests.
      * 
-     * @throws InterruptedException.
+     * @throws InterruptedException
      */
     private static void waitForRateLimit() throws InterruptedException {
 
@@ -289,4 +302,51 @@ public class APIUtils {
             super(message);
         }
     }
+
+    public static String getSessionToken() {
+        return sessionToken;
+    }
+
+    public static Map<String, String> getCategoryMap() {
+        return categoryMap;
+    }
+
+    /**
+     * Displays collections of Trivia questions in Category: Questions manner.
+     *
+     * @param questions collection of Trivia questions
+     * @return List of Strings with the proper format for display
+     */
+    public static List<String> getFormattedQuestions(Collection<TriviaQuestion> questions) {
+        List<String> formattedQuestions = new ArrayList<>();
+
+        // Iterates through each TriviaQuestion to convert to a list of strings of question for display
+        // Format example: GENERAL_KNOWLEDGE: The retail disc of Tony Hawk's Pro Skater 5 only comes with the tutorial.
+        for (TriviaQuestion question : questions) {
+            String nonHtmlQuestion = htmlConverter(question.question());
+            String formattedQuestion = question.category().toString() + ": \"" + nonHtmlQuestion + "\"";
+            formattedQuestions.add(formattedQuestion);
+        }
+
+        return formattedQuestions;
+    }
+
+    /**
+     * Helper method that converts HTML coding to string counterpart.
+     * @param input String containing HTML coding
+     * @return String with HTML coding convertered to its corresponding counterpart.
+     */
+    public static String htmlConverter(String input) {
+        return input.replace("&quot;", "\"")
+                .replace("&#039;", "'")
+                .replace("&apos;", "'")
+                .replace("&amp;", "&")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&ldquo;", "\u201C")
+                .replace("&rdquo;", "\u201D")
+                .replace("&lsquo;", "\u2018")
+                .replace("&rsquo;", "\u2019");
+    }
+
 }
