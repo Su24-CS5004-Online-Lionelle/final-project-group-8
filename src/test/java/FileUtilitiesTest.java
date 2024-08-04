@@ -76,9 +76,9 @@ class FileUtilitiesTest {
 
         // Temporarily restore the original output stream
         System.setOut(originalOut);
-//        System.out.println(questionsContent);
-//        System.out.println(answersContent);
-//        System.out.println(jsonContent);
+       System.out.println(questionsContent);
+       System.out.println(answersContent);
+       System.out.println(jsonContent);
 
         // Verify questions output
         assertTrue(questionsContent.contains("TRIVIA QUESTIONS:"));
@@ -99,7 +99,7 @@ class FileUtilitiesTest {
         assertTrue(jsonContent.contains("\"type\" : \"boolean\""));
         assertTrue(jsonContent.contains("\"difficulty\" : \"hard\""));
         assertTrue(jsonContent.contains("\"category\" : \"history\""));
-        assertTrue(jsonContent.contains("\"questionText\" : \"The Berlin Wall fell in 1989.\""));
+        assertTrue(jsonContent.contains("\"question\" : \"The Berlin Wall fell in 1989.\""));
         assertTrue(jsonContent.contains("\"correctAnswer\" : \"True\""));
     }
 
