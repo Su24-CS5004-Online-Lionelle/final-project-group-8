@@ -139,7 +139,7 @@ class FileUtilitiesTest {
         assertEquals(QuestionType.BOOLEAN, firstQuestion.type());
         assertEquals(Difficulty.HARD, firstQuestion.difficulty());
         assertEquals(Category.HISTORY, firstQuestion.category());
-        assertEquals("The Berlin Wall fell in 1989.", firstQuestion.questionText());
+        assertEquals("The Berlin Wall fell in 1989.", firstQuestion.question());
         assertEquals("True", firstQuestion.correctAnswer());
         assertEquals(List.of("False"), firstQuestion.incorrectAnswers());
 

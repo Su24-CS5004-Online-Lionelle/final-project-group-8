@@ -8,10 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import group8.model.Enums;
 import group8.model.TriviaQuestion;
@@ -297,4 +294,43 @@ public class APIUtils {
     public static Map<String, String> getCategoryMap() {
         return categoryMap;
     }
+
+    /**
+     * Displays collections of Trivia questions in Category: Questions manner.
+     *
+     * @param questions collection of Trivia questions
+     * @return List of Strings with the proper format for display
+     */
+    public static List<String> getFormattedQuestions(Collection<TriviaQuestion> questions) {
+        List<String> formattedQuestions = new ArrayList<>();
+
+        // Iterates through each TriviaQuestion to convert to a list of strings of question for display
+        // Format example: GENERAL_KNOWLEDGE: The retail disc of Tony Hawk's Pro Skater 5 only comes with the tutorial.
+        for (TriviaQuestion question : questions) {
+            String nonHtmlQuestion = htmlConverter(question.question());
+            String formattedQuestion = question.category().toString() + ": \"" + nonHtmlQuestion + "\"";
+            formattedQuestions.add(formattedQuestion);
+        }
+
+        return formattedQuestions;
+    }
+
+    /**
+     * Helper method that converts HTML coding to string counterpart.
+     * @param input String containing HTML coding
+     * @return String with HTML coding convertered to its corresponding counterpart.
+     */
+    public static String htmlConverter(String input) {
+        return input.replace("&quot;", "\"")
+                .replace("&#039;", "'")
+                .replace("&apos;", "'")
+                .replace("&amp;", "&")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&ldquo;", "\u201C")
+                .replace("&rdquo;", "\u201D")
+                .replace("&lsquo;", "\u2018")
+                .replace("&rsquo;", "\u2019");
+    }
+
 }

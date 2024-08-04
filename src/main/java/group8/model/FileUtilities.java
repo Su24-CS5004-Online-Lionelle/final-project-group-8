@@ -94,7 +94,7 @@ public final class FileUtilities {
             int i = 1;
             for (TriviaQuestion question : questions) {
                 // Writes question
-                questionOut.println(i + ". " + question.questionText());
+                questionOut.println(i + ". " + question.question());
                 questionOut.println(); // Newline to split questions
                 // Writes answer
                 answerOut.println(i + ". Correct Answer: " + question.correctAnswer());
