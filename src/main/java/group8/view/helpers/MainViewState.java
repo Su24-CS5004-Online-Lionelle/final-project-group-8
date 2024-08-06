@@ -1,40 +1,36 @@
 package group8.view.helpers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * MainViewState class represents the state of filter selections in the trivia generator application.
+ * MainViewState class represents the state of filter selections in the trivia
+ * generator application.
  */
 public class MainViewState {
-    private boolean category1Selected = false;
-    private boolean category2Selected = false;
-    private boolean category3Selected = false;
+    private Map<String, Boolean> categorySelectedMap;
     private boolean difficultyEasySelected = false;
     private boolean difficultyMediumSelected = false;
     private boolean difficultyHardSelected = false;
     private boolean typeMultipleChoiceSelected = false;
     private boolean typeTrueFalseSelected = false;
 
-    public boolean isCategory1Selected() {
-        return category1Selected;
+    public MainViewState() {
+        categorySelectedMap = new HashMap<>();
     }
 
-    public void setCategory1Selected(boolean category1Selected) {
-        this.category1Selected = category1Selected;
+    public void addCategory(String category) {
+        categorySelectedMap.putIfAbsent(category, false);
     }
 
-    public boolean isCategory2Selected() {
-        return category2Selected;
+    public boolean isCategorySelected(String category) {
+        System.out.println(categorySelectedMap);
+        return categorySelectedMap.getOrDefault(category, false);
     }
 
-    public void setCategory2Selected(boolean category2Selected) {
-        this.category2Selected = category2Selected;
-    }
-
-    public boolean isCategory3Selected() {
-        return category3Selected;
-    }
-
-    public void setCategory3Selected(boolean category3Selected) {
-        this.category3Selected = category3Selected;
+    public void setCategorySelected(String category, boolean selected) {
+        System.out.println(categorySelectedMap);
+        categorySelectedMap.put(category, selected);
     }
 
     public boolean isDifficultyEasySelected() {
@@ -75,5 +71,9 @@ public class MainViewState {
 
     public void setTypeTrueFalseSelected(boolean typeTrueFalseSelected) {
         this.typeTrueFalseSelected = typeTrueFalseSelected;
+    }
+
+    public Map<String, Boolean> getCategorySelectedMap() {
+        return categorySelectedMap;
     }
 }

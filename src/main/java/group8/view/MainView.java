@@ -198,7 +198,7 @@ public class MainView extends JFrame {
         JPanel apiTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton filterButton = createIconButton("src/main/java/group8/view/icons/filter.png", 20, 20);
         JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
-        filterButton.addActionListener(new FilterActionListener(frame, this, state));
+        filterButton.addActionListener(new FilterActionListener(frame, this, state, controller, apiListModel));
         resetFilterButton.addActionListener(e -> resetFilters());
         apiTopPanel.add(filterButton);
         apiTopPanel.add(resetFilterButton);
@@ -238,6 +238,11 @@ public class MainView extends JFrame {
         for (TriviaQuestion question : questions) {
             apiListModel.addElement(question);
         }
+
+       
+        //RUN UPDATE ON CATEGORIES REPRESENTED 
+        //THIS GETS CALLED ON THE BIDIRECTIONAL BUTTON
+        //ALWAYS GETS UPDATED WHEN APILIST IS CHANGED
     }
 
     /**

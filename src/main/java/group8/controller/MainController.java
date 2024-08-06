@@ -1,9 +1,15 @@
 package group8.controller;
 
 import group8.model.*;
+import group8.model.Enums.Category;
+import group8.model.Enums.Difficulty;
+import group8.model.Enums.Field;
+import group8.model.Enums.QuestionType;
 import group8.model.helpers.APIUtils;
+import group8.model.helpers.Filters;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * MainController handles the interaction between the model and view.
@@ -55,7 +61,15 @@ public class MainController {
      *
      * @return a list of trivia questions.
      */
+    public List<TriviaQuestion> getFormattedApiQuestions(Set<QuestionType> typeFilters,
+            Set<Difficulty> difficultyFilters, Set<Category> categoryFilters) {
+        Filters filters = new Filters(typeFilters, difficultyFilters, categoryFilters);
+        Set<TriviaQuestion> filteredSet = api.filterQuestions(filters);
+        ITriviaCollection filteredCollection = new APITriviaCollection(filteredSet);
+        return filteredCollection.sortQuestions(Field.CATEGORY, true);
+    }
+
     public List<TriviaQuestion> getFormattedApiQuestions() {
-        return api.getAllQuestions().stream().toList();
+        return getFormattedApiQuestions(Set.of(), Set.of(), Set.of());
     }
 }

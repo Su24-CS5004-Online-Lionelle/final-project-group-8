@@ -50,8 +50,6 @@ public final class Sorter {
                 throw new IllegalArgumentException("Unknown field: " + field);
         }
 
-        System.out.println(ascending);
-
         return ascending ? comparator : comparator.reversed();
     }
 }
