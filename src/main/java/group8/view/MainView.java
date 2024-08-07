@@ -30,6 +30,7 @@ public class MainView extends JFrame {
     private MainViewState state;
     private List<Enums.Category> selectedCategories;
     private MainController controller;
+    private FilterActionListener filterActionListener;
 
     /**
      * Constructor for MainView. Sets up the main interface components.
@@ -183,6 +184,8 @@ public class MainView extends JFrame {
         toApiButton = new JButton("<<");
         toUserButton.setEnabled(false);
         toApiButton.setEnabled(false);
+        toUserButton.addActionListener(new MoveToActionListener(this, controller, apiList, true));
+        toApiButton.addActionListener(new MoveToActionListener(this, controller, userList, false));
         centerPanel.add(toUserButton, arrowGbc);
         centerPanel.add(toApiButton, arrowGbc);
         return centerPanel;
@@ -317,7 +320,7 @@ public class MainView extends JFrame {
     /**
      * Updates the state of the arrow buttons based on list selections.
      */
-    private void updateButtons() {
+    public void updateButtons() {
         toUserButton.setEnabled(apiList.getSelectedIndex() != -1);
         toApiButton.setEnabled(userList.getSelectedIndex() != -1);
     }

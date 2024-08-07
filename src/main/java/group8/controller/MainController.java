@@ -7,6 +7,7 @@ import group8.model.Enums.Field;
 import group8.model.Enums.QuestionType;
 import group8.model.helpers.APIUtils;
 import group8.model.helpers.Filters;
+import group8.model.helpers.QuestionExchange;
 
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ public class MainController {
      * The trivia collection from the API.
      */
     private ITriviaCollection api;
+    private QuestionExchange questionExchange;
 
     /**
      * Constructs a MainController and initializes the user and API trivia collections.
@@ -35,6 +37,7 @@ public class MainController {
     public MainController() throws Exception {
         this.user = new UserTriviaCollection();
         this.api = new APITriviaCollection();
+        this.questionExchange = new QuestionExchange((APITriviaCollection) api, (UserTriviaCollection) user);
         APIUtils.requestToken();
         APIUtils.requestCategories();
     }
@@ -91,5 +94,21 @@ public class MainController {
     public List<TriviaQuestion> getFormattedUserQuestions(Field field) {
         ITriviaCollection sortedUserCollection = new UserTriviaCollection();
         return sortedUserCollection.sortQuestions(field, false);
+    }
+
+    public void moveToUserCollection(TriviaQuestion question) {
+        questionExchange.moveToUserCollection(question);
+    }
+
+    public void moveToApiCollection(TriviaQuestion question) {
+        questionExchange.moveToApiCollection(question);
+    }
+
+    public List<TriviaQuestion> getApiQuestions() {
+        return api.getAllQuestions().stream().toList();
+    }
+
+    public List<TriviaQuestion> getUserQuestions() {
+        return user.getAllQuestions().stream().toList();
     }
 }
