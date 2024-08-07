@@ -1,17 +1,13 @@
 package group8.view.helpers;
 
-import group8.model.Enums;
+import group8.controller.MainController;
 import group8.model.TriviaQuestion;
-import group8.model.FileUtilities;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Action listener for saving the user collection to a file.
@@ -20,49 +16,18 @@ public class SaveActionListener implements ActionListener {
     /** The list model for the user collection. */
     private DefaultListModel<TriviaQuestion> userListModel;
 
-
-    // for testing. to delete
-    private List<TriviaQuestion> questions;
-    // for testing. to delete
-
+    /** The program's Main Controller */
+    private MainController controller;
 
     /**
      * Constructs a SaveActionListener with the specified user list model.
      *
-     * @param userListModel the list model for the user collection
+     * @param userListModel The list model for the user collection.
+     * @param controller The controller of the application.
      */
-    public SaveActionListener(DefaultListModel<TriviaQuestion> userListModel) {
+    public SaveActionListener(DefaultListModel<TriviaQuestion> userListModel, MainController controller) {
         this.userListModel = userListModel;
-
-
-        // Hardcoded questions for testing. to delete
-        this.questions = new ArrayList<>();
-        questions.add(new TriviaQuestion(
-                Enums.QuestionType.BOOLEAN,
-                Enums.Difficulty.EASY,
-                Enums.Category.SPORTS,
-                "The sky is blue.",
-                "True",
-                List.of("False")
-        ));
-        questions.add(new TriviaQuestion(
-                Enums.QuestionType.MULTIPLE,
-                Enums.Difficulty.MEDIUM,
-                Enums.Category.ART,
-                "What is the chemical symbol for gold?",
-                "Au",
-                List.of("Ag", "Fe", "Cu")
-        ));
-        questions.add(new TriviaQuestion(
-                Enums.QuestionType.MULTIPLE,
-                Enums.Difficulty.MEDIUM,
-                Enums.Category.ART,
-                "What is the chemical symbol for SUGAR?",
-                "DIABETES",
-                List.of("Ag", "Fe", "Cu")
-        ));
-        //Hardcoded questions for testing. to delete
-
+        this.controller = controller;
 
     }
 
@@ -81,8 +46,8 @@ public class SaveActionListener implements ActionListener {
             File selectedFolder = fileChooser.getSelectedFile();
             String folderPath = selectedFolder.getAbsolutePath();
 
-            try { // Calls FileUtilities to save out trivia game
-                FileUtilities.saveTrivia((Collection<TriviaQuestion>) questions, folderPath);
+            try { // Passes file path to controller
+                controller.saveTrivia(folderPath);
                 JOptionPane.showMessageDialog(null, "Trivia saved successfully!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {

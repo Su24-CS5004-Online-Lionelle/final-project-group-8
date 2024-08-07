@@ -1,6 +1,6 @@
 package group8.view.helpers;
 
-import group8.model.FileUtilities;
+import group8.controller.MainController;
 import group8.model.TriviaQuestion;
 
 import javax.swing.*;
@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,13 +17,17 @@ public class LoadActionListener implements ActionListener {
     /** The list model for the user collection. */
     private DefaultListModel<TriviaQuestion> userListModel;
 
+    /** The program's main controller. */
+    private final MainController controller;
+
     /**
      * Constructs a LoadActionListener with the specified user list model.
      *
      * @param userListModel the list model for the user collection
      */
-    public LoadActionListener(DefaultListModel<TriviaQuestion> userListModel) {
+    public LoadActionListener(DefaultListModel<TriviaQuestion> userListModel, MainController controller) {
         this.userListModel = userListModel;
+        this.controller = controller;
     }
 
     /**
@@ -49,46 +51,17 @@ public class LoadActionListener implements ActionListener {
             String filePath = selectedFile.getAbsolutePath();
 
             try {
-                // Save incoming questions as loadedQuestions
-                List<TriviaQuestion> loadedQuestions = FileUtilities.loadTrivia(filePath);
-                // Counters to display loaded vs skipped questions
-                int addedQuestionCount = 0;
-                int duplicateQuestionCount = 0;
-                // Iterates and checks if questions are duplicate
-                for (TriviaQuestion question : loadedQuestions) {
-                    if (!isDuplicate(question, userListModel)) {
-                        userListModel.addElement(question);
-                        addedQuestionCount++;
-                    } else {
-                        duplicateQuestionCount++;
-                    }
+                List<TriviaQuestion> updatedQuestions = controller.loadTriviaQuestions(filePath);
+                // adds additional questions to the view's userListModel for display.
+                userListModel.clear();
+                for (TriviaQuestion question : updatedQuestions) {
+                    userListModel.addElement(question);
                 }
-                // Message of loaded vs skipped questions
-                String loadMessage = String.format("Loaded %d new questions. %d duplicates were skipped.",
-                        addedQuestionCount, duplicateQuestionCount);
-                // Success Message
-                JOptionPane.showMessageDialog(null, loadMessage, "Load Complete", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException ex) {
-                // Failed message
+                JOptionPane.showMessageDialog(null, "Load Complete!");
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Error loading trivia: " + ex.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }
-
-    /**
-     * Helper method to detect if incoming questions are duplicates by question name only.
-     * @param newQuestion Incoming Trivial question.
-     * @param currentQuestions Currently loaded Trivial Question.
-     * @return Boolean True if question is duplicate, false otherwise.
-     */
-    private boolean isDuplicate(TriviaQuestion newQuestion, DefaultListModel<TriviaQuestion> currentQuestions) {
-        for (int i = 0; i < currentQuestions.getSize(); i++) {
-            TriviaQuestion existingQuestion = currentQuestions.getElementAt(i);
-            if (existingQuestion.question().equals(newQuestion.question())) {
-                return true;
-            }
-        }
-        return false;
     }
 }
