@@ -136,8 +136,7 @@ public class MainController {
     }
 
     public List<TriviaQuestion> getFormattedUserQuestions(Field field) {
-        ITriviaCollection sortedUserCollection = new UserTriviaCollection();
-        return sortedUserCollection.sortQuestions(field, false);
+        return user.sortQuestions(field, true);
     }
 
     /**
