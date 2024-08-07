@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 
 
+
 public class APITriviaCollection extends TriviaCollection{
     private Set<TriviaQuestion> apiCollection;
 
@@ -36,5 +37,6 @@ public class APITriviaCollection extends TriviaCollection{
     public void addQuestions(Collection<TriviaQuestion> questions) {
         apiCollection.addAll(questions);
     }
+
 
 }
