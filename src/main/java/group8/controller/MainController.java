@@ -56,6 +56,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Retrieves all categories available from the API trivia collection.
+     *
+     * @return a set of all categories.
+     */
     public Set<Enums.Category> getAllCategories() {
         return ((APITriviaCollection) api).getAllCategories();
     }
@@ -73,6 +78,12 @@ public class MainController {
         return filteredCollection.sortQuestions(Field.CATEGORY, true);
     }
 
+    /**
+     * Gets a list of all trivia questions from the API collection without any
+     * filters.
+     *
+     * @return a list of all trivia questions.
+     */
     public List<TriviaQuestion> getFormattedApiQuestions() {
         return getFormattedApiQuestions(Set.of(), Set.of(), Set.of());
     }

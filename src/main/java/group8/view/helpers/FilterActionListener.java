@@ -17,6 +17,10 @@ import java.util.Set;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * FilterActionListener class handles the action of displaying a filter dialog
+ * and applying selected filters to the trivia questions list.
+ */
 public class FilterActionListener implements ActionListener {
     /** The main application frame. */
     private final JFrame frame;
@@ -26,11 +30,10 @@ public class FilterActionListener implements ActionListener {
     private final MainViewState state;
     /** The Main Controller of the application. */
     private final MainController controller;
-    /** The API list model containing trivia questions. */
-    // private final DefaultListModel<TriviaQuestion> apiListModel;
+   
 
     /**
-     * Constructs a FilterActionListener with the specified frame, main view, state, and API list model.
+     * Constructs a FilterActionListener with the specified frame, main view, state, and main controller.
      *
      * @param frame the main application frame
      * @param mainView the main view of the application
@@ -42,7 +45,6 @@ public class FilterActionListener implements ActionListener {
         this.mainView = mainView;
         this.state = state;
         this.controller = controller;
-        // this.apiListModel = apiListModel;
     }
 
     /**
@@ -65,9 +67,7 @@ public class FilterActionListener implements ActionListener {
         categoryLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0)); // Add padding
         filterOptionsPanel.add(categoryLabel);
 
-        Set<Enums.Category> uniqueCategories = controller.getAllCategories();
-        System.out.println("PLEASE WORK:  " + uniqueCategories);
-      
+        Set<Enums.Category> uniqueCategories = controller.getAllCategories();      
 
         if (uniqueCategories.isEmpty()) {
             JLabel noCategoriesLabel = new JLabel("No categories available");
@@ -151,13 +151,5 @@ public class FilterActionListener implements ActionListener {
         filterDialog.setVisible(true);
     }
 
-    // private Set<String> extractUniqueCategories(DefaultListModel<TriviaQuestion> apiListModel) {
-    //     Set<String> uniqueCategories = new HashSet<>();
-    //     for (int i = 0; i < apiListModel.getSize(); i++) {
-    //         TriviaQuestion question = apiListModel.getElementAt(i);
-    //         uniqueCategories.add(question.category().getValue());
-    //     }
-    //     return uniqueCategories;
-    // }
 }
 

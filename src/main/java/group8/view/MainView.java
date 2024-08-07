@@ -238,9 +238,15 @@ public class MainView extends JFrame {
         for (TriviaQuestion question : questions) {
             apiListModel.addElement(question);
         }
-        //RUN UPDATE ON CATEGORIES REPRESENTED 
-        //THIS GETS CALLED ON THE BIDIRECTIONAL BUTTON
-        //ALWAYS GETS UPDATED WHEN APILIST IS CHANGED
+    }
+
+    /**
+     * Returns the state of the checkboxes.
+     *
+     * @return the MainViewState object representing the state of the checkboxes.
+     */
+    public MainViewState getCheckboxState() {
+        return state;
     }
 
     /**

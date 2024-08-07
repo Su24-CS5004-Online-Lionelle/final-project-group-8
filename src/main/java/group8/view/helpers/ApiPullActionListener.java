@@ -54,6 +54,9 @@ public class ApiPullActionListener implements ActionListener {
             controller.generateApiList(selectedCategories);
             List<TriviaQuestion> questions = controller.getFormattedApiQuestions();
             mainView.updateApiListModel(questions);
+
+            // resets the checkboxes on new api calls
+            mainView.getCheckboxState().resetFilters();
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Failed to generate questions: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
