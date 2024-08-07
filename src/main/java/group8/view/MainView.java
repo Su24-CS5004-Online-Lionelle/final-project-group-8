@@ -279,8 +279,8 @@ public class MainView extends JFrame {
         JPanel userBottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
-        saveButton.addActionListener(new SaveActionListener(userListModel));
-        loadButton.addActionListener(new LoadActionListener(userListModel));
+        saveButton.addActionListener(new SaveActionListener(userListModel, controller));
+        loadButton.addActionListener(new LoadActionListener(userListModel, controller));
         userBottomPanel.add(saveButton);
         userBottomPanel.add(loadButton);
         return userBottomPanel;
