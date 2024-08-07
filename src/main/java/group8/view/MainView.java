@@ -240,6 +240,13 @@ public class MainView extends JFrame {
         }
     }
 
+    public void updateUserListModel(List<TriviaQuestion> questions) {
+        userListModel.clear();
+        for (TriviaQuestion question : questions) {
+            userListModel.addElement(question);
+        }
+    }
+
     /**
      * Returns the state of the checkboxes.
      *
@@ -257,7 +264,7 @@ public class MainView extends JFrame {
     private JPanel createUserTopPanel() {
         JPanel userTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JComboBox<String> sortComboBox = new JComboBox<>(new String[]{"Sort by...", "Category", "Difficulty", "Question Type"});
-        sortComboBox.addActionListener(new SortActionListener(userListModel));
+        sortComboBox.addActionListener(new SortActionListener(controller, this, userListModel));
         userTopPanel.add(sortComboBox);
         return userTopPanel;
     }

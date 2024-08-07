@@ -87,4 +87,9 @@ public class MainController {
     public List<TriviaQuestion> getFormattedApiQuestions() {
         return getFormattedApiQuestions(Set.of(), Set.of(), Set.of());
     }
+
+    public List<TriviaQuestion> getFormattedUserQuestions(Field field) {
+        ITriviaCollection sortedUserCollection = new UserTriviaCollection();
+        return sortedUserCollection.sortQuestions(field, false);
+    }
 }
