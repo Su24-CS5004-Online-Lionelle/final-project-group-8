@@ -1,9 +1,15 @@
 package group8.controller;
 
 import group8.model.*;
+import group8.model.Enums.Category;
+import group8.model.Enums.Difficulty;
+import group8.model.Enums.Field;
+import group8.model.Enums.QuestionType;
 import group8.model.helpers.APIUtils;
+import group8.model.helpers.Filters;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * MainController handles the interaction between the model and view.
@@ -51,11 +57,39 @@ public class MainController {
     }
 
     /**
+     * Retrieves all categories available from the API trivia collection.
+     *
+     * @return a set of all categories.
+     */
+    public Set<Enums.Category> getAllCategories() {
+        return ((APITriviaCollection) api).getAllCategories();
+    }
+
+    /**
      * Gets a list of api collection questions for the view.
      *
      * @return a list of trivia questions.
      */
+    public List<TriviaQuestion> getFormattedApiQuestions(Set<QuestionType> typeFilters,
+        Set<Difficulty> difficultyFilters, Set<Category> categoryFilters) {
+        Filters filters = new Filters(typeFilters, difficultyFilters, categoryFilters);
+        Set<TriviaQuestion> filteredSet = api.filterQuestions(filters);
+        ITriviaCollection filteredCollection = new APITriviaCollection(filteredSet);
+        return filteredCollection.sortQuestions(Field.CATEGORY, true);
+    }
+
+    /**
+     * Gets a list of all trivia questions from the API collection without any
+     * filters.
+     *
+     * @return a list of all trivia questions.
+     */
     public List<TriviaQuestion> getFormattedApiQuestions() {
-        return api.getAllQuestions().stream().toList();
+        return getFormattedApiQuestions(Set.of(), Set.of(), Set.of());
+    }
+
+    public List<TriviaQuestion> getFormattedUserQuestions(Field field) {
+        ITriviaCollection sortedUserCollection = new UserTriviaCollection();
+        return sortedUserCollection.sortQuestions(field, false);
     }
 }

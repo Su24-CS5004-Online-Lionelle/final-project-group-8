@@ -197,11 +197,11 @@ public class MainView extends JFrame {
     private JPanel createApiTopPanel() {
         JPanel apiTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton filterButton = createIconButton("src/main/java/group8/view/icons/filter.png", 20, 20);
-        JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
-        filterButton.addActionListener(new FilterActionListener(frame, this, state));
-        resetFilterButton.addActionListener(e -> resetFilters());
+        // JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
+        filterButton.addActionListener(new FilterActionListener(frame, this, state, controller));
+        // resetFilterButton.addActionListener(e -> resetFilters());
         apiTopPanel.add(filterButton);
-        apiTopPanel.add(resetFilterButton);
+        // apiTopPanel.add(resetFilterButton);
         return apiTopPanel;
     }
 
@@ -240,6 +240,22 @@ public class MainView extends JFrame {
         }
     }
 
+    public void updateUserListModel(List<TriviaQuestion> questions) {
+        userListModel.clear();
+        for (TriviaQuestion question : questions) {
+            userListModel.addElement(question);
+        }
+    }
+
+    /**
+     * Returns the state of the checkboxes.
+     *
+     * @return the MainViewState object representing the state of the checkboxes.
+     */
+    public MainViewState getCheckboxState() {
+        return state;
+    }
+
     /**
      * Creates the top panel for the user list, which contains the sort combo box.
      *
@@ -248,7 +264,7 @@ public class MainView extends JFrame {
     private JPanel createUserTopPanel() {
         JPanel userTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JComboBox<String> sortComboBox = new JComboBox<>(new String[]{"Sort by...", "Category", "Difficulty", "Question Type"});
-        sortComboBox.addActionListener(new SortActionListener(userListModel));
+        sortComboBox.addActionListener(new SortActionListener(controller, this, userListModel));
         userTopPanel.add(sortComboBox);
         return userTopPanel;
     }
@@ -304,13 +320,6 @@ public class MainView extends JFrame {
     private void updateButtons() {
         toUserButton.setEnabled(apiList.getSelectedIndex() != -1);
         toApiButton.setEnabled(userList.getSelectedIndex() != -1);
-    }
-
-    /**
-     * Resets the filters applied to the API list.
-     */
-    private void resetFilters() {
-        // Logic to reset filters
     }
 
     /**

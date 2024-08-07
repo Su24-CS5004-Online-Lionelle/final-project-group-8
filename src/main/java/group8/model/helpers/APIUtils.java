@@ -149,7 +149,11 @@ public class APIUtils {
             String formattedQuestion = htmlConverter(node.get("question").asText());
             ((ObjectNode) node).put("question", formattedQuestion);
 
-            // Deserialize the node into a TriviaQuestion object
+            // Format the category field.
+            String formattedCategory = htmlConverter(node.get("category").asText());
+            ((ObjectNode) node).put("category", formattedCategory);
+
+            // Deserialize the node into a TriviaQuestion object.
             TriviaQuestion triviaQuestion = objectMapper.treeToValue(node, TriviaQuestion.class);
             triviaQuestions.add(triviaQuestion);
         }
@@ -252,7 +256,7 @@ public class APIUtils {
 
         if (triviaCategories != null && triviaCategories.isArray()) {
             for (JsonNode categoryNode : triviaCategories) {
-                String categoryName = categoryNode.get("name").asText();
+                String categoryName = htmlConverter(categoryNode.get("name").asText());
                 String categoryId = categoryNode.get("id").asText();
                 map.put(categoryName, categoryId);
             }
@@ -334,7 +338,7 @@ public class APIUtils {
     /**
      * Helper method that converts HTML coding to string counterpart.
      * @param input String containing HTML coding
-     * @return String with HTML coding convertered to its corresponding counterpart.
+     * @return String with HTML coding converted to its corresponding counterpart.
      */
     public static String htmlConverter(String input) {
         return input.replace("&quot;", "\"")
