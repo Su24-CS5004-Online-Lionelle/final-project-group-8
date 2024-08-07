@@ -1,8 +1,8 @@
 package group8.model;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
-
 
 
 public class APITriviaCollection extends TriviaCollection{
@@ -38,5 +38,12 @@ public class APITriviaCollection extends TriviaCollection{
         apiCollection.addAll(questions);
     }
 
+    public Set<Enums.Category> getAllCategories() {
+        Set<Enums.Category> categories = new HashSet<>();
+        for (TriviaQuestion question : apiCollection) {
+            categories.add(question.category());
+        }
+        return categories;
+    }
 
 }

@@ -197,11 +197,11 @@ public class MainView extends JFrame {
     private JPanel createApiTopPanel() {
         JPanel apiTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton filterButton = createIconButton("src/main/java/group8/view/icons/filter.png", 20, 20);
-        JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
-        filterButton.addActionListener(new FilterActionListener(frame, this, state, controller, apiListModel));
-        resetFilterButton.addActionListener(e -> resetFilters());
+        // JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
+        filterButton.addActionListener(new FilterActionListener(frame, this, state, controller));
+        // resetFilterButton.addActionListener(e -> resetFilters());
         apiTopPanel.add(filterButton);
-        apiTopPanel.add(resetFilterButton);
+        // apiTopPanel.add(resetFilterButton);
         return apiTopPanel;
     }
 
@@ -238,8 +238,6 @@ public class MainView extends JFrame {
         for (TriviaQuestion question : questions) {
             apiListModel.addElement(question);
         }
-
-       
         //RUN UPDATE ON CATEGORIES REPRESENTED 
         //THIS GETS CALLED ON THE BIDIRECTIONAL BUTTON
         //ALWAYS GETS UPDATED WHEN APILIST IS CHANGED
@@ -309,13 +307,6 @@ public class MainView extends JFrame {
     private void updateButtons() {
         toUserButton.setEnabled(apiList.getSelectedIndex() != -1);
         toApiButton.setEnabled(userList.getSelectedIndex() != -1);
-    }
-
-    /**
-     * Resets the filters applied to the API list.
-     */
-    private void resetFilters() {
-        // Logic to reset filters
     }
 
     /**

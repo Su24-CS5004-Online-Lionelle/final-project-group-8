@@ -56,13 +56,17 @@ public class MainController {
         }
     }
 
+    public Set<Enums.Category> getAllCategories() {
+        return ((APITriviaCollection) api).getAllCategories();
+    }
+
     /**
      * Gets a list of api collection questions for the view.
      *
      * @return a list of trivia questions.
      */
     public List<TriviaQuestion> getFormattedApiQuestions(Set<QuestionType> typeFilters,
-            Set<Difficulty> difficultyFilters, Set<Category> categoryFilters) {
+        Set<Difficulty> difficultyFilters, Set<Category> categoryFilters) {
         Filters filters = new Filters(typeFilters, difficultyFilters, categoryFilters);
         Set<TriviaQuestion> filteredSet = api.filterQuestions(filters);
         ITriviaCollection filteredCollection = new APITriviaCollection(filteredSet);
