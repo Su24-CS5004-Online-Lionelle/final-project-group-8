@@ -30,7 +30,6 @@ public class MainView extends JFrame {
     private MainViewState state;
     private List<Enums.Category> selectedCategories;
     private MainController controller;
-    private FilterActionListener filterActionListener;
 
     /**
      * Constructor for MainView. Sets up the main interface components.
@@ -328,6 +327,10 @@ public class MainView extends JFrame {
         } else {
             return new JButton(); // Return an empty button if the image fails to load
         }
+    }
+
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     /**

@@ -34,6 +34,9 @@ public class MoveToActionListener implements ActionListener {
             view.updateApiListModel(controller.getApiQuestions());
             view.updateUserListModel(controller.getUserQuestions());
             view.updateButtons();
+            // Reapply filters after the move
+            FilterActionListener filterActionListener = new FilterActionListener(view.getFrame(), view, view.getCheckboxState(), controller);
+            filterActionListener.applyFilters();
         }
     }
 }
