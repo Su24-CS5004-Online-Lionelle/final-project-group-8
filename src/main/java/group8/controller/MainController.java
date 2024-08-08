@@ -135,8 +135,8 @@ public class MainController {
         return getFormattedApiQuestions(Set.of(), Set.of(), Set.of());
     }
 
-    public List<TriviaQuestion> getFormattedUserQuestions(Field field) {
-        return user.sortQuestions(field, true);
+    public List<TriviaQuestion> getFormattedUserQuestions(Field field, Boolean sortOrder) {
+        return user.sortQuestions(field, sortOrder);
     }
 
     /**

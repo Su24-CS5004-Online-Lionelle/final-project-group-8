@@ -19,6 +19,7 @@ import java.util.Map;
 public class SortActionListener implements ActionListener {
     private MainController controller;
     private MainView mainView;
+    private JToggleButton orderToggleButton;
 
     /** The list model for the user collection. */
     private DefaultListModel<TriviaQuestion> userListModel;
@@ -28,10 +29,11 @@ public class SortActionListener implements ActionListener {
      *
      * @param userListModel the list model for the user collection
      */
-    public SortActionListener(MainController controller, MainView mainView, DefaultListModel<TriviaQuestion> userListModel ) {
+    public SortActionListener(MainController controller, MainView mainView, DefaultListModel<TriviaQuestion> userListModel, JToggleButton orderToggleButton) {
         this.userListModel = userListModel;
         this.controller = controller;
         this.mainView = mainView;
+        this.orderToggleButton = orderToggleButton;
     }
 
     /**
@@ -47,7 +49,10 @@ public class SortActionListener implements ActionListener {
 
         if (selectedOption != null) {
             //get new 
-            List<TriviaQuestion> questions = controller.getFormattedUserQuestions(selectedOption);
+            Boolean sortOrder = orderToggleButton.isSelected() ? true : false;
+            List<TriviaQuestion> questions = controller.getFormattedUserQuestions(selectedOption, sortOrder);
+           
+
             mainView.updateUserListModel(questions);
         }
 
