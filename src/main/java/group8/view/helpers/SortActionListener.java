@@ -16,19 +16,14 @@ import java.util.Map;
 /**
  * Action listener for sorting the user collection based on the selected criteria.
  */
+
 public class SortActionListener implements ActionListener {
+
     private MainController controller;
     private MainView mainView;
     private JToggleButton orderToggleButton;
-
-    /** The list model for the user collection. */
     private DefaultListModel<TriviaQuestion> userListModel;
 
-    /**
-     * Constructs a SortActionListener with the specified user list model.
-     *
-     * @param userListModel the list model for the user collection
-     */
     public SortActionListener(MainController controller, MainView mainView, DefaultListModel<TriviaQuestion> userListModel, JToggleButton orderToggleButton) {
         this.userListModel = userListModel;
         this.controller = controller;
@@ -36,35 +31,35 @@ public class SortActionListener implements ActionListener {
         this.orderToggleButton = orderToggleButton;
     }
 
-    /**
-     * Invoked when an action occurs. Sorts the user collection based on the selected criteria.
-     *
-     * @param e the event to be processed
-     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
+        handleSortAction((JComboBox<String>) e.getSource());
+    }
+
+    public void handleSortAction(JComboBox<String> comboBox) {
         String selectedSort = (String) comboBox.getSelectedItem();
         Enums.Field selectedOption = SortMapping.sortLabelMap.get(selectedSort);
 
         if (selectedOption != null) {
-            //get new 
-            Boolean sortOrder = orderToggleButton.isSelected() ? true : false;
+            boolean sortOrder = orderToggleButton.isSelected();
             List<TriviaQuestion> questions = controller.getFormattedUserQuestions(selectedOption, sortOrder);
-           
-
             mainView.updateUserListModel(questions);
         }
-
-
-        // Logic to sort the user collection based on selectedSort
-        //example logic from filter:
-
-            // List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes, selectedDifficulties, selectedCategories);
-            // mainView.updateApiListModel(questions);
-            
     }
-    public class SortMapping {
+
+    public void handleToggleAction() {
+        String selectedSort = (String) ((JComboBox) orderToggleButton.getParent().getComponent(1)).getSelectedItem();
+        Enums.Field selectedOption = SortMapping.sortLabelMap.get(selectedSort);
+
+        if (selectedOption != null) {
+            boolean sortOrder = orderToggleButton.isSelected();
+            orderToggleButton.setText(sortOrder ? "\u2193" : "\u2191"); // Toggle arrow
+            List<TriviaQuestion> questions = controller.getFormattedUserQuestions(selectedOption, sortOrder);
+            mainView.updateUserListModel(questions);
+        }
+    }
+
+    public static class SortMapping {
         public static final Map<String, Enums.Field> sortLabelMap = new HashMap<>();
 
         static {
@@ -73,5 +68,5 @@ public class SortActionListener implements ActionListener {
             sortLabelMap.put("Difficulty", Field.DIFFICULTY);
             sortLabelMap.put("Question Type", Field.TYPE);
         }
-}
+    }
 }
