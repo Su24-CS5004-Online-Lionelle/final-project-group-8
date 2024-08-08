@@ -1,79 +1,164 @@
 package group8.view.helpers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * MainViewState class represents the state of filter selections in the trivia generator application.
+ * MainViewState class represents the state of filter selections in the trivia
+ * generator application.
  */
 public class MainViewState {
-    private boolean category1Selected = false;
-    private boolean category2Selected = false;
-    private boolean category3Selected = false;
+    /** A map to store the selected state of categories. */
+    private Map<String, Boolean> categorySelectedMap;
+    /** Boolean flag indicating if 'Easy' difficulty is selected. */
     private boolean difficultyEasySelected = false;
+    /** Boolean flag indicating if 'Medium' difficulty is selected. */
     private boolean difficultyMediumSelected = false;
+    /** Boolean flag indicating if 'Hard' difficulty is selected. */
     private boolean difficultyHardSelected = false;
+    /** Boolean flag indicating if 'Multiple Choice' type is selected. */
     private boolean typeMultipleChoiceSelected = false;
+    /** Boolean flag indicating if 'True/False' type is selected. */
     private boolean typeTrueFalseSelected = false;
 
-    public boolean isCategory1Selected() {
-        return category1Selected;
+    /**
+     * Constructs a MainViewState object and initializes the category selection map.
+     */
+    public MainViewState() {
+        categorySelectedMap = new HashMap<>();
     }
 
-    public void setCategory1Selected(boolean category1Selected) {
-        this.category1Selected = category1Selected;
+    /**
+     * Checks if a category is selected.
+     *
+     * @param category the category to check
+     * @return true if the category is selected, false otherwise
+     */
+    public boolean isCategorySelected(String category) {
+        return categorySelectedMap.getOrDefault(category, false);
     }
 
-    public boolean isCategory2Selected() {
-        return category2Selected;
+    /**
+     * Sets the selected state of a category.
+     *
+     * @param category the category to set
+     * @param selected the selected state
+     */
+    public void setCategorySelected(String category, boolean selected) {
+        categorySelectedMap.put(category, selected);
     }
 
-    public void setCategory2Selected(boolean category2Selected) {
-        this.category2Selected = category2Selected;
-    }
-
-    public boolean isCategory3Selected() {
-        return category3Selected;
-    }
-
-    public void setCategory3Selected(boolean category3Selected) {
-        this.category3Selected = category3Selected;
-    }
-
+    /**
+     * Checks if the 'Easy' difficulty is selected.
+     *
+     * @return true if 'Easy' difficulty is selected, false otherwise
+     */
     public boolean isDifficultyEasySelected() {
         return difficultyEasySelected;
     }
 
+    /**
+     * Sets the selected state of 'Easy' difficulty.
+     *
+     * @param difficultyEasySelected the selected state
+     */
     public void setDifficultyEasySelected(boolean difficultyEasySelected) {
         this.difficultyEasySelected = difficultyEasySelected;
     }
 
+    /**
+     * Checks if the 'Medium' difficulty is selected.
+     *
+     * @return true if 'Medium' difficulty is selected, false otherwise
+     */
     public boolean isDifficultyMediumSelected() {
         return difficultyMediumSelected;
     }
 
+    /**
+     * Sets the selected state of 'Medium' difficulty.
+     *
+     * @param difficultyMediumSelected the selected state
+     */
     public void setDifficultyMediumSelected(boolean difficultyMediumSelected) {
         this.difficultyMediumSelected = difficultyMediumSelected;
     }
 
+    /**
+     * Checks if the 'Hard' difficulty is selected.
+     *
+     * @return true if 'Hard' difficulty is selected, false otherwise
+     */
     public boolean isDifficultyHardSelected() {
         return difficultyHardSelected;
     }
 
+    /**
+     * Sets the selected state of 'Hard' difficulty.
+     *
+     * @param difficultyHardSelected the selected state
+     */
     public void setDifficultyHardSelected(boolean difficultyHardSelected) {
         this.difficultyHardSelected = difficultyHardSelected;
     }
 
+    /**
+     * Checks if the 'Multiple Choice' type is selected.
+     *
+     * @return true if 'Multiple Choice' type is selected, false otherwise
+     */
     public boolean isTypeMultipleChoiceSelected() {
         return typeMultipleChoiceSelected;
     }
 
+    /**
+     * Sets the selected state of 'Multiple Choice' type.
+     *
+     * @param typeMultipleChoiceSelected the selected state
+     */
     public void setTypeMultipleChoiceSelected(boolean typeMultipleChoiceSelected) {
         this.typeMultipleChoiceSelected = typeMultipleChoiceSelected;
     }
 
+    /**
+     * Checks if the 'True/False' type is selected.
+     *
+     * @return true if 'True/False' type is selected, false otherwise
+     */
     public boolean isTypeTrueFalseSelected() {
         return typeTrueFalseSelected;
     }
 
+    /**
+     * Sets the selected state of 'True/False' type.
+     *
+     * @param typeTrueFalseSelected the selected state
+     */
     public void setTypeTrueFalseSelected(boolean typeTrueFalseSelected) {
         this.typeTrueFalseSelected = typeTrueFalseSelected;
     }
+
+    /**
+     * Gets the map of category selection states.
+     *
+     * @return the map of category selection states
+     */
+    public Map<String, Boolean> getCategorySelectedMap() {
+        return categorySelectedMap;
+    }
+
+    /**
+     * Resets all filter selections to false.
+     */
+    public void resetFilters() {
+        for (String category : categorySelectedMap.keySet()) {
+            categorySelectedMap.put(category, false);
+        }
+        difficultyEasySelected = false;
+        difficultyMediumSelected = false;
+        difficultyHardSelected = false;
+        typeMultipleChoiceSelected = false;
+        typeTrueFalseSelected = false;
+    }
+    
 }

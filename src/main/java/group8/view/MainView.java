@@ -183,6 +183,8 @@ public class MainView extends JFrame {
         toApiButton = new JButton("<<");
         toUserButton.setEnabled(false);
         toApiButton.setEnabled(false);
+        toUserButton.addActionListener(new MoveToActionListener(this, controller, apiList, true));
+        toApiButton.addActionListener(new MoveToActionListener(this, controller, userList, false));
         centerPanel.add(toUserButton, arrowGbc);
         centerPanel.add(toApiButton, arrowGbc);
         return centerPanel;
@@ -197,11 +199,11 @@ public class MainView extends JFrame {
     private JPanel createApiTopPanel() {
         JPanel apiTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton filterButton = createIconButton("src/main/java/group8/view/icons/filter.png", 20, 20);
-        JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
-        filterButton.addActionListener(new FilterActionListener(frame, this, state));
-        resetFilterButton.addActionListener(e -> resetFilters());
+        // JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
+        filterButton.addActionListener(new FilterActionListener(frame, this, state, controller));
+        // resetFilterButton.addActionListener(e -> resetFilters());
         apiTopPanel.add(filterButton);
-        apiTopPanel.add(resetFilterButton);
+        // apiTopPanel.add(resetFilterButton);
         return apiTopPanel;
     }
 
@@ -240,6 +242,22 @@ public class MainView extends JFrame {
         }
     }
 
+    public void updateUserListModel(List<TriviaQuestion> questions) {
+        userListModel.clear();
+        for (TriviaQuestion question : questions) {
+            userListModel.addElement(question);
+        }
+    }
+
+    /**
+     * Returns the state of the checkboxes.
+     *
+     * @return the MainViewState object representing the state of the checkboxes.
+     */
+    public MainViewState getCheckboxState() {
+        return state;
+    }
+
     /**
      * Creates the top panel for the user list, which contains the sort combo box.
      *
@@ -248,8 +266,21 @@ public class MainView extends JFrame {
     private JPanel createUserTopPanel() {
         JPanel userTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JComboBox<String> sortComboBox = new JComboBox<>(new String[]{"Sort by...", "Category", "Difficulty", "Question Type"});
-        sortComboBox.addActionListener(new SortActionListener(userListModel));
+        JToggleButton orderToggleButton = new JToggleButton("\u2191"); // Unicode up arrow
+        orderToggleButton.setFont(orderToggleButton.getFont().deriveFont(16f)); // Increase font size for better                                                            // visibility
+        orderToggleButton.addActionListener(e -> {
+            if (orderToggleButton.isSelected()) {
+                orderToggleButton.setText("\u2193"); // Unicode down arrow
+            } else {
+                orderToggleButton.setText("\u2191"); // Unicode up arrow
+            }
+        });
+        sortComboBox.addActionListener(new SortActionListener(controller, this, userListModel, orderToggleButton));
+
+        userTopPanel.add(new JLabel("Order:"));
         userTopPanel.add(sortComboBox);
+        userTopPanel.add(orderToggleButton);
+
         return userTopPanel;
     }
 
@@ -298,19 +329,16 @@ public class MainView extends JFrame {
         }
     }
 
-    /**
-     * Updates the state of the arrow buttons based on list selections.
-     */
-    private void updateButtons() {
-        toUserButton.setEnabled(apiList.getSelectedIndex() != -1);
-        toApiButton.setEnabled(userList.getSelectedIndex() != -1);
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     /**
-     * Resets the filters applied to the API list.
+     * Updates the state of the arrow buttons based on list selections.
      */
-    private void resetFilters() {
-        // Logic to reset filters
+    public void updateButtons() {
+        toUserButton.setEnabled(apiList.getSelectedIndex() != -1);
+        toApiButton.setEnabled(userList.getSelectedIndex() != -1);
     }
 
     /**

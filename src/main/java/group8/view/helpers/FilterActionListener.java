@@ -1,14 +1,25 @@
 package group8.view.helpers;
 
+import group8.model.Enums;
+import group8.model.TriviaQuestion;
 import group8.view.MainView;
+import group8.controller.MainController;
+import group8.model.Enums.Category;
+import group8.model.Enums.Difficulty;
+import group8.model.Enums.QuestionType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Action listener for filtering questions in the trivia generator application.
+ * FilterActionListener class handles the action of displaying a filter dialog
+ * and applying selected filters to the trivia questions list.
  */
 public class FilterActionListener implements ActionListener {
     /** The main application frame. */
@@ -17,18 +28,52 @@ public class FilterActionListener implements ActionListener {
     private final MainView mainView;
     /** The state of the main view containing filter selections. */
     private final MainViewState state;
+    /** The Main Controller of the application. */
+    private final MainController controller;
+   
 
     /**
-     * Constructs a FilterActionListener with the specified frame, main view, and state.
+     * Constructs a FilterActionListener with the specified frame, main view, state, and main controller.
      *
      * @param frame the main application frame
      * @param mainView the main view of the application
      * @param state the state of the main view containing filter selections
+     * @param controller the main controller of the application
      */
-    public FilterActionListener(JFrame frame, MainView mainView, MainViewState state) {
+    public FilterActionListener(JFrame frame, MainView mainView, MainViewState state, MainController controller) {
         this.frame = frame;
         this.mainView = mainView;
         this.state = state;
+        this.controller = controller;
+    }
+
+    /**
+     * Applies the selected filters and updates the trivia question list in the main view.
+     */
+    public void applyFilters() {
+        Set<Enums.Category> selectedCategories = new HashSet<>();
+        for (Map.Entry<String, Boolean> entry : state.getCategorySelectedMap().entrySet()) {
+            if (entry.getValue()) {
+                selectedCategories.add(Category.fromValue(entry.getKey()));
+            }
+        }
+
+        Set<Enums.Difficulty> selectedDifficulties = new HashSet<>();
+        if (state.isDifficultyEasySelected())
+            selectedDifficulties.add(Difficulty.EASY);
+        if (state.isDifficultyMediumSelected())
+            selectedDifficulties.add(Difficulty.MEDIUM);
+        if (state.isDifficultyHardSelected())
+            selectedDifficulties.add(Difficulty.HARD);
+
+        Set<Enums.QuestionType> selectedTypes = new HashSet<>();
+        if (state.isTypeMultipleChoiceSelected())
+            selectedTypes.add(QuestionType.MULTIPLE);
+        if (state.isTypeTrueFalseSelected())
+            selectedTypes.add(QuestionType.BOOLEAN);
+
+        List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes, selectedDifficulties, selectedCategories);
+        mainView.updateApiListModel(questions);
     }
 
     /**
@@ -51,15 +96,19 @@ public class FilterActionListener implements ActionListener {
         categoryLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0)); // Add padding
         filterOptionsPanel.add(categoryLabel);
 
-        JCheckBox categoryOption1 = new JCheckBox("Category 1");
-        JCheckBox categoryOption2 = new JCheckBox("Category 2");
-        JCheckBox categoryOption3 = new JCheckBox("Category 3");
-        categoryOption1.setSelected(state.isCategory1Selected());
-        categoryOption2.setSelected(state.isCategory2Selected());
-        categoryOption3.setSelected(state.isCategory3Selected());
-        filterOptionsPanel.add(categoryOption1);
-        filterOptionsPanel.add(categoryOption2);
-        filterOptionsPanel.add(categoryOption3);
+        Set<Enums.Category> uniqueCategories = controller.getAllCategories();
+
+        if (uniqueCategories.isEmpty()) {
+            JLabel noCategoriesLabel = new JLabel("No categories available");
+            filterOptionsPanel.add(noCategoriesLabel);
+        } else {
+            for (Enums.Category category : uniqueCategories) {
+                JCheckBox categoryOption = new JCheckBox(category.getValue());
+                categoryOption.setSelected(state.isCategorySelected(category.getValue()));
+                categoryOption.addActionListener(ev -> state.setCategorySelected(category.getValue(), categoryOption.isSelected()));
+                filterOptionsPanel.add(categoryOption);
+            }
+        }
 
         // Difficulty Filters
         JLabel difficultyLabel = new JLabel("Difficulty");
@@ -73,6 +122,9 @@ public class FilterActionListener implements ActionListener {
         difficultyOption1.setSelected(state.isDifficultyEasySelected());
         difficultyOption2.setSelected(state.isDifficultyMediumSelected());
         difficultyOption3.setSelected(state.isDifficultyHardSelected());
+        difficultyOption1.addActionListener(ev -> state.setDifficultyEasySelected(difficultyOption1.isSelected()));
+        difficultyOption2.addActionListener(ev -> state.setDifficultyMediumSelected(difficultyOption2.isSelected()));
+        difficultyOption3.addActionListener(ev -> state.setDifficultyHardSelected(difficultyOption3.isSelected()));
         filterOptionsPanel.add(difficultyOption1);
         filterOptionsPanel.add(difficultyOption2);
         filterOptionsPanel.add(difficultyOption3);
@@ -87,22 +139,14 @@ public class FilterActionListener implements ActionListener {
         JCheckBox typeOption2 = new JCheckBox("True/False");
         typeOption1.setSelected(state.isTypeMultipleChoiceSelected());
         typeOption2.setSelected(state.isTypeTrueFalseSelected());
+        typeOption1.addActionListener(ev -> state.setTypeMultipleChoiceSelected(typeOption1.isSelected()));
+        typeOption2.addActionListener(ev -> state.setTypeTrueFalseSelected(typeOption2.isSelected()));
         filterOptionsPanel.add(typeOption1);
         filterOptionsPanel.add(typeOption2);
 
         JButton applyFiltersButton = new JButton("Apply Filters");
         applyFiltersButton.addActionListener(ev -> {
-            // Collect filter parameters
-            state.setCategory1Selected(categoryOption1.isSelected());
-            state.setCategory2Selected(categoryOption2.isSelected());
-            state.setCategory3Selected(categoryOption3.isSelected());
-            state.setDifficultyEasySelected(difficultyOption1.isSelected());
-            state.setDifficultyMediumSelected(difficultyOption2.isSelected());
-            state.setDifficultyHardSelected(difficultyOption3.isSelected());
-            state.setTypeMultipleChoiceSelected(typeOption1.isSelected());
-            state.setTypeTrueFalseSelected(typeOption2.isSelected());
-
-            // Logic to apply filters based on checkbox selections
+            applyFilters();
             filterDialog.dispose();
         });
 
@@ -113,3 +157,4 @@ public class FilterActionListener implements ActionListener {
         filterDialog.setVisible(true);
     }
 }
+
