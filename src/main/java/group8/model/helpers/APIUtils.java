@@ -1,6 +1,5 @@
 package group8.model.helpers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,12 +8,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import group8.model.Enums;
 import group8.model.TriviaQuestion;
-import java.time.Instant;
 
 /**
  * Utility class for interacting with the Open Trivia Database API.
@@ -39,9 +36,13 @@ public class APIUtils {
     /** Category mapping for API. */
     private static Map<String, String> categoryMap;
 
-    /** Last request time for API. */
-    private static Instant lastRequestTime;
+    /** Maximum number of API retries. */
+    private static final int MAX_RETRIES = 5;
 
+    /** Delay (milliseconds) before retry. */
+    private static final int RETRY_DELAY_MS = 5500;
+
+    /** Constructor. */
     public APIUtils() {
         // Empty constructor.
     }
@@ -174,8 +175,6 @@ public class APIUtils {
      */
     public static JsonNode fetchQuestions(int amount, String category, String difficulty, String type) throws Exception {
 
-        waitForRateLimit();
-
         String urlString = BASE_URL + "api.php?amount=" + amount +
                             (category != null ? "&category=" + category: "") +
                             (difficulty != null ? "&difficulty=" + difficulty: "") +
@@ -183,24 +182,6 @@ public class APIUtils {
                             (sessionToken != null ? "&token=" + sessionToken: "");
         return sendGetRequest(urlString);
 
-    }
-
-    /**
-     * Ensures a minimum delay of 5 seconds between API requests.
-     * 
-     * @throws InterruptedException
-     */
-    private static void waitForRateLimit() throws InterruptedException {
-
-        if (lastRequestTime != null) {
-            Instant now = Instant.now();
-            long timeElapsed = now.getEpochSecond() - lastRequestTime.getEpochSecond();
-            if (timeElapsed < 5) {
-                TimeUnit.SECONDS.sleep(5 - timeElapsed);
-            }
-        }
-
-        lastRequestTime = Instant.now();
     }
 
     /**
@@ -276,25 +257,53 @@ public class APIUtils {
      */
     private static JsonNode sendGetRequest(String urlString) throws Exception {
 
-        URL url = new URL(urlString);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
+        int attempts = 0;
 
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
+        while (attempts < MAX_RETRIES) {
 
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+            try {
+                
+                URL url = new URL(urlString);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                int responseCode = con.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuilder content = new StringBuilder();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        content.append(inputLine);
+                    }
+
+                    in.close();
+
+                    return objectMapper.readTree(content.toString());
+
+                } else if (responseCode == 429) {
+
+                    attempts++;
+
+                    if (attempts < MAX_RETRIES) {
+                        Thread.sleep(RETRY_DELAY_MS);
+                    } 
+
+                } 
+
+            } catch (Exception e) {
+
+                attempts++;
+
+                if (attempts < MAX_RETRIES) {
+                    Thread.sleep(RETRY_DELAY_MS);
+                }
             }
-            in.close();
-
-            return objectMapper.readTree(content.toString());
-        } else {
-            throw new RuntimeException("Failed: HTTP error code: " + responseCode);
         }
+
+        throw new Exception("Failed to send GET request after " + MAX_RETRIES + " attempts");
+
     }
 
     /**
