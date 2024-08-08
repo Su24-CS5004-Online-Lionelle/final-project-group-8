@@ -23,13 +23,6 @@ public class MoveToApiActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int selectedIndex = userList.getSelectedIndex();
-        if (selectedIndex != -1) {
-            String selectedValue = userListModel.getElementAt(selectedIndex);
-            TriviaQuestion selectedQuestion = questionExchange.getUserCollection().getQuestionByString(selectedValue);
-            questionExchange.moveToApiCollection(selectedQuestion);
-            userListModel.removeElementAt(selectedIndex);
-            apiListModel.addElement(selectedValue);
         }
     }
-}
+
