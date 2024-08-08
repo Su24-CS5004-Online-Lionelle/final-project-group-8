@@ -267,8 +267,21 @@ public class MainView extends JFrame {
     private JPanel createUserTopPanel() {
         JPanel userTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JComboBox<String> sortComboBox = new JComboBox<>(new String[]{"Sort by...", "Category", "Difficulty", "Question Type"});
-        sortComboBox.addActionListener(new SortActionListener(controller, this, userListModel));
+        JToggleButton orderToggleButton = new JToggleButton("\u2191"); // Unicode up arrow
+        orderToggleButton.setFont(orderToggleButton.getFont().deriveFont(16f)); // Increase font size for better                                                            // visibility
+        orderToggleButton.addActionListener(e -> {
+            if (orderToggleButton.isSelected()) {
+                orderToggleButton.setText("\u2193"); // Unicode down arrow
+            } else {
+                orderToggleButton.setText("\u2191"); // Unicode up arrow
+            }
+        });
+        sortComboBox.addActionListener(new SortActionListener(controller, this, userListModel, orderToggleButton));
+
+        userTopPanel.add(new JLabel("Order:"));
         userTopPanel.add(sortComboBox);
+        userTopPanel.add(orderToggleButton);
+
         return userTopPanel;
     }
 
@@ -282,8 +295,8 @@ public class MainView extends JFrame {
         JPanel userBottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
-        saveButton.addActionListener(new SaveActionListener(userListModel));
-        loadButton.addActionListener(new LoadActionListener(userListModel));
+        saveButton.addActionListener(new SaveActionListener(userListModel, controller));
+        loadButton.addActionListener(new LoadActionListener(userListModel, controller));
         userBottomPanel.add(saveButton);
         userBottomPanel.add(loadButton);
         return userBottomPanel;

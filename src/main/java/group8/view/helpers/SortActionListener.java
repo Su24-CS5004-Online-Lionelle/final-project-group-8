@@ -4,11 +4,14 @@ import group8.controller.MainController;
 import group8.model.TriviaQuestion;
 import group8.view.MainView;
 import group8.model.Enums;
+import group8.model.Enums.Field;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Action listener for sorting the user collection based on the selected criteria.
@@ -16,6 +19,7 @@ import java.util.List;
 public class SortActionListener implements ActionListener {
     private MainController controller;
     private MainView mainView;
+    private JToggleButton orderToggleButton;
 
     /** The list model for the user collection. */
     private DefaultListModel<TriviaQuestion> userListModel;
@@ -25,10 +29,11 @@ public class SortActionListener implements ActionListener {
      *
      * @param userListModel the list model for the user collection
      */
-    public SortActionListener(MainController controller, MainView mainView, DefaultListModel<TriviaQuestion> userListModel ) {
+    public SortActionListener(MainController controller, MainView mainView, DefaultListModel<TriviaQuestion> userListModel, JToggleButton orderToggleButton) {
         this.userListModel = userListModel;
         this.controller = controller;
         this.mainView = mainView;
+        this.orderToggleButton = orderToggleButton;
     }
 
     /**
@@ -40,8 +45,16 @@ public class SortActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
         String selectedSort = (String) comboBox.getSelectedItem();
-        List<TriviaQuestion> questions = controller.getFormattedUserQuestions(Enums.Field.fromValue(selectedSort));
-        mainView.updateUserListModel(questions);
+        Enums.Field selectedOption = SortMapping.sortLabelMap.get(selectedSort);
+
+        if (selectedOption != null) {
+            //get new 
+            Boolean sortOrder = orderToggleButton.isSelected() ? true : false;
+            List<TriviaQuestion> questions = controller.getFormattedUserQuestions(selectedOption, sortOrder);
+           
+
+            mainView.updateUserListModel(questions);
+        }
 
 
         // Logic to sort the user collection based on selectedSort
@@ -49,7 +62,16 @@ public class SortActionListener implements ActionListener {
 
             // List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes, selectedDifficulties, selectedCategories);
             // mainView.updateApiListModel(questions);
-
             
     }
+    public class SortMapping {
+        public static final Map<String, Enums.Field> sortLabelMap = new HashMap<>();
+
+        static {
+            sortLabelMap.put("Sort by...", null);
+            sortLabelMap.put("Category", Field.CATEGORY);
+            sortLabelMap.put("Difficulty", Field.DIFFICULTY);
+            sortLabelMap.put("Question Type", Field.TYPE);
+        }
+}
 }
