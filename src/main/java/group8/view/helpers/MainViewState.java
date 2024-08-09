@@ -3,6 +3,9 @@ package group8.view.helpers;
 import java.util.HashMap;
 import java.util.Map;
 
+import group8.model.Enums;
+import group8.model.Enums.Field;
+
 /**
  * MainViewState class represents the state of filter selections in the trivia
  * generator application.
@@ -20,6 +23,9 @@ public class MainViewState {
     private boolean typeMultipleChoiceSelected = false;
     /** Boolean flag indicating if 'True/False' type is selected. */
     private boolean typeTrueFalseSelected = false;
+    /** Boolean flag indicating which direction of sort is selected. */
+    private Enums.Field sortSelected = Field.CATEGORY;
+    private boolean sortDirection = true;
 
     /**
      * Constructs a MainViewState object and initializes the category selection map.
@@ -136,6 +142,22 @@ public class MainViewState {
      */
     public void setTypeTrueFalseSelected(boolean typeTrueFalseSelected) {
         this.typeTrueFalseSelected = typeTrueFalseSelected;
+    }
+
+    public Enums.Field getSortSelected() {
+        return sortSelected;
+    }
+
+    public void setSortSelected(Enums.Field sortSelected) {
+        this.sortSelected = sortSelected;
+    }
+
+    public boolean getSortDirection() {
+        return sortDirection;
+    }
+
+    public void setSortDirection(boolean sortDirection) {
+        this.sortDirection = sortDirection;
     }
 
     /**
