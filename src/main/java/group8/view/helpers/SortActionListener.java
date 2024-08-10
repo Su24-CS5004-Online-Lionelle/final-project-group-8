@@ -7,6 +7,7 @@ import group8.model.Enums;
 import group8.model.Enums.Field;
 
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -14,64 +15,104 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Action listener for sorting the user collection based on the selected criteria.
+ * Action listener for sorting the user collection based on the selected
+ * criteria.
+ * Handles sorting when a sort field is selected from a JComboBox and toggles
+ * between ascending and descending order using a JToggleButton.
  */
 public class SortActionListener implements ActionListener {
+
     private MainController controller;
     private MainView mainView;
-    private JToggleButton orderToggleButton;
-
-    /** The list model for the user collection. */
-    private DefaultListModel<TriviaQuestion> userListModel;
-
+    private MainViewState state;
+    
     /**
-     * Constructs a SortActionListener with the specified user list model.
+     * Constructs a SortActionListener with the provided controller, main view, and
+     * state.
      *
-     * @param userListModel the list model for the user collection
+     * @param controller the main controller of the application
+     * @param mainView   the main view of the application
+     * @param state      the current state of filter checkboxes, sort selection, and toggle.
      */
-    public SortActionListener(MainController controller, MainView mainView, DefaultListModel<TriviaQuestion> userListModel, JToggleButton orderToggleButton) {
-        this.userListModel = userListModel;
+    public SortActionListener(MainController controller, MainView mainView, MainViewState state) {
         this.controller = controller;
         this.mainView = mainView;
-        this.orderToggleButton = orderToggleButton;
+        this.state = state;
     }
 
     /**
-     * Invoked when an action occurs. Sorts the user collection based on the selected criteria.
+     * Invoked when an action occurs. Determines whether the source of the action
+     * was a JComboBox or a JToggleButton, and delegates to the appropriate handler.
      *
      * @param e the event to be processed
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
-        String selectedSort = (String) comboBox.getSelectedItem();
-        Enums.Field selectedOption = SortMapping.sortLabelMap.get(selectedSort);
-
-        if (selectedOption != null) {
-            //get new 
-            Boolean sortOrder = orderToggleButton.isSelected() ? true : false;
-            List<TriviaQuestion> questions = controller.getFormattedUserQuestions(selectedOption, sortOrder);
-           
-
-            mainView.updateUserListModel(questions);
+        if (e.getSource() instanceof JComboBox) {
+            handleSortAction((JComboBox<String>) e.getSource());
+        } else if (e.getSource() instanceof JToggleButton) {
+            handleToggleAction((JToggleButton) e.getSource());
         }
-
-
-        // Logic to sort the user collection based on selectedSort
-        //example logic from filter:
-
-            // List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes, selectedDifficulties, selectedCategories);
-            // mainView.updateApiListModel(questions);
-            
     }
-    public class SortMapping {
-        public static final Map<String, Enums.Field> sortLabelMap = new HashMap<>();
+
+    /**
+     * Handles sorting when a sort field is selected from the JComboBox.
+     * Updates the selected sort field in the MainViewState and sorts the list.
+     *
+     * @param comboBox the JComboBox from which the sort field is selected
+     */
+    private void handleSortAction(JComboBox<String> comboBox) {
+        String selectedSort = (String) comboBox.getSelectedItem();
+        Enums.Field currentSortField = SortMapping.sortLabelMap.get(selectedSort);
+        state.setSortSelected(currentSortField);
+        sortUserList();
+    }
+
+    /**
+     * Handles toggling the sort order when the JToggleButton is clicked.
+     * Flips the sort direction in MainViewState and updates the button's text
+     * to reflect the new direction.
+     *
+     * @param toggleButton the JToggleButton that toggles the sort direction
+     */
+    private void handleToggleAction(JToggleButton toggleButton) {
+        boolean isAscending = toggleButton.getText().equals("\u2191"); // "\u2191" is the up arrow
+        state.setSortDirection(!isAscending);
+        toggleButton.setText(!isAscending ? "\u2191" : "\u2193"); // "\u2193" is the down arrow
+        sortUserList();
+    }
+
+
+    /**
+     * Sorts the user list based on the currently selected sort field and direction.
+     * Retrieves the current sort field and direction from the MainViewState,
+     * sorts the list accordingly, and updates the view with the sorted list.
+     */
+    public void sortUserList() {
+        // Get the current sort field and direction from MainViewState
+        Field currentSortField = state.getSortSelected();
+        System.out.println();
+        boolean isAscending = state.getSortDirection();
+
+        List<TriviaQuestion> questions = controller.getFormattedUserQuestions(currentSortField, isAscending);
+        mainView.updateUserListModel(questions);
+    }
+
+
+    /**
+     * Utility class for mapping sort field labels to their corresponding Field
+     * enums.
+     */
+    private static class SortMapping {
+        /**
+         * A map that associates sort field labels with their corresponding Field enums.
+         */
+        private static final Map<String, Enums.Field> sortLabelMap = new HashMap<>();
 
         static {
-            sortLabelMap.put("Sort by...", null);
             sortLabelMap.put("Category", Field.CATEGORY);
             sortLabelMap.put("Difficulty", Field.DIFFICULTY);
             sortLabelMap.put("Question Type", Field.TYPE);
         }
-}
+    }
 }

@@ -34,5 +34,17 @@
             "John Adams",
             "James Madison"
         ]
+    },
+    {
+        "type": "boolean",
+        "difficulty": "hard",
+        "category": "Art",
+        "question": "Test?",
+        "correct_answer": "George Washington",
+        "incorrect_answers": [
+            "Thomas Jefferson",
+            "John Adams",
+            "James Madison"
+        ]
     }
 ]

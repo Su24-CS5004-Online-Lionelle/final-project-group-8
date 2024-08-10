@@ -37,6 +37,8 @@ public class MoveToActionListener implements ActionListener {
             // Reapply filters after the move
             FilterActionListener filterActionListener = new FilterActionListener(view.getFrame(), view, view.getCheckboxState(), controller);
             filterActionListener.applyFilters();
+            SortActionListener sortActionListener = new SortActionListener(controller, view, view.getCheckboxState());
+            sortActionListener.sortUserList();
         }
     }
 }

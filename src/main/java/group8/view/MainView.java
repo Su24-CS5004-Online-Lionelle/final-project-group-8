@@ -242,6 +242,11 @@ public class MainView extends JFrame {
         }
     }
 
+    /**
+     * Updates the User list model with a new list of trivia questions.
+     *
+     * @param questions the list of trivia questions to update the model with.
+     */
     public void updateUserListModel(List<TriviaQuestion> questions) {
         userListModel.clear();
         for (TriviaQuestion question : questions) {
@@ -259,26 +264,28 @@ public class MainView extends JFrame {
     }
 
     /**
-     * Creates the top panel for the user list, which contains the sort combo box.
-     *
+     * Creates the top panel for the user list.
+     * Contains the sort combo box and order toggle button.
+     * 
      * @return JPanel representing the top panel for the user list.
      */
     private JPanel createUserTopPanel() {
         JPanel userTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JComboBox<String> sortComboBox = new JComboBox<>(new String[]{"Sort by...", "Category", "Difficulty", "Question Type"});
-        JToggleButton orderToggleButton = new JToggleButton("\u2191"); // Unicode up arrow
-        orderToggleButton.setFont(orderToggleButton.getFont().deriveFont(16f)); // Increase font size for better                                                            // visibility
-        orderToggleButton.addActionListener(e -> {
-            if (orderToggleButton.isSelected()) {
-                orderToggleButton.setText("\u2193"); // Unicode down arrow
-            } else {
-                orderToggleButton.setText("\u2191"); // Unicode up arrow
-            }
-        });
-        sortComboBox.addActionListener(new SortActionListener(controller, this, userListModel, orderToggleButton));
 
-        userTopPanel.add(new JLabel("Order:"));
+        JComboBox<String> sortComboBox = new JComboBox<>(
+                new String[] {"Category", "Difficulty", "Question Type" });
+
+        JToggleButton orderToggleButton = new JToggleButton("\u2191");
+        orderToggleButton.setFont(orderToggleButton.getFont().deriveFont(16f));
+
+        SortActionListener sortListener = new SortActionListener(controller, this, state);
+
+        sortComboBox.addActionListener(sortListener);
+        orderToggleButton.addActionListener(sortListener);
+
+        userTopPanel.add(new JLabel("Sort by:"));
         userTopPanel.add(sortComboBox);
+        userTopPanel.add(new JLabel("Order:"));
         userTopPanel.add(orderToggleButton);
 
         return userTopPanel;

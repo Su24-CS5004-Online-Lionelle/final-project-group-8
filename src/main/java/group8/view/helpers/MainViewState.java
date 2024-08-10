@@ -3,6 +3,9 @@ package group8.view.helpers;
 import java.util.HashMap;
 import java.util.Map;
 
+import group8.model.Enums;
+import group8.model.Enums.Field;
+
 /**
  * MainViewState class represents the state of filter selections in the trivia
  * generator application.
@@ -20,6 +23,10 @@ public class MainViewState {
     private boolean typeMultipleChoiceSelected = false;
     /** Boolean flag indicating if 'True/False' type is selected. */
     private boolean typeTrueFalseSelected = false;
+    /** Field Enum indicating which field is selected to sort by. */
+    private Enums.Field sortSelected = Field.CATEGORY;
+    /** Boolean flag indicating which direction of sort is selected. */
+    private boolean sortDirection = true;
 
     /**
      * Constructs a MainViewState object and initializes the category selection map.
@@ -136,6 +143,44 @@ public class MainViewState {
      */
     public void setTypeTrueFalseSelected(boolean typeTrueFalseSelected) {
         this.typeTrueFalseSelected = typeTrueFalseSelected;
+    }
+
+    /**
+     * Gets the field that is currently selected to be sorted on.
+     * 
+     * @return the field that is currently selected to be sorted on.
+     */
+    public Enums.Field getSortSelected() {
+        return sortSelected;
+    }
+
+    /**
+     * Sets the field that is selected to be sorted on.
+     * 
+     * @param sortSelected
+     */
+    public void setSortSelected(Enums.Field sortSelected) {
+        this.sortSelected = sortSelected;
+    }
+
+    /**
+     * Gets the boolean representing the sort direction selected.
+     * True for ascending, False for descending.
+     * 
+     * @return boolean representing the sort direction selected.
+     */
+    public boolean getSortDirection() {
+        return sortDirection;
+    }
+
+    /**
+     * Sets the boolean representing the sort direction selected.
+     * True for ascending, False for descending.
+     * 
+     * @param sortDirection
+     */
+    public void setSortDirection(boolean sortDirection) {
+        this.sortDirection = sortDirection;
     }
 
     /**
