@@ -43,50 +43,6 @@ public class MainController {
         this.questionExchange = new QuestionExchange((APITriviaCollection) api, (UserTriviaCollection) user);
         APIUtils.requestToken();
         APIUtils.requestCategories();
-
-        // Hardcoded questions for testing. to delete
-//        user.addQuestion(new TriviaQuestion(
-//                Enums.QuestionType.BOOLEAN,
-//                Enums.Difficulty.EASY,
-//                Enums.Category.SPORTS,
-//                "The sky is blue.",
-//                "True, for The sky is blue",
-//                List.of("False")
-//        ));
-//        user.addQuestion(new TriviaQuestion(
-//                Enums.QuestionType.MULTIPLE,
-//                Enums.Difficulty.MEDIUM,
-//                Enums.Category.ART,
-//                "What is the chemical symbol for gold?",
-//                "Au for What is the chemical symbol for gold?",
-//                List.of("Ag", "Fe", "Cu")
-//        ));
-//        user.addQuestion(new TriviaQuestion(
-//                Enums.QuestionType.MULTIPLE,
-//                Enums.Difficulty.MEDIUM,
-//                Enums.Category.ART,
-//                "What is the chemical symbol for SUGAR?",
-//                "DIABETES for What is the chemical symbol for SUGAR?",
-//                List.of("Ag", "Fe", "Cu")
-//        ));
-//        user.addQuestion(new TriviaQuestion(
-//                Enums.QuestionType.BOOLEAN,
-//                Enums.Difficulty.EASY,
-//                Enums.Category.SPORTS,
-//                "Water is Wet",
-//                "Yes. Water is wet",
-//                List.of("False")
-//        ));
-//        user.addQuestion(new TriviaQuestion(
-//                Enums.QuestionType.BOOLEAN,
-//                Enums.Difficulty.EASY,
-//                Enums.Category.SPORTS,
-//                "Next Month is September.",
-//                "True. Next Month is September.",
-//                List.of("False")
-//        ));
-        //Hardcoded questions for testing. to delete
-
     }
 
     /**
@@ -118,6 +74,9 @@ public class MainController {
     /**
      * Gets a list of api collection questions for the view.
      *
+     * @param typeFilters       set of question types to filter by
+     * @param difficultyFilters set of difficulties to filter by
+     * @param categoryFilters   set of categories to filter by
      * @return a list of trivia questions.
      */
     public List<TriviaQuestion> getFormattedApiQuestions(Set<QuestionType> typeFilters,
@@ -138,12 +97,20 @@ public class MainController {
         return getFormattedApiQuestions(Set.of(), Set.of(), Set.of());
     }
 
+    /**
+     * Gets a sorted list of user trivia questions.
+     *
+     * @param field      the field to sort by
+     * @param sortOrder  the order of sorting (ascending and descending)
+     * @return a sorted list of user trivia questions.
+     */
     public List<TriviaQuestion> getFormattedUserQuestions(Field field, Boolean sortOrder) {
         return user.sortQuestions(field, sortOrder);
     }
 
     /**
      * Loads User saved JSON collection into the user trivial collection.
+     *
      * @param filePath File Path of the JSON trivia collection.
      * @return The list of Trivia objects.
      */
@@ -176,6 +143,7 @@ public class MainController {
 
     /**
      * Helper function that checks for duplicate Trivia questions.
+     *
      * @param newQuestion The new question to be checked.
      * @return Boolean, True if new question is duplicate, False otherwise.
      */
@@ -186,28 +154,55 @@ public class MainController {
 
     /**
      * Getter function that returns a list of user selected Trivia questions.
+     *
      * @return A list of user selected Trivia questions.
      */
     public List<TriviaQuestion> getAllQuestions() {
         return new ArrayList<>(user.getAllQuestions());
     }
 
+    /**
+     * Saves the user's trivia collection to a specified folder.
+     *
+     * @param folderPath the folder path to save the trivia collection
+     * @throws IOException if there is an error saving the trivia
+     */
     public void saveTrivia(String folderPath) throws IOException {
         FileUtilities.saveTrivia(user.getAllQuestions(), folderPath);
     }
 
+    /**
+     * Moves a question from the API collection to the user collection.
+     *
+     * @param question the question to move
+     */
     public void moveToUserCollection(TriviaQuestion question) {
         questionExchange.moveToUserCollection(question);
     }
 
+    /**
+     * Moves a question from the user collection to the API collection.
+     *
+     * @param question the question to move
+     */
     public void moveToApiCollection(TriviaQuestion question) {
         questionExchange.moveToApiCollection(question);
     }
 
+    /**
+     * Gets all questions from the API collection.
+     *
+     * @return a list of all API trivia questions
+     */
     public List<TriviaQuestion> getApiQuestions() {
         return api.getAllQuestions().stream().toList();
     }
 
+    /**
+     * Gets all questions from the user collection.
+     *
+     * @return a list of all user trivia questions
+     */
     public List<TriviaQuestion> getUserQuestions() {
         return user.getAllQuestions().stream().toList();
     }
