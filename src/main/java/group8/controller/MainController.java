@@ -7,6 +7,7 @@ import group8.model.Enums.Field;
 import group8.model.Enums.QuestionType;
 import group8.model.helpers.APIUtils;
 import group8.model.helpers.Filters;
+import group8.model.helpers.QuestionExchange;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class MainController {
      * The trivia collection from the API.
      */
     private ITriviaCollection api;
+    private QuestionExchange questionExchange;
 
     /**
      * Constructs a MainController and initializes the user and API trivia collections.
@@ -38,6 +40,7 @@ public class MainController {
     public MainController() throws Exception {
         this.user = new UserTriviaCollection();
         this.api = new APITriviaCollection();
+        this.questionExchange = new QuestionExchange((APITriviaCollection) api, (UserTriviaCollection) user);
         APIUtils.requestToken();
         APIUtils.requestCategories();
 
@@ -191,6 +194,22 @@ public class MainController {
 
     public void saveTrivia(String folderPath) throws IOException {
         FileUtilities.saveTrivia(user.getAllQuestions(), folderPath);
+    }
+
+    public void moveToUserCollection(TriviaQuestion question) {
+        questionExchange.moveToUserCollection(question);
+    }
+
+    public void moveToApiCollection(TriviaQuestion question) {
+        questionExchange.moveToApiCollection(question);
+    }
+
+    public List<TriviaQuestion> getApiQuestions() {
+        return api.getAllQuestions().stream().toList();
+    }
+
+    public List<TriviaQuestion> getUserQuestions() {
+        return user.getAllQuestions().stream().toList();
     }
 }
 

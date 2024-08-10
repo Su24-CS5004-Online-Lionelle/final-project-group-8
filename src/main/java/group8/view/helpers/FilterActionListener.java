@@ -48,6 +48,35 @@ public class FilterActionListener implements ActionListener {
     }
 
     /**
+     * Applies the selected filters and updates the trivia question list in the main view.
+     */
+    public void applyFilters() {
+        Set<Enums.Category> selectedCategories = new HashSet<>();
+        for (Map.Entry<String, Boolean> entry : state.getCategorySelectedMap().entrySet()) {
+            if (entry.getValue()) {
+                selectedCategories.add(Category.fromValue(entry.getKey()));
+            }
+        }
+
+        Set<Enums.Difficulty> selectedDifficulties = new HashSet<>();
+        if (state.isDifficultyEasySelected())
+            selectedDifficulties.add(Difficulty.EASY);
+        if (state.isDifficultyMediumSelected())
+            selectedDifficulties.add(Difficulty.MEDIUM);
+        if (state.isDifficultyHardSelected())
+            selectedDifficulties.add(Difficulty.HARD);
+
+        Set<Enums.QuestionType> selectedTypes = new HashSet<>();
+        if (state.isTypeMultipleChoiceSelected())
+            selectedTypes.add(QuestionType.MULTIPLE);
+        if (state.isTypeTrueFalseSelected())
+            selectedTypes.add(QuestionType.BOOLEAN);
+
+        List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes, selectedDifficulties, selectedCategories);
+        mainView.updateApiListModel(questions);
+    }
+
+    /**
      * Invoked when an action occurs. Displays the filter dialog and applies the selected filters.
      *
      * @param e the event to be processed
@@ -67,7 +96,7 @@ public class FilterActionListener implements ActionListener {
         categoryLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0)); // Add padding
         filterOptionsPanel.add(categoryLabel);
 
-        Set<Enums.Category> uniqueCategories = controller.getAllCategories();      
+        Set<Enums.Category> uniqueCategories = controller.getAllCategories();
 
         if (uniqueCategories.isEmpty()) {
             JLabel noCategoriesLabel = new JLabel("No categories available");
@@ -117,31 +146,8 @@ public class FilterActionListener implements ActionListener {
 
         JButton applyFiltersButton = new JButton("Apply Filters");
         applyFiltersButton.addActionListener(ev -> {
-            // Logic to apply filters based on checkbox selections
+            applyFilters();
             filterDialog.dispose();
-
-            Set<Enums.Category> selectedCategories = new HashSet<>();
-            for (Map.Entry<String, Boolean> entry : state.getCategorySelectedMap().entrySet()) {
-                if (entry.getValue()) {
-                    selectedCategories.add(Category.fromValue(entry.getKey()));
-                }
-            }
-            Set<Enums.Difficulty> selectedDifficulties = new HashSet<>();
-            if (state.isDifficultyEasySelected())
-                selectedDifficulties.add(Difficulty.EASY);
-            if (state.isDifficultyMediumSelected())
-                selectedDifficulties.add(Difficulty.MEDIUM);
-            if (state.isDifficultyHardSelected())
-                selectedDifficulties.add(Difficulty.HARD);
-
-            Set<Enums.QuestionType> selectedTypes = new HashSet<>();
-            if (state.isTypeMultipleChoiceSelected())
-                selectedTypes.add(QuestionType.MULTIPLE);
-            if (state.isTypeTrueFalseSelected())
-                selectedTypes.add(QuestionType.BOOLEAN);
-
-            List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes, selectedDifficulties, selectedCategories);
-            mainView.updateApiListModel(questions);
         });
 
         filterDialog.add(filterOptionsPanel, BorderLayout.CENTER);
@@ -150,6 +156,5 @@ public class FilterActionListener implements ActionListener {
         filterDialog.setLocationRelativeTo(frame);
         filterDialog.setVisible(true);
     }
-
 }
 
