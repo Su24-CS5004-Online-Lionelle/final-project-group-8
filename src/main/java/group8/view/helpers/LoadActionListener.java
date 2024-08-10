@@ -1,5 +1,6 @@
 package group8.view.helpers;
 
+import group8.view.MainView;
 import group8.controller.MainController;
 import group8.model.TriviaQuestion;
 
@@ -23,14 +24,17 @@ public class LoadActionListener implements ActionListener {
     /** The program's main controller. */
     private final MainController controller;
 
+    private final MainView view;
+
     /**
      * Constructs a LoadActionListener with the specified user list model.
      *
      * @param userListModel the list model for the user collection
      */
-    public LoadActionListener(DefaultListModel<TriviaQuestion> userListModel, MainController controller) {
+    public LoadActionListener(DefaultListModel<TriviaQuestion> userListModel, MainController controller, MainView view) {
         this.userListModel = userListModel;
         this.controller = controller;
+        this.view = view;
     }
 
     /**
@@ -60,6 +64,11 @@ public class LoadActionListener implements ActionListener {
                 for (TriviaQuestion question : updatedQuestions) {
                     userListModel.addElement(question);
                 }
+
+                SortActionListener sortActionListener = new SortActionListener(controller, view,
+                        view.getCheckboxState());
+                sortActionListener.sortUserList();
+
                 JOptionPane.showMessageDialog(null, "Load Complete!");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Error loading trivia: " + ex.getMessage(),

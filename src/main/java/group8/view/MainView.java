@@ -302,7 +302,7 @@ public class MainView extends JFrame {
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
         saveButton.addActionListener(new SaveActionListener(userListModel, controller));
-        loadButton.addActionListener(new LoadActionListener(userListModel, controller));
+        loadButton.addActionListener(new LoadActionListener(userListModel, controller, this));
         userBottomPanel.add(saveButton);
         userBottomPanel.add(loadButton);
         return userBottomPanel;
