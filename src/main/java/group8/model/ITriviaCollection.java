@@ -7,6 +7,9 @@ import java.util.Set;
 import group8.model.helpers.Filters;
 import group8.model.Enums.Field;
 
+/**
+ * Interface representing a collection of trivia questions.
+ */
 public interface ITriviaCollection {
 
     /**

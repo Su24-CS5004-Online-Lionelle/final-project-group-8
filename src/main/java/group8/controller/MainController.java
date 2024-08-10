@@ -18,7 +18,7 @@ import java.util.Set;
  * MainController handles the interaction between the model and view.
  * It manages the user's trivia collection and the API's trivia collection.
  */
-public class MainController {
+public class MainController implements IMainController {
 
     /**
      * The trivia collection for the user.
@@ -150,15 +150,6 @@ public class MainController {
     private boolean isDuplicateQuestion(TriviaQuestion newQuestion) {
         return user.getAllQuestions().stream()
                 .anyMatch(q -> q.question().equals(newQuestion.question()));
-    }
-
-    /**
-     * Getter function that returns a list of user selected Trivia questions.
-     *
-     * @return A list of user selected Trivia questions.
-     */
-    public List<TriviaQuestion> getAllQuestions() {
-        return new ArrayList<>(user.getAllQuestions());
     }
 
     /**

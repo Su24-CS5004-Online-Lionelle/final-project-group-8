@@ -68,13 +68,6 @@ public interface IMainController {
     List<TriviaQuestion> loadTriviaQuestions(String filePath);
 
     /**
-     * Getter function that returns a list of user selected Trivia questions.
-     *
-     * @return A list of user selected Trivia questions.
-     */
-    List<TriviaQuestion> getAllQuestions();
-
-    /**
      * Saves the user's trivia collection to a specified folder.
      *
      * @param folderPath the path to save the trivia collection
