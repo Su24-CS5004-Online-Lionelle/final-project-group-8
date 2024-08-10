@@ -264,19 +264,24 @@ public class MainView extends JFrame {
     }
 
     /**
-     * Creates the top panel for the user list, which contains the sort combo box.
-     *
+     * Creates the top panel for the user list.
+     * Contains the sort combo box and order toggle button.
+     * 
      * @return JPanel representing the top panel for the user list.
      */
     private JPanel createUserTopPanel() {
         JPanel userTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
         JComboBox<String> sortComboBox = new JComboBox<>(
-                new String[] { "Sort by...", "Category", "Difficulty", "Question Type" });
+                new String[] {"Category", "Difficulty", "Question Type" });
+
         JToggleButton orderToggleButton = new JToggleButton("\u2191");
         orderToggleButton.setFont(orderToggleButton.getFont().deriveFont(16f));
-        SortActionListener sortListener = new SortActionListener(controller, this, userListModel, orderToggleButton);
+
+        SortActionListener sortListener = new SortActionListener(controller, this, state);
+
         sortComboBox.addActionListener(sortListener);
-        orderToggleButton.addActionListener(e -> sortListener.handleToggleAction());
+        orderToggleButton.addActionListener(sortListener);
 
         userTopPanel.add(new JLabel("Sort by:"));
         userTopPanel.add(sortComboBox);

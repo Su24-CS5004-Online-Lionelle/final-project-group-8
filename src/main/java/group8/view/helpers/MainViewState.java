@@ -23,8 +23,9 @@ public class MainViewState {
     private boolean typeMultipleChoiceSelected = false;
     /** Boolean flag indicating if 'True/False' type is selected. */
     private boolean typeTrueFalseSelected = false;
-    /** Boolean flag indicating which direction of sort is selected. */
+    /** Field Enum indicating which field is selected to sort by. */
     private Enums.Field sortSelected = Field.CATEGORY;
+    /** Boolean flag indicating which direction of sort is selected. */
     private boolean sortDirection = true;
 
     /**
@@ -144,18 +145,40 @@ public class MainViewState {
         this.typeTrueFalseSelected = typeTrueFalseSelected;
     }
 
+    /**
+     * Gets the field that is currently selected to be sorted on.
+     * 
+     * @return the field that is currently selected to be sorted on.
+     */
     public Enums.Field getSortSelected() {
         return sortSelected;
     }
 
+    /**
+     * Sets the field that is selected to be sorted on.
+     * 
+     * @param sortSelected
+     */
     public void setSortSelected(Enums.Field sortSelected) {
         this.sortSelected = sortSelected;
     }
 
+    /**
+     * Gets the boolean representing the sort direction selected.
+     * True for ascending, False for descending.
+     * 
+     * @return boolean representing the sort direction selected.
+     */
     public boolean getSortDirection() {
         return sortDirection;
     }
 
+    /**
+     * Sets the boolean representing the sort direction selected.
+     * True for ascending, False for descending.
+     * 
+     * @param sortDirection
+     */
     public void setSortDirection(boolean sortDirection) {
         this.sortDirection = sortDirection;
     }
