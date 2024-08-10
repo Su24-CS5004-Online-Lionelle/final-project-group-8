@@ -22,22 +22,15 @@
     - ViewHelpers.java
 
 
-# Mock UML Diagram
+# Final UML Diagram
 
 ```mermaid
 ---
-title: TriviaApp Initial Design
+title: TriviaApp Final Design
 ---
 classDiagram
    direction LR
-
-   TriviaApp --> ITriviaCollection : creates UserTriviaCollection
-   TriviaApp --> ITriviaCollection : creates APITriviaCollection
-   TriviaApp --> IMainView : creates
-   TriviaApp --> IMainController : creates
-
-
-
+   
 %%   TriviaApp ..> MainController : creates
 %%   TriviaApp ..> MainView : creates
 %%   MainView --> MainController : has
@@ -67,9 +60,29 @@ classDiagram
 %%  UserTriviaCollection o-- TriviaQuestion : contains
 %%  TriviaCollection o-- TriviaQuestion : contains
 
-   IMainController <|-- MainController : implements
-   IMainView <|-- MainView : implements
+%%  TriviaQuestion ..|> Comparable~TriviaQuestion~ : implements
+%%  TriviaQuestion --> QuestionType : uses
+%%  TriviaQuestion --> Difficulty : uses
+%%  TriviaQuestion --> Category : uses
 
+%%  FileUtilities ..> ObjectMapper : uses
+%%  FileUtilities ..> TriviaQuestion : uses
+
+%%  TriviaCollection <|-- APITriviaCollection : extends
+%%  APITriviaCollection o-- TriviaQuestion : contains
+%%  APITriviaCollection ..> Enums.Category : uses
+
+%%  MainView --|> JFrame
+%%  MainView o-- MainController
+%%  MainView o-- MainViewState
+%%  MainView o-- TriviaQuestion
+%%  MainView ..> Enums.Category
+
+   Enums --> QuestionType : contains
+   Enums --> Difficulty : contains
+   Enums --> Category : contains
+   Enums --> Field : contains
+    
    TriviaCollection --> Filtering
    TriviaCollection --> Sorting
    APITriviaCollection  --|> TriviaCollection : extends
@@ -85,23 +98,13 @@ classDiagram
 
    TriviaCollection --> TriviaQuestion : contains
 
+  TriviaApp --> ITriviaCollection : creates UserTriviaCollection
+  TriviaApp --> ITriviaCollection : creates APITriviaCollection
+  TriviaApp --> IMainView : creates
+  TriviaApp --> IMainController : creates
+
    class TriviaApp {
       + main(String[] args) : void
-   }
-
-   class IMainController {
-      <<interface>>
-     + generateApiList(List~Category~ selectedCategories) : void
-     + getAllCategories() Set~Category~
-     + getFormattedApiQuestions(Set~QuestionType~ typeFilters, Set~Difficulty~ difficultyFilters, Set~Category~ categoryFilters) : List~TriviaQuestion~
-     + getFormattedApiQuestions() : List~TriviaQuestion~
-     + getFormattedUserQuestions(Field field, Boolean sortOrder) : List~TriviaQuestion~
-     + loadTriviaQuestions(String filePath) : List~TriviaQuestion~
-     + saveTrivia(String folderPath) : void
-     + moveToUserCollection(TriviaQuestion question) : void
-     + moveToApiCollection(TriviaQuestion question) : void
-     + getApiQuestions() : List~TriviaQuestion~
-     + getUserQuestions() : List~TriviaQuestion~
    }
 
    class MainController {
@@ -136,7 +139,7 @@ classDiagram
 
    class TriviaCollection {
      <<abstract>>
-     originalCollection : #Set~TriviaQuestion~ 
+     + originalCollection : #Set~TriviaQuestion~ 
 
      + getAllQuestions() : Set~TriviaQuestion~
      + addQuestion(TriviaQuestion question) : void
@@ -148,50 +151,148 @@ classDiagram
    }
 
    class UserTriviaCollection { 
-       - userCollection : Set~TriviaQuestion~
+     - userCollection : Set~TriviaQuestion~
 
-       +addQuestions(Collection~TriviaQuestion~ questions) : void
+     + addQuestions(Collection~TriviaQuestion~ questions) : void
    }
 
+  class APITriviaCollection {
+    - apiCollection : Set~TriviaQuestion~
+
+    + APITriviaCollection(Collection~TriviaQuestion~ questions) : void
+    + addQuestions(Collection~TriviaQuestion~ questions) : void
+    + getAllCategories() : Set~Enums.Category~
+  }
 
   class TriviaQuestion {
     <<record>>
-
+    + type : QuestionType
+    + difficulty : Difficulty
+    + category : Difficulty
+    + question : String
+    + correctAnswer : String
+    + incorrectAnswers : List~String~
+    
+    + toString() : String
+    + compareTo(TriviaQuestion other) : int
   }
 
+  class FileUtilities {
+    <<utility>>
+    - mapper$ : ObjectMapper 
+    - QUESTION_HEADER$ : String
+    - ANSWER_HEADER$ : String
+    - JSON_FILE$ : String
+    - QUESTION_FILE$ : String
+    - ANSWER_FILE$ : String
 
+    + saveTrivia(Collection~TriviaQuestion~ questions, String folderName)$ : void
+    + loadTrivia(String jsonFilePath)$ : List~TriviaQuestion~
+    - saveAsJson(Collection~TriviaQuestion~ questions, String filePath)$ : void
+    - saveAsText(Collection~TriviaQuestion~ questions, String questionsFilePath, String answersFilePath)$ : void
+  }
 
-   class APITriviaCollection {
-      - collection : Set<TriviaQuestion>
-      + setAPICollection() : void
-      + callAPICollection() : Set<TriviaQuestion>
-      + callAPI(Enum, int) : Set<TriviaQuestion>
-   }
+  class ObjectMapper {
+    <<external>>
+  }
+  
+  class Enums {
+    <<static>>
+  }
 
+  class QuestionType {
+    <<enumeration>>
+    BOOLEAN
+    MULTIPLE
+    - value : String 
+    
+    + getValue() : String
+    + fromValue(String value)$ : QuestionType
+  }
 
+  class Difficulty {
+    <<enumeration>>
+    EASY
+    MEDIUM
+    HARD
+    - value : String
+    + getValue() : String
+    + fromValue(String value)$ : Difficulty
+  }
 
-   class Filter {
+  class Category {
+    <<enumeration>>
+    ANIMALS
+    ART
+    CELEBRITIES
+    ENTERTAINMENT_BOARD_GAMES
+    ENTERTAINMENT_BOOKS
+    ENTERTAINMENT_CARTOON_ANIMATIONS
+    ENTERTAINMENT_COMICS
+    ENTERTAINMENT_FILM
+    ENTERTAINMENT_JAPANESE_ANIME_MANGA
+    ENTERTAINMENT_MUSIC
+    ENTERTAINMENT_MUSICALS_THEATRES
+    ENTERTAINMENT_TELEVISION
+    ENTERTAINMENT_VIDEO_GAMES
+    GENERAL_KNOWLEDGE
+    GEOGRAPHY
+    HISTORY
+    MYTHOLOGY
+    POLITICS
+    SCIENCE_NATURE
+    SCIENCE_COMPUTERS
+    SCIENCE_GADGETS
+    SCIENCE_MATHEMATICS
+    SPORTS
+    VEHICLES
+    
+    - value : String
+    + getValue() : String
+    + fromValue(String value)$ : Category
+  }
 
-   }
+  class Field {
+    <<enumeration>>
+    TYPE
+    DIFFICULTY
+    CATEGORY
+    
+    - value : String 
+    + getValue() : String
+    + fromValue(String value)$ : Field
+  }
 
-   class Sort {
+  class MainView {
+    - frame : JFrame
+    - apiList : JList~TriviaQuestion~
+    - userList : JList~TriviaQuestion~
+    - apiListModel : DefaultListModel~TriviaQuestion~
+    - userListModel : DefaultListModel~TriviaQuestion~
+    - toUserButton : JButton
+    - toApiButton : JButton
+    - state : MainViewState
+    - selectedCategories : List~Enums.Category~
+    - controller : MainController
+    - createLeftPanel() : JPanel
+    - createRightPanel() : JPanel
+    - createCenterPanel() : JPanel
+    - createApiTopPanel() : JPanel
+    - createApiBottomPanel() : JPanel
+    - createUserTopPanel() : JPanel
+    - createUserBottomPanel() : JPanel
+    - createIconButton(String path, int width, int height) : JButton
+    + updateApiListModel(List~TriviaQuestion~ questions) : void
+    + updateUserListModel(List~TriviaQuestion~ questions) : void
+    + getCheckboxState() : MainViewState
+    + getFrame() : JFrame
+    + updateButtons() : void
+    - showCategorySelection() : void
+  }
 
-   }
-
-   class ModelHelpers {
-       
-   }
-
-   class IMainView{
-      <<interface>>
-   }
-
-   class MainView {
-      - IMainController : controller
-   }
-
-   class ViewHelpers {
-       
-   }
-
+  class JFrame {
+    <<external>>
+  }
+  
+  
 ```

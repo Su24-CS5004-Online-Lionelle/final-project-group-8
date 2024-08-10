@@ -18,7 +18,7 @@ import java.util.Set;
  * MainController handles the interaction between the model and view.
  * It manages the user's trivia collection and the API's trivia collection.
  */
-public class MainController implements IMainController {
+public class MainController {
 
     /**
      * The trivia collection for the user.
