@@ -50,7 +50,10 @@ public interface ITriviaCollection {
     /**
      * Sort the trivia questions in the collection based on a sort criterion.
      *
-     * @param sort the sort criterion
+     * @param field     The field to sort by.
+     * @param ascending If true, sorts in ascending order; if false, in descending
+     *                  order.
+     * @return a list of sorted TriviaQuestion
      */
     List<TriviaQuestion> sortQuestions(Field field, boolean ascending);
 
