@@ -5,8 +5,6 @@
 - [GUI Application Manual](#gui-application-manual)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
-  - [Getting Started](#getting-started)
-    - [Launching the Application](#launching-the-application)
     - [User Interface Overview](#user-interface-overview)
   - [Features](#features)
     - [Generate New List (API Collection)](#generate-new-list-api-collection)
@@ -31,12 +29,6 @@
 ## Introduction
 
 Welcome to the Trivia Manager 1.0 Manual. This document serves as a guide for our GUI application, with aim to provide comprehensive instructions on how to use it.
-
-## Getting Started
-
-### Launching the Application
-
-- ?
 
 ### User Interface Overview
 
@@ -130,8 +122,7 @@ The user's collection (6) is driven by which trivia questions users decide to cu
 #### Description
 
 - Offers users ability to sort their own collection based on ascending / descending order of trivia question attributes (i.e., category, difficulty, question type).
-- Default sort utilizes ?
-- Resetting the sorting requires ?
+- Default sort is by category, then by question (alphabetically ascending).
 
 #### How to Use
 
@@ -182,7 +173,7 @@ The user's collection (6) is driven by which trivia questions users decide to cu
 
 - Offers users the ability to load in previously saved out collections of trivia questions, via `.json` file that creates during save.
 - Requires file designation.
-- NOTE: Loading process will de-duplicate pre-existing and incoming questions. Pre-existing sort may not apply automatically.
+- NOTE: Loading process will de-duplicate pre-existing and incoming questions. Pre-existing sort will be maintained.
   
 #### How to Use
 
