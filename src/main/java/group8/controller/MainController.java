@@ -29,6 +29,10 @@ public class MainController {
      * The trivia collection from the API.
      */
     private ITriviaCollection api;
+
+    /**
+     * Helper class for managing the exchange of trivia questions between the API and user collections.
+     */
     private QuestionExchange questionExchange;
 
     /**
@@ -72,12 +76,12 @@ public class MainController {
     }
 
     /**
-     * Gets a list of api collection questions for the view.
+     * Gets a list of API collection questions for the view, filtered by the specified criteria.
      *
-     * @param typeFilters       set of question types to filter by
-     * @param difficultyFilters set of difficulties to filter by
-     * @param categoryFilters   set of categories to filter by
-     * @return a list of trivia questions.
+     * @param typeFilters      the set of question types to filter by.
+     * @param difficultyFilters the set of difficulty levels to filter by.
+     * @param categoryFilters   the set of categories to filter by.
+     * @return a list of trivia questions after applying the filters.
      */
     public List<TriviaQuestion> getFormattedApiQuestions(Set<QuestionType> typeFilters,
         Set<Difficulty> difficultyFilters, Set<Category> categoryFilters) {
@@ -98,21 +102,21 @@ public class MainController {
     }
 
     /**
-     * Gets a sorted list of user trivia questions.
+     * Gets a list of user collection questions, sorted by the specified field and order.
      *
-     * @param field      the field to sort by
-     * @param sortOrder  the order of sorting (ascending and descending)
-     * @return a sorted list of user trivia questions.
+     * @param field the field to sort by.
+     * @param sortOrder the sort order (true for ascending, false for descending).
+     * @return a list of sorted trivia questions from the user collection.
      */
     public List<TriviaQuestion> getFormattedUserQuestions(Field field, Boolean sortOrder) {
         return user.sortQuestions(field, sortOrder);
     }
 
     /**
-     * Loads User saved JSON collection into the user trivial collection.
+     * Loads the user's saved JSON collection into the user trivia collection.
      *
-     * @param filePath File Path of the JSON trivia collection.
-     * @return The list of Trivia objects.
+     * @param filePath the file path of the JSON trivia collection.
+     * @return the list of loaded TriviaQuestion objects.
      */
     public List<TriviaQuestion> loadTriviaQuestions(String filePath) {
         try {
@@ -142,10 +146,10 @@ public class MainController {
     }
 
     /**
-     * Helper function that checks for duplicate Trivia questions.
+     * Helper method that checks for duplicate Trivia questions.
      *
-     * @param newQuestion The new question to be checked.
-     * @return Boolean, True if new question is duplicate, False otherwise.
+     * @param newQuestion the new question to be checked.
+     * @return true if the new question is a duplicate, false otherwise.
      */
     private boolean isDuplicateQuestion(TriviaQuestion newQuestion) {
         return user.getAllQuestions().stream()
@@ -153,46 +157,46 @@ public class MainController {
     }
 
     /**
-     * Saves the user's trivia collection to a specified folder.
+     * Saves the user's trivia collection to a specified folder path.
      *
-     * @param folderPath the folder path to save the trivia collection
-     * @throws IOException if there is an error saving the trivia
+     * @param folderPath the folder path to save the trivia collection.
+     * @throws IOException if there is an error during the save process.
      */
     public void saveTrivia(String folderPath) throws IOException {
         FileUtilities.saveTrivia(user.getAllQuestions(), folderPath);
     }
 
     /**
-     * Moves a question from the API collection to the user collection.
+     * Moves a TriviaQuestion from the API collection to the user collection.
      *
-     * @param question the question to move
+     * @param question the trivia question to be moved.
      */
     public void moveToUserCollection(TriviaQuestion question) {
         questionExchange.moveToUserCollection(question);
     }
 
     /**
-     * Moves a question from the user collection to the API collection.
+     * Moves a TriviaQuestion from the user collection to the API collection.
      *
-     * @param question the question to move
+     * @param question the trivia question to be moved.
      */
     public void moveToApiCollection(TriviaQuestion question) {
         questionExchange.moveToApiCollection(question);
     }
 
     /**
-     * Gets all questions from the API collection.
+     * Gets a list of all trivia questions from the API collection.
      *
-     * @return a list of all API trivia questions
+     * @return a list of all trivia questions in the API collection.
      */
     public List<TriviaQuestion> getApiQuestions() {
         return api.getAllQuestions().stream().toList();
     }
 
     /**
-     * Gets all questions from the user collection.
+     * Gets a list of all trivia questions from the user collection.
      *
-     * @return a list of all user trivia questions
+     * @return a list of all trivia questions in the user collection.
      */
     public List<TriviaQuestion> getUserQuestions() {
         return user.getAllQuestions().stream().toList();
