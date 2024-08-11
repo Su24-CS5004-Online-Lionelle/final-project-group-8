@@ -237,7 +237,7 @@ public class MainView extends JFrame {
         arrowGbc.gridy = GridBagConstraints.RELATIVE;
         arrowGbc.anchor = GridBagConstraints.CENTER;
         arrowGbc.insets = new Insets(10, 0, 10, 0);
-        Font arrowFont = new Font("SansSerif", Font.BOLD, 24);
+        Font arrowFont = new Font("SansSerif", Font.BOLD, 36);
         toUserButton = new JButton("\u2192");
         toApiButton = new JButton("\u2190");
         toUserButton.setFont(arrowFont);
