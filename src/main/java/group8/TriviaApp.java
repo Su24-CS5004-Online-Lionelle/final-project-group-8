@@ -17,7 +17,6 @@ public class TriviaApp {
      * @param args command-line arguments (not used). 
      */
     public static void main(String[] args) {
-        // Ensure GUI creation and updates are done on the Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
             try {
                 MainController controller = new MainController();
