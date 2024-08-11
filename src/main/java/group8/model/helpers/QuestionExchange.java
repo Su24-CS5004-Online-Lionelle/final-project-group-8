@@ -9,8 +9,10 @@ import group8.model.UserTriviaCollection;
  * the API trivia collection and the user trivia collection.
  */
 public class QuestionExchange {
+
     /** The API trivia collection. */
     private APITriviaCollection apiCollection;
+
     /** The user trivia collection. */
     private UserTriviaCollection userCollection;
 
@@ -32,6 +34,9 @@ public class QuestionExchange {
      * @param question the trivia question to be moved
      */
     public synchronized void moveToUserCollection(TriviaQuestion question) {
+        if (question == null) {
+            return;
+        }
         if (apiCollection.contains(question)) {
             apiCollection.removeQuestion(question);
             userCollection.addQuestion(question);
@@ -45,27 +50,12 @@ public class QuestionExchange {
      * @param question the trivia question to be moved
      */
     public synchronized void moveToApiCollection(TriviaQuestion question) {
+        if (question == null) {
+            return;
+        }
         if (userCollection.contains(question)) {
             userCollection.removeQuestion(question);
             apiCollection.addQuestion(question);
         }
-    }
-  
-    /**
-     * Gets the API trivia collection.
-     *
-     * @return the API trivia collection
-     */
-    public APITriviaCollection getApiCollection() {
-        return apiCollection;
-    }
-
-    /**
-     * Gets the user trivia collection.
-     *
-     * @return the user trivia collection
-     */
-    public UserTriviaCollection getUserCollection() {
-        return userCollection;
     }
 }
