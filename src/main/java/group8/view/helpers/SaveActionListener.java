@@ -16,7 +16,9 @@ public class SaveActionListener implements ActionListener {
     /** The list model for the user collection. */
     private DefaultListModel<TriviaQuestion> userListModel;
 
-    /** The program's Main Controller */
+    /**
+     * The program's Main Controller.
+     */
     private MainController controller;
 
     /**

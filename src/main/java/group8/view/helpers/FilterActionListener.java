@@ -72,7 +72,8 @@ public class FilterActionListener implements ActionListener {
         if (state.isTypeTrueFalseSelected())
             selectedTypes.add(QuestionType.BOOLEAN);
 
-        List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes, selectedDifficulties, selectedCategories);
+        List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes,
+                selectedDifficulties, selectedCategories);
         mainView.updateApiListModel(questions);
     }
 
@@ -105,7 +106,8 @@ public class FilterActionListener implements ActionListener {
             for (Enums.Category category : uniqueCategories) {
                 JCheckBox categoryOption = new JCheckBox(category.getValue());
                 categoryOption.setSelected(state.isCategorySelected(category.getValue()));
-                categoryOption.addActionListener(ev -> state.setCategorySelected(category.getValue(), categoryOption.isSelected()));
+                categoryOption.addActionListener(ev -> state.setCategorySelected(category.getValue(),
+                        categoryOption.isSelected()));
                 filterOptionsPanel.add(categoryOption);
             }
         }

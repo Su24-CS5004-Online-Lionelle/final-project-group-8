@@ -12,7 +12,7 @@ import java.util.Collection;
 public final class FileUtilities {
 
     /** Creates default JSON wrapper with pretty print indent enabled. */
-    private static final ObjectMapper mapper = new ObjectMapper().
+    private static final ObjectMapper MAPPER = new ObjectMapper().
             enable(SerializationFeature.INDENT_OUTPUT);
 
     /** Header for questions text file. */
@@ -80,29 +80,30 @@ public final class FileUtilities {
         }
         try {
             // Reads JSON, and convert it to a list of objects
-            return mapper.readValue(file,
-                    mapper.getTypeFactory().constructCollectionType(List.class, TriviaQuestion.class));
+            return MAPPER.readValue(file,
+                    MAPPER.getTypeFactory().constructCollectionType(List.class, TriviaQuestion.class));
         } catch (IOException e) {
             throw new IOException("Unable to load JSON file", e);
         }
     }
 
     /**
-     * Saves a collection of Trivia questions objects to a JSON file
+     * Saves a collection of Trivia questions objects to a JSON file.
      * @param questions The collection of trivia questions to save.
      * @param filePath File path for JSON file to be saved.
      * @throws IOException If unable to write to file.
      */
     private static void saveAsJson(Collection<TriviaQuestion> questions, String filePath) throws IOException {
         try { // Writes to questions to file path
-            mapper.writeValue(new File(filePath), questions);
+            MAPPER.writeValue(new File(filePath), questions);
             System.out.println("Success! Questions saved as JSON to " + filePath);
         } catch (IOException e) {
             throw new IOException("Unable to save JSON file", e);
         }
     }
 
-    private static void saveAsText(Collection<TriviaQuestion> questions, String questionsFilePath, String answersFilePath) throws IOException {
+    private static void saveAsText(Collection<TriviaQuestion> questions, String questionsFilePath,
+                                   String answersFilePath) throws IOException {
         try (PrintWriter questionOut = new PrintWriter(questionsFilePath);
              PrintWriter answerOut = new PrintWriter(answersFilePath)) {
             // Adding headers

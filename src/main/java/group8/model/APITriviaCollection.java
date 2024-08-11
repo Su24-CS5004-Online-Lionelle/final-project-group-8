@@ -5,7 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class APITriviaCollection extends TriviaCollection{
+public class APITriviaCollection extends TriviaCollection {
+
+    /**
+     * A set that holds the collection of trivia questions retrieved from the API.
+     */
     private Set<TriviaQuestion> apiCollection;
 
     /**
@@ -38,6 +42,11 @@ public class APITriviaCollection extends TriviaCollection{
         apiCollection.addAll(questions);
     }
 
+    /**
+     * Retrieves all unique categories from the trivia questions in the collection.
+     *
+     * @return a set of all unique categories in the collection
+     */
     public Set<Enums.Category> getAllCategories() {
         Set<Enums.Category> categories = new HashSet<>();
         for (TriviaQuestion question : apiCollection) {

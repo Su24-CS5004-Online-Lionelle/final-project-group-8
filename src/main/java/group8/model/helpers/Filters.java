@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import group8.model.TriviaQuestion;
 import group8.model.Enums.Difficulty;
 import group8.model.Enums.QuestionType;
-import group8.model.TriviaCollection;
 
 import group8.model.Enums.Category;
 
@@ -17,8 +16,19 @@ import group8.model.Enums.Category;
  */
 public final class Filters {
 
+    /**
+     * A set of filters for the question types.
+     */
     private Set<QuestionType> typeFilters;
+
+    /**
+     * A set of filters for the difficulty levels.
+     */
     private Set<Difficulty> difficultyFilters;
+
+    /**
+     * A set of filters for the categories.
+     */
     private Set<Category> categoryFilters;
     
     /**

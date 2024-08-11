@@ -28,7 +28,7 @@ public final class APIUtils {
     private static final int BATCH_SIZE = 50;
 
     /** Mapper converting between Java objects and JSON. */
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /** Maximum number of API retries. */
     private static final int MAX_RETRIES = 5;
@@ -168,7 +168,7 @@ public final class APIUtils {
             ((ObjectNode) node).put("category", formattedCategory);
 
             // Deserialize the node into a TriviaQuestion object.
-            TriviaQuestion triviaQuestion = objectMapper.treeToValue(node, TriviaQuestion.class);
+            TriviaQuestion triviaQuestion = OBJECT_MAPPER.treeToValue(node, TriviaQuestion.class);
             triviaQuestions.add(triviaQuestion);
         }
 
@@ -298,7 +298,7 @@ public final class APIUtils {
 
                     in.close();
 
-                    return objectMapper.readTree(content.toString());
+                    return OBJECT_MAPPER.readTree(content.toString());
 
                 } else if (responseCode == 429) {
 

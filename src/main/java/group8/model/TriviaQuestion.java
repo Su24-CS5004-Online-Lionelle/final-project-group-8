@@ -33,15 +33,17 @@ public record TriviaQuestion(
          */
         @Override
         public String toString() {
-                return String.format("Category: %s, Difficulty: %s, Type: %s, Question: %s, correctAnswer: %s, incorrectAnswer: %s",
-                                category, difficulty, type, question, correctAnswer, incorrectAnswers );
+                return String.format("Category: %s, Difficulty: %s, Type: %s, Question: %s, "
+                                + "correctAnswer: %s, incorrectAnswer: %s",
+                                category, difficulty, type, question, correctAnswer, incorrectAnswers);
         }
 
         /**
          * Compares this TriviaQuestion to another based on the question text.
          *
          * @param other the other TriviaQuestion to compare to.
-         * @return a negative integer, zero, or a positive integer as this TriviaQuestion is less than, equal to, or greater than the specified TriviaQuestion.
+         * @return a negative integer, zero, or a positive integer as this TriviaQuestion is less than,
+         * equal to, or greater than the specified TriviaQuestion.
          */
         @Override
         public int compareTo(TriviaQuestion other) {

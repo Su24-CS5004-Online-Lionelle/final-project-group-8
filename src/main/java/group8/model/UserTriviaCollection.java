@@ -3,6 +3,10 @@ package group8.model;
 import java.util.*;
 
 public class UserTriviaCollection extends TriviaCollection {
+
+    /**
+     * A set that holds the collection of trivia questions for the user.
+     */
     private Set<TriviaQuestion> userCollection;
 
     /**

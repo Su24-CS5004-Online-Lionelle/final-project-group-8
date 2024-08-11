@@ -7,6 +7,9 @@ import java.util.Set;
 import group8.model.helpers.Filters;
 import group8.model.Enums.Field;
 
+/**
+ * Interface representing a collection of trivia questions.
+ */
 public interface ITriviaCollection {
 
     /**
@@ -41,13 +44,16 @@ public interface ITriviaCollection {
      * Filter the trivia questions in the collection based on a filter.
      *
      * @param filter the filter criteria
+     * @return a set of filtered TriviaQuestion
      */
     Set<TriviaQuestion> filterQuestions(Filters filter);
 
     /**
      * Sort the trivia questions in the collection based on a sort criterion.
      *
-     * @param sort the sort criterion
+     * @param field the field to sort by
+     * @param ascending true to sort in ascending order, false for descending
+     * @return a list of sorted TriviaQuestion
      */
     List<TriviaQuestion> sortQuestions(Field field, boolean ascending);
 
