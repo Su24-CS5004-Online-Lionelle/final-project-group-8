@@ -8,11 +8,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * A dialog that allows the user to select categories from a list.
+ */
 public class CategorySelection extends JDialog {
+
+    /**
+     * The list of categories displayed in the dialog.
+     */
     private final JList<Enums.Category> categoryList;
+
+    /**
+     * The OK button to confirm the selection.
+     */
     private final JButton okButton;
+
+    /**
+     * The Cancel button to cancel the selection.
+     */
     private final JButton cancelButton;
+
+    /**
+     * Indicates whether the selection was confirmed.
+     */
     private boolean confirmed;
+
+    /**
+     * The list of selected categories.
+     */
     private List<Enums.Category> selectedCategories;
 
     /**

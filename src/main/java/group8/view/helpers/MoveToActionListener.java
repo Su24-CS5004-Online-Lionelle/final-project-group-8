@@ -45,7 +45,8 @@ public class MoveToActionListener implements ActionListener {
      * @param sourceList the list from which the TriviaQuestion is selected.
      * @param moveToUser true if the question is being moved to the user list, false if to the API list.
      */
-    public MoveToActionListener(MainView view, MainController controller, JList<TriviaQuestion> sourceList, boolean moveToUser) {
+    public MoveToActionListener(MainView view, MainController controller, JList<TriviaQuestion> sourceList,
+                                boolean moveToUser) {
         this.view = view;
         this.controller = controller;
         this.sourceList = sourceList;
@@ -71,7 +72,8 @@ public class MoveToActionListener implements ActionListener {
             view.updateUserListModel(controller.getUserQuestions());
             view.updateButtons();
             // Reapply filters after the move
-            FilterActionListener filterActionListener = new FilterActionListener(view.getFrame(), view, view.getCheckboxState(), controller);
+            FilterActionListener filterActionListener = new FilterActionListener(view.getFrame(), view,
+                    view.getCheckboxState(), controller);
             filterActionListener.applyFilters();
             SortActionListener sortActionListener = new SortActionListener(controller, view, view.getCheckboxState());
             sortActionListener.sortUserList();
