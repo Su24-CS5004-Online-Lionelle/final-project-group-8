@@ -22,7 +22,7 @@ classDiagram
    
   TriviaCollection --> TriviaQuestion : uses
   TriviaCollection --> Filters : uses
-  TriviaCollection --> Field : uses
+  TriviaCollection --> Enums : uses
   TriviaCollection --> Sorter : uses
 
   UserTriviaCollection --|> TriviaCollection : extends
@@ -42,17 +42,17 @@ classDiagram
   Filters --> Enums : uses
   Filters --> TriviaQuestion : uses
 
-  QuestionExchange --> APITriviaCollection : manages
-  QuestionExchange -->  UserTriviaCollection : manages
+  QuestionExchange --> APITriviaCollection : uses
+  QuestionExchange -->  UserTriviaCollection : uses
   QuestionExchange --> TriviaQuestion : uses
 
   Sorter --> TriviaQuestion : uses
   Sorter --> Enums : uses
 
-  MainView --> MainController : uses
+  MainView <--> MainController : uses
   MainView --> MainViewState : uses
   MainView --> TriviaQuestion : uses
-  MainView <--> ApiPullActionListener : uses
+  MainView --> ApiPullActionListener : creates
   MainView --> Enums : uses
   MainView --> LoadActionListener : creates
   MainView --> FilterActionListener : creates
@@ -61,7 +61,7 @@ classDiagram
   MainView --> SortActionListener : creates
   MainView --> SaveActionListener : creates
   MainView --> CategorySelection : creates
-  MainView --> QuestionRenderer : uses
+  MainView --> QuestionRenderer : creates
 
   ApiPullActionListener --> Enums : uses
   ApiPullActionListener --> MainController : uses
@@ -80,7 +80,7 @@ classDiagram
   MoveToActionListener --> MainView : uses
   MoveToActionListener --> MainController : uses
   MoveToActionListener --> TriviaQuestion : uses
-  MoveToActionListener --> FilterActionListener : creates
+  MoveToActionListener --> FilterActionListener : uses
 
   QuestionRenderer --> TriviaQuestion : uses
 
@@ -97,10 +97,6 @@ classDiagram
   Enums --> Category : contains
   Enums --> Field : contains
     
-
-
-
-
 
    class TriviaApp {
       + main(String[] args) : void
@@ -158,7 +154,6 @@ classDiagram
   class APITriviaCollection {
     - apiCollection : Set~TriviaQuestion~
 
-    + APITriviaCollection(Collection~TriviaQuestion~ questions) : void
     + addQuestions(Collection~TriviaQuestion~ questions) : void
     + getAllCategories() : Set~Enums.Category~
   }
