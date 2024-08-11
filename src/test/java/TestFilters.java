@@ -6,7 +6,6 @@ import java.util.Set;
 import group8.model.APITriviaCollection;
 import group8.model.Enums.Category;
 import group8.model.Enums.Difficulty;
-import group8.model.Enums.Field;
 import group8.model.Enums.QuestionType;
 import group8.model.ITriviaCollection;
 import group8.model.TriviaQuestion;
@@ -103,7 +102,6 @@ public class TestFilters {
             "True",
             List.of("False"));
 
-        // Create a set of TriviaQuestion objects
     Set<TriviaQuestion> questions = new HashSet<>();
 
     questions.add(question1);
