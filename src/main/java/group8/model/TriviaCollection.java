@@ -56,6 +56,9 @@ public abstract class TriviaCollection implements ITriviaCollection {
      * @param question the trivia question to add
      */
     public void addQuestion(TriviaQuestion question) {
+        if (question == null) {
+            return;
+        }
         originalCollection.add(question);
     }
 

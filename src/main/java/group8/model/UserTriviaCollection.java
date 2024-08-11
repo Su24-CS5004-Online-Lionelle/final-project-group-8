@@ -36,6 +36,9 @@ public class UserTriviaCollection extends TriviaCollection {
      */
     @Override
     public void addQuestions(Collection<TriviaQuestion> questions) {
+        if (questions == null) {
+            return;
+        }
         userCollection.addAll(questions);
     }
 
