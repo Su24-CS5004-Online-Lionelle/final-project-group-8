@@ -2,6 +2,10 @@ package group8.model;
 
 import java.util.*;
 
+/**
+ * Represents a collection of trivia questions managed by the user.
+ * This class extends the TriviaCollection abstract class.
+ */
 public class UserTriviaCollection extends TriviaCollection {
     private Set<TriviaQuestion> userCollection;
 

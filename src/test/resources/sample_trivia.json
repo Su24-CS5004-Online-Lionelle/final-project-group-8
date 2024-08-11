@@ -1,0 +1,29 @@
+[ {
+  "type" : "multiple",
+  "difficulty" : "hard",
+  "category" : "Art",
+  "question" : "Albrecht D&uuml;rer's birthplace and place of death were in...",
+  "correct_answer" : "N&uuml;rnberg",
+  "incorrect_answers" : [ "Augsburg", "Bamberg", "Berlin" ]
+}, {
+  "type" : "boolean",
+  "difficulty" : "easy",
+  "category" : "Art",
+  "question" : "Leonardo da Vinci was not the creator of the Mona Lisa.",
+  "correct_answer" : "False",
+  "incorrect_answers" : [ "True" ]
+}, {
+  "type" : "boolean",
+  "difficulty" : "easy",
+  "category" : "Art",
+  "question" : "Leonardo da Vinci's Mona Lisa does not have eyebrows.",
+  "correct_answer" : "True",
+  "incorrect_answers" : [ "False" ]
+}, {
+  "type" : "boolean",
+  "difficulty" : "medium",
+  "category" : "Art",
+  "question" : "Pablo Picasso is one of the founding fathers of \"Cubism.\"",
+  "correct_answer" : "True",
+  "incorrect_answers" : [ "False" ]
+} ]

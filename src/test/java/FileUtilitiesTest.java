@@ -18,19 +18,20 @@ import group8.model.FileUtilities;
 
 class FileUtilitiesTest {
 
-    // Stores list of questions
+    // List to hold test trivia questions
     private List<TriviaQuestion> testQuestions;
-    // Buffer to capture output
+    // Stream to capture console output for testing
     private ByteArrayOutputStream consoleOutput;
-    // Used to reset print stream
+    // Store the original System.out for restoration after tests
     private final PrintStream originalOut = System.out;
 
     @TempDir
     Path tempDir;
 
-    // Setting up a list of trivia questions.
+    //Set up Trivia questions and captures output before each test.
     @BeforeEach
     public void setUp() {
+        // Create sample trivia questions
         TriviaQuestion question1 = new TriviaQuestion(
                 QuestionType.BOOLEAN, Difficulty.HARD, Category.HISTORY,
                 "The Berlin Wall fell in 1989.", "True", List.of("False"));
@@ -47,47 +48,42 @@ class FileUtilitiesTest {
 
         testQuestions = Arrays.asList(question1, question2, question3);
 
-        // captures output
+        // Set up console output capture
         consoleOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(consoleOutput));
     }
 
-    // resets output after each test
+    //Restore the original System.out after each test.
     @AfterEach
     public void restoreStreams() {
         System.setOut(originalOut);
     }
 
+    // Tests Saving questions
     @Test
     void testSaveTrivia() throws IOException {
-        // creates temporary file paths for testing
-        Path jsonPath = tempDir.resolve("test.json");
-        Path questionsPath = tempDir.resolve("test_questions.txt");
-        Path answersPath = tempDir.resolve("test_answers.txt");
+        String folderName = tempDir.toString();
 
-        FileUtilities.saveTrivia(testQuestions,
-                jsonPath.toString(),
-                questionsPath.toString(),
-                answersPath.toString());
+        // Save trivia questions
+        FileUtilities.saveTrivia(testQuestions, folderName);
 
-        // Read the contents of the files for verification
+        // Define paths for created files
+        Path jsonPath = tempDir.resolve("trivia.json");
+        Path questionsPath = tempDir.resolve("questions.txt");
+        Path answersPath = tempDir.resolve("answers.txt");
+
+        // Read contents of created files
         String jsonContent = Files.readString(jsonPath);
         String questionsContent = Files.readString(questionsPath);
         String answersContent = Files.readString(answersPath);
 
-        // Temporarily restore the original output stream
-        System.setOut(originalOut);
-       System.out.println(questionsContent);
-       System.out.println(answersContent);
-       System.out.println(jsonContent);
-
-        // Verify questions output
+        // Checking contents of questions file
         assertTrue(questionsContent.contains("TRIVIA QUESTIONS:"));
-        assertTrue(questionsContent.contains("1. The Berlin Wall fell in 1989"));
-        assertTrue(questionsContent.contains("2. Which boxer was banned for taking a bite out of Evander Holyfield's ear in 1997"));
-        assertTrue(questionsContent.contains("3. The painting 'The Starry Night' by Vincent van Gogh was part of which art movement"));
+        assertTrue(questionsContent.contains("1. The Berlin Wall fell in 1989."));
+        assertTrue(questionsContent.contains("2. Which boxer was banned for taking a bite out of Evander Holyfield's ear in 1997?"));
+        assertTrue(questionsContent.contains("3. The painting 'The Starry Night' by Vincent van Gogh was part of which art movement?"));
 
-        // Verify answers output
+        // Checking contents of answers file
         assertTrue(answersContent.contains("TRIVIA ANSWERS:"));
         assertTrue(answersContent.contains("1. Correct Answer: True"));
         assertTrue(answersContent.contains("   Incorrect Answers: False"));
@@ -96,46 +92,38 @@ class FileUtilitiesTest {
         assertTrue(answersContent.contains("3. Correct Answer: Post-Impressionism"));
         assertTrue(answersContent.contains("   Incorrect Answers: Romanticism, Neoclassical, Impressionism"));
 
-        // Verify JSON output for one question1
+        // Checking contents of JSON file
         assertTrue(jsonContent.contains("\"type\" : \"boolean\""));
         assertTrue(jsonContent.contains("\"difficulty\" : \"hard\""));
-        assertTrue(jsonContent.contains("\"category\" : \"history\""));
+        assertTrue(jsonContent.contains("\"category\" : \"History\""));
         assertTrue(jsonContent.contains("\"question\" : \"The Berlin Wall fell in 1989.\""));
-        assertTrue(jsonContent.contains("\"correctAnswer\" : \"True\""));
+        assertTrue(jsonContent.contains("\"correct_answer\" : \"True\""));
     }
 
+    // Test saving null trivia questions.
     @Test
-    void testSaveTriviaNull() throws IOException {
-        // creates temporary file paths for testing
-        Path jsonPath = tempDir.resolve("test.json");
-        Path questionsPath = tempDir.resolve("test_questions.txt");
-        Path answersPath = tempDir.resolve("test_answers.txt");
+    void testSaveTriviaNull() {
+        String folderName = tempDir.toString();
 
         testQuestions = null;
-
+        // Checking that error is thrown
         assertThrows(IllegalArgumentException.class, () -> {
-            FileUtilities.saveTrivia(testQuestions,
-                    jsonPath.toString(),
-                    questionsPath.toString(),
-                    answersPath.toString());
+            FileUtilities.saveTrivia(testQuestions, folderName);
         });
     }
 
+    // Test loading trivia questions from a file.
     @Test
     void testLoadTrivia() throws IOException {
-        // creates temporary file paths for testing
-        Path jsonPath = tempDir.resolve("test.json");
+        String folderName = tempDir.toString();
 
-        // Save the questions to JSON
-        FileUtilities.saveTrivia(testQuestions,
-                jsonPath.toString(),
-                tempDir.resolve("dummy_questions.txt").toString(),
-                tempDir.resolve("dummy_answers.txt").toString());
+        // Save trivia questions
+        FileUtilities.saveTrivia(testQuestions, folderName);
 
-        // Now use this JSON to test loading
-        List<TriviaQuestion> loadedQuestions = FileUtilities.loadTrivia(jsonPath.toString());
+        // Load trivia questions
+        List<TriviaQuestion> loadedQuestions = FileUtilities.loadTrivia(folderName + File.separator + "trivia.json");
 
-        // Check the first question
+        // Checking first loaded question
         TriviaQuestion firstQuestion = loadedQuestions.get(0);
         assertEquals(QuestionType.BOOLEAN, firstQuestion.type());
         assertEquals(Difficulty.HARD, firstQuestion.difficulty());
@@ -144,7 +132,7 @@ class FileUtilitiesTest {
         assertEquals("True", firstQuestion.correctAnswer());
         assertEquals(List.of("False"), firstQuestion.incorrectAnswers());
 
-        // Check the second question
+        // Checking second loaded question
         TriviaQuestion secondQuestion = loadedQuestions.get(1);
         assertEquals(QuestionType.MULTIPLE, secondQuestion.type());
         assertEquals(Difficulty.EASY, secondQuestion.difficulty());
@@ -154,12 +142,11 @@ class FileUtilitiesTest {
         assertEquals(Arrays.asList("Roy Jones Jr.", "Evander Holyfield", "Lennox Lewis"), secondQuestion.incorrectAnswers());
     }
 
+    // Test loading trivia questions from an empty file.
     @Test
-    void testLoadTriviaNull() throws IOException {
-        Path emptyFilePath = tempDir.resolve("empty.json");
-
-        // Create an empty file
-        new File(emptyFilePath.toString()).createNewFile();
+    void testLoadTriviaEmptyFile() throws IOException {
+        Path emptyFilePath = tempDir.resolve("trivia.json");
+        Files.createFile(emptyFilePath);
 
         assertThrows(IllegalArgumentException.class, () -> {
             FileUtilities.loadTrivia(emptyFilePath.toString());

@@ -37,10 +37,10 @@ public class QuestionRenderer extends JLabel implements ListCellRenderer<TriviaQ
             boolean cellHasFocus) {
 
         // Customize how the question is displayed
-        String displayText = String.format("<html>" +
-                        "<b>Category:</b> %s  |  <b>Difficulty:</b> %s  |  <b>Type:</b> %s <br/>" +
-                        "<span style='font-size:11px;'>%s</span><br/><br/>" +
-                        "</html>",
+        String displayText = String.format("<html>"
+                        + "<b>Category:</b> %s  |  <b>Difficulty:</b> %s  |  <b>Type:</b> %s <br/>"
+                        + "<span style='font-size:11px;'>%s</span><br/><br/>"
+                        + "</html>",
                 formatCategory(question.category().toString()),
                 formatDifficulty(question.difficulty().toString()),
                 formatType(question.type().toString()),

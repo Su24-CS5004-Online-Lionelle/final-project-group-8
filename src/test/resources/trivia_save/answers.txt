@@ -1,0 +1,14 @@
+TRIVIA ANSWERS:
+
+1. Correct Answer: N&uuml;rnberg
+   Incorrect Answers: Augsburg, Bamberg, Berlin
+
+2. Correct Answer: False
+   Incorrect Answers: True
+
+3. Correct Answer: True
+   Incorrect Answers: False
+
+4. Correct Answer: True
+   Incorrect Answers: False
+

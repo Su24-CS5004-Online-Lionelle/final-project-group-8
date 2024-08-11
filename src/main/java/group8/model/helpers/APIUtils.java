@@ -16,7 +16,7 @@ import group8.model.TriviaQuestion;
 /**
  * Utility class for interacting with the Open Trivia Database API.
  */
-public class APIUtils {
+public final class APIUtils {
 
     /** URL for Open Trivia database. */
     private static final String BASE_URL = "https://opentdb.com/";
@@ -24,17 +24,11 @@ public class APIUtils {
     /** URL for Open Trivia categories. */
     private static final String CATEGORY_URL = "https://opentdb.com/api_category.php";
 
-    /** API call limit. */
-    private static final int BATCH_SIZE = 50; // Number of questions per batch
+    /** API question call limit. */
+    private static final int BATCH_SIZE = 50;
 
-    /** Object converting between Java objects and JSON. */
+    /** Mapper converting between Java objects and JSON. */
     private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    /** Session token for API. */
-    private static String sessionToken;    
-
-    /** Category mapping for API. */
-    private static Map<String, String> categoryMap;
 
     /** Maximum number of API retries. */
     private static final int MAX_RETRIES = 5;
@@ -42,13 +36,19 @@ public class APIUtils {
     /** Delay (milliseconds) before retry. */
     private static final int RETRY_DELAY_MS = 5500;
 
+    /** Session token for API. */
+    private static String sessionToken;    
+
+    /** Category mapping for API. */
+    private static Map<String, String> categoryMap;
+
     /** Constructor. */
-    public APIUtils() {
+    private APIUtils() {
         // Empty constructor.
     }
 
     /**
-     * Fetches trivia questions in batches, with a 5 second delay between batches.
+     * Fetches trivia questions in batches.
      * Returns a combined list of questions, based on the requested amount.
      * Typically used for requests over the call limit (i.e., 50).
      *
@@ -56,10 +56,13 @@ public class APIUtils {
      * @param category - category of questions.
      * @param difficulty - difficulty level of questions.
      * @param type - type of questions (e.g., multiple choice).
-     * @return Combined list of trivia questions.
-     * @throws Exception if an error occurs during the requests or conversion.
+     * @return List of TriviaQuestion.
+     * @throws Exception if an error occurs during request or conversion.
      */
-    public static List<TriviaQuestion> getBatchedQuestions(int amount, Enums.Category category, Enums.Difficulty difficulty, Enums.QuestionType type) throws Exception {
+    public static List<TriviaQuestion> getBatchedQuestions(int amount,
+                                                           Enums.Category category, 
+                                                           Enums.Difficulty difficulty, 
+                                                           Enums.QuestionType type) throws Exception {
 
         // Check for valid argument.
         if (amount <= 0) {
@@ -73,10 +76,10 @@ public class APIUtils {
         int numberOfBatches = (int) Math.ceil((double) amount / BATCH_SIZE);
 
         for (int batch = 0; batch < numberOfBatches; batch++) {
-            // Calculate the number of questions needed for this batch.
+            // Calculate the number of questions needed for batch iteration.
             int batchAmount = Math.min(BATCH_SIZE, amount - totalFetched);
 
-            // Fetch and add questions for the current batch.
+            // Fetch and add questions from batch.
             List<TriviaQuestion> batchQuestions = getSingleQuestions(batchAmount, category, difficulty, type);
             allQuestions.addAll(batchQuestions);
             totalFetched += batchQuestions.size();
@@ -93,10 +96,13 @@ public class APIUtils {
      * @param category - category of questions.
      * @param difficulty - difficulty level of questions.
      * @param type - type of questions (e.g., multiple choice).
-     * @return List of TriviaQuestion records.
+     * @return List of TriviaQuestion.
      * @throws Exception if an error occurs during the request or conversion.
      */
-    public static List<TriviaQuestion> getSingleQuestions(int amount, Enums.Category category, Enums.Difficulty difficulty, Enums.QuestionType type) throws Exception {
+    public static List<TriviaQuestion> getSingleQuestions(int amount, 
+                                                          Enums.Category category, 
+                                                          Enums.Difficulty difficulty, 
+                                                          Enums.QuestionType type) throws Exception {
 
         if (sessionToken == null) {
             throw new TriviaApiException("Token Not Set: Request token to start new session.");
@@ -106,7 +112,10 @@ public class APIUtils {
             throw new TriviaApiException("Single Request Too Large: API only handles 50 questions per call.");
         }
 
-        JsonNode questionsJsonNode = fetchQuestions(amount, category != null ? categoryMap.get(category.getValue()) : "", difficulty != null ? difficulty.getValue() : "", type != null ? type.getValue() : "");
+        JsonNode questionsJsonNode = fetchQuestions(amount, 
+                                                    category != null ? categoryMap.get(category.getValue()) : "", 
+                                                    difficulty != null ? difficulty.getValue() : "", 
+                                                    type != null ? type.getValue() : "");
         int responseCode = questionsJsonNode.get("response_code").asInt();
 
         switch (responseCode) {
@@ -119,20 +128,24 @@ public class APIUtils {
             case 3:
                 throw new TriviaApiException("Token Not Found: Session Token does not exist.");
             case 4:
-                throw new TriviaApiException("Token Empty: Session Token has returned all possible questions for the specified query. Resetting the Token is necessary."); // Unlikely, but should handle.
+                throw new TriviaApiException("Token Empty: Session Token has returned"
+                                             + "all possible questions for the specified query."
+                                             + "Resetting the Token is necessary.");
             case 5:
-                throw new TriviaApiException("Rate Limit: Too many requests have occurred. Each IP can only access the API once every 5 seconds.");
+                throw new TriviaApiException("Rate Limit: Too many requests have occurred." 
+                                            + "Each IP can only access the API once every 5 seconds.");
             default:
-                throw new TriviaApiException("Unknown Error: An unknown error occurred with response code " + responseCode);
+                throw new TriviaApiException("Unknown Error: An unknown error"
+                                            + "occurred with response code " + responseCode);
         }
 
     }
 
     /**
-     * Converts a JsonNode containing trivia questions to a list of TriviaQuestion records.
+     * Converts a JsonNode containing questions from API response to a list of TriviaQuestion records.
      *
      * @param jsonNode - JsonNode containing the API response.
-     * @return List of TriviaQuestion records.
+     * @return List of TriviaQuestion.
      * @throws Exception if an error occurs during conversion.
      */
     public static List<TriviaQuestion> convertQuestions(JsonNode jsonNode) throws Exception {
@@ -173,13 +186,17 @@ public class APIUtils {
      * @return JsonNode containing the API response.
      * @throws Exception if an error occurs during the request.
      */
-    public static JsonNode fetchQuestions(int amount, String category, String difficulty, String type) throws Exception {
+    public static JsonNode fetchQuestions(int amount, 
+                                          String category, 
+                                          String difficulty, 
+                                          String type) throws Exception {
 
-        String urlString = BASE_URL + "api.php?amount=" + amount +
-                            (category != null ? "&category=" + category: "") +
-                            (difficulty != null ? "&difficulty=" + difficulty: "") +
-                            (type != null ? "&type=" + type: "") +
-                            (sessionToken != null ? "&token=" + sessionToken: "");
+        String urlString = BASE_URL 
+                            + "api.php?amount=" + amount 
+                            + (category != null ? "&category=" + category : "") 
+                            + (difficulty != null ? "&difficulty=" + difficulty : "")
+                            + (type != null ? "&type=" + type : "")
+                            + (sessionToken != null ? "&token=" + sessionToken : "");
         return sendGetRequest(urlString);
 
     }
@@ -225,7 +242,6 @@ public class APIUtils {
     /**
      * Obtains question categories from API.
      * 
-     * @return Map<String, String> mapping of category name to identifier.
      * @throws Exception if an error occurs during the request.
      */
     public static void requestCategories() throws Exception {
@@ -242,7 +258,9 @@ public class APIUtils {
                 map.put(categoryName, categoryId);
             }
         } else {
-            throw new IllegalArgumentException("Invalid JSON format: 'trivia_categories' field is missing or not an array");
+            throw new IllegalArgumentException("Invalid JSON format:" 
+                    + 
+                    "'trivia_categories' field is missing or not an array");
         }
 
         categoryMap = map;
@@ -255,7 +273,7 @@ public class APIUtils {
      * @return JsonNode containing the response.
      * @throws Exception if an error occurs during the request.
      */
-    private static JsonNode sendGetRequest(String urlString) throws Exception {
+    public static JsonNode sendGetRequest(String urlString) throws Exception {
 
         int attempts = 0;
 
@@ -307,46 +325,26 @@ public class APIUtils {
     }
 
     /**
-     * Custom exception for API-related errors.
+     * Gets the session token for the API.
+     * 
+     * @return The current session token.
      */
-    public static class TriviaApiException extends Exception {
-
-        public TriviaApiException(String message) {
-            super(message);
-        }
-    }
-
     public static String getSessionToken() {
         return sessionToken;
     }
 
+    /**
+     * Gets the category mapping for the API.
+     * 
+     * @return The current category map, mapping category names to their identifiers.
+     */
     public static Map<String, String> getCategoryMap() {
         return categoryMap;
     }
 
     /**
-     * Displays collections of Trivia questions in Category: Questions manner.
-     *
-     * @param questions collection of Trivia questions
-     * @return List of Strings with the proper format for display
-     */
-    public static List<String> getFormattedQuestions(Collection<TriviaQuestion> questions) {
-        List<String> formattedQuestions = new ArrayList<>();
-
-        // Iterates through each TriviaQuestion to convert to a list of strings of question for display
-        // Format example: GENERAL_KNOWLEDGE: The retail disc of Tony Hawk's Pro Skater 5 only comes with the tutorial.
-        for (TriviaQuestion question : questions) {
-            String nonHtmlQuestion = htmlConverter(question.question());
-            String formattedQuestion = question.category().toString() + ": \"" + nonHtmlQuestion + "\"";
-            formattedQuestions.add(formattedQuestion);
-        }
-
-        return formattedQuestions;
-    }
-
-    /**
-     * Helper method that converts HTML coding to string counterpart.
-     * @param input String containing HTML coding
+     * Helper method that cleans HTML encoding.
+     * @param input - string containing HTML coding.
      * @return String with HTML coding converted to its corresponding counterpart.
      */
     public static String htmlConverter(String input) {
@@ -360,6 +358,19 @@ public class APIUtils {
                 .replace("&rdquo;", "\u201D")
                 .replace("&lsquo;", "\u2018")
                 .replace("&rsquo;", "\u2019");
+    }
+
+    /**
+     * Custom exception for API-related errors.
+     */
+    public static class TriviaApiException extends Exception {
+
+        /** Trivia API Exception. 
+         * @param message - to be displayed within error.
+        */
+        public TriviaApiException(String message) {
+            super(message);
+        }
     }
 
 }
