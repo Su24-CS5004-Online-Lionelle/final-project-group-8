@@ -15,6 +15,7 @@ import java.util.List;
  * ApiPullActionListener initiates the action of pulling trivia questions from the API.
  */
 public class ApiPullActionListener implements ActionListener {
+
     /**
      * The main view of the application.
      */

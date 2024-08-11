@@ -20,15 +20,55 @@ import java.util.List;
  * MainView class represents the main user interface for the Trivia Generator application.
  */
 public class MainView extends JFrame {
+
+    /**
+     * The main frame of the application.
+     */
     private JFrame frame;
+
+    /**
+     * List that displays trivia questions from the API.
+     */
     private JList<TriviaQuestion> apiList;
+
+    /**
+     * List that displays trivia questions added by the user.
+     */
     private JList<TriviaQuestion> userList;
+
+    /**
+     * Model for managing the data in the API list.
+     */
     private DefaultListModel<TriviaQuestion> apiListModel;
+
+    /**
+     * Model for managing the data in the user list.
+     */
     private DefaultListModel<TriviaQuestion> userListModel;
+
+    /**
+     * Button to transfer a selected trivia question from the API list to the user list.
+     */
     private JButton toUserButton;
+
+    /**
+     * Button to transfer a selected trivia question from the user list to the API list.
+     */
     private JButton toApiButton;
+
+    /**
+     * Object representing the state of various UI elements like checkboxes.
+     */
     private MainViewState state;
+
+    /**
+     * List of categories selected by the user for filtering trivia questions.
+     */
     private List<Enums.Category> selectedCategories;
+
+    /**
+     * Controller to manage interactions between the view and the data models.
+     */
     private MainController controller;
 
     /**
@@ -104,7 +144,16 @@ public class MainView extends JFrame {
         apiList = new JList<>(apiListModel);
         apiList.setCellRenderer(new QuestionRenderer());
         apiList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        apiList.addListSelectionListener(e -> updateButtons());
+
+        apiList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                if (apiList.getSelectedIndex() != -1) {
+                    userList.clearSelection(); // Clear selection in userList
+                }
+                updateButtons(); // Update button states
+            }
+        });
+
         JScrollPane apiScrollPane = new JScrollPane(apiList);
 
         JPanel apiTopPanel = createApiTopPanel();
@@ -141,7 +190,16 @@ public class MainView extends JFrame {
         userList = new JList<>(userListModel);
         userList.setCellRenderer(new QuestionRenderer());
         userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        userList.addListSelectionListener(e -> updateButtons());
+
+        userList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                if (userList.getSelectedIndex() != -1) {
+                    apiList.clearSelection(); // Clear selection in apiList
+                }
+                updateButtons(); // Update button states
+            }
+        });
+
         JScrollPane userScrollPane = new JScrollPane(userList);
 
         JPanel userTopPanel = createUserTopPanel();
@@ -179,8 +237,11 @@ public class MainView extends JFrame {
         arrowGbc.gridy = GridBagConstraints.RELATIVE;
         arrowGbc.anchor = GridBagConstraints.CENTER;
         arrowGbc.insets = new Insets(10, 0, 10, 0);
-        toUserButton = new JButton(">>");
-        toApiButton = new JButton("<<");
+        Font arrowFont = new Font("SansSerif", Font.BOLD, 36);
+        toUserButton = new JButton("\u2192");
+        toApiButton = new JButton("\u2190");
+        toUserButton.setFont(arrowFont);
+        toApiButton.setFont(arrowFont);
         toUserButton.setEnabled(false);
         toApiButton.setEnabled(false);
         toUserButton.addActionListener(new MoveToActionListener(this, controller, apiList, true));
@@ -199,11 +260,8 @@ public class MainView extends JFrame {
     private JPanel createApiTopPanel() {
         JPanel apiTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton filterButton = createIconButton("src/main/java/group8/view/icons/filter.png", 20, 20);
-        // JButton resetFilterButton = createIconButton("src/main/java/group8/view/icons/reload.png", 20, 20);
         filterButton.addActionListener(new FilterActionListener(frame, this, state, controller));
-        // resetFilterButton.addActionListener(e -> resetFilters());
         apiTopPanel.add(filterButton);
-        // apiTopPanel.add(resetFilterButton);
         return apiTopPanel;
     }
 
@@ -219,11 +277,8 @@ public class MainView extends JFrame {
         apiPullButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showCategorySelection();
-                if (selectedCategories != null) {
-                    new ApiPullActionListener(MainView.this, selectedCategories, controller).actionPerformed(e);
+                showCategorySelection(e);
                 }
-            }
         });
 
         apiBottomPanel.add(apiPullButton);
@@ -336,6 +391,11 @@ public class MainView extends JFrame {
         }
     }
 
+    /**
+     * Returns the main frame of the application.
+     *
+     * @return the main frame of the application.
+     */
     public JFrame getFrame() {
         return this.frame;
     }
@@ -350,11 +410,16 @@ public class MainView extends JFrame {
 
     /**
      * Shows the category selection dialog and updates the selected categories.
+     *
+     * @param e the action event that triggered the category selection.
      */
-    private void showCategorySelection() {
+    private void showCategorySelection(ActionEvent e) {
         CategorySelection dialog = new CategorySelection(frame);
         if (dialog.showDialog()) {
             selectedCategories = dialog.getSelectedCategories();
+            if (selectedCategories != null && !selectedCategories.isEmpty()) {
+                new ApiPullActionListener(MainView.this, selectedCategories, controller).actionPerformed(e);
+            }
         }
     }
 }
