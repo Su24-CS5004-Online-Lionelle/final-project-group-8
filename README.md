@@ -18,4 +18,13 @@
   * [Citations](./DesignDocuments/citations.md)
 
 * How to Run Application
-  * `?`
+  
+  Run the following at the command line:
+  
+  * With Tests
+    * `gradlew.bat clean build && gradlew.bat run` - Windows
+    * `./gradlew clean && ./gradlew build && ./gradlew run` - Mac
+  * Without Tests
+    * `gradlew.bat clean build -x test && gradlew.bat run` - Windows
+    * `./gradlew clean build -x test && ./gradlew run` - Mac
+ 
