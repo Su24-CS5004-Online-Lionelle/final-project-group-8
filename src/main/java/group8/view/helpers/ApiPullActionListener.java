@@ -38,7 +38,8 @@ public class ApiPullActionListener implements ActionListener {
      * @param selectedCategories the list of selected categories to fetch questions from.
      * @param controller the controller to manage the interaction with the API.
      */
-    public ApiPullActionListener(MainView mainView, List<Enums.Category> selectedCategories, MainController controller) {
+    public ApiPullActionListener(MainView mainView, List<Enums.Category> selectedCategories,
+                                 MainController controller) {
         this.mainView = mainView;
         this.selectedCategories = selectedCategories;
         this.controller = controller;
@@ -60,7 +61,8 @@ public class ApiPullActionListener implements ActionListener {
             mainView.getCheckboxState().resetFilters();
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Failed to generate questions: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to generate questions: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
