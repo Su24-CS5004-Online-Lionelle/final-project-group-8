@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,86 +19,88 @@ public class TestMainController {
         mainController = new MainController();
     }
 
-    @Test
-    public void testGenerateApiList() throws Exception {
-        List<Enums.Category> categories = List.of(Enums.Category.HISTORY, Enums.Category.SCIENCE_NATURE);
+// API PULLS ARE COMMENTED OUT TO PROVIDE A QUICKER BUILD TIME
 
-        mainController.generateApiList(categories);
+//    @Test
+//    public void testGenerateApiList() throws Exception {
+//        List<Enums.Category> categories = List.of(Enums.Category.HISTORY, Enums.Category.SCIENCE_NATURE);
+//
+//        mainController.generateApiList(categories);
+//
+//        List<TriviaQuestion> apiQuestions = mainController.getApiQuestions();
+//        assertFalse(apiQuestions.isEmpty(), "API question list should not be empty after generating questions");
+//        for (TriviaQuestion question : apiQuestions) {
+//            assertTrue(categories.contains(question.category()), "Question should belong to one of the selected categories");
+//        }
+//    }
 
-        List<TriviaQuestion> apiQuestions = mainController.getApiQuestions();
-        assertFalse(apiQuestions.isEmpty(), "API question list should not be empty after generating questions");
-        for (TriviaQuestion question : apiQuestions) {
-            assertTrue(categories.contains(question.category()), "Question should belong to one of the selected categories");
-        }
-    }
+//    @Test
+//    public void testGetAllCategories() throws Exception {
+//        List<Enums.Category> categories = List.of(Enums.Category.ART, Enums.Category.CELEBRITIES);
+//        mainController.generateApiList(categories);
+//        Set<Enums.Category> controllerCategories = mainController.getAllCategories();
+//        assertNotNull(controllerCategories, "Categories should not be null");
+//        assertFalse(controllerCategories.isEmpty(), "Categories set should contain elements");
+//
+//        // Verify that specific known categories are present
+//        assertTrue(controllerCategories.contains(Enums.Category.ART), "Category set should contain HISTORY");
+//        assertTrue(controllerCategories.contains(Enums.Category.CELEBRITIES), "Category set should contain SCIENCE_NATURE");
+//    }
 
-    @Test
-    public void testGetAllCategories() throws Exception {
-        List<Enums.Category> categories = List.of(Enums.Category.ART, Enums.Category.CELEBRITIES);
-        mainController.generateApiList(categories);
-        Set<Enums.Category> controllerCategories = mainController.getAllCategories();
-        assertNotNull(controllerCategories, "Categories should not be null");
-        assertFalse(controllerCategories.isEmpty(), "Categories set should contain elements");
+//    @Test
+//    public void testGetFormattedApiQuestionsWithFilters() throws Exception {
+//        // Generate API list with matching questions
+//        mainController.generateApiList(List.of(Enums.Category.HISTORY));
+//
+//        Set<Enums.QuestionType> typeFilters = Set.of();
+//        Set<Enums.Difficulty> difficultyFilters = Set.of(Enums.Difficulty.EASY);
+//        Set<Enums.Category> categoryFilters = Set.of(Enums.Category.HISTORY);
+//
+//        List<TriviaQuestion> filteredQuestions = mainController.getFormattedApiQuestions(typeFilters, difficultyFilters, categoryFilters);
+//
+//        assertFalse(filteredQuestions.isEmpty(), "Filtered question list should not be empty after generating matching questions");
+//
+//        // Verify that all questions match the filters
+//        for (TriviaQuestion question : filteredQuestions) {
+//            assertEquals(Enums.Difficulty.EASY, question.difficulty(), "Question should match the EASY difficulty filter");
+//            assertEquals(Enums.Category.HISTORY, question.category(), "Question should belong to the HISTORY category");
+//        }
+//    }
 
-        // Verify that specific known categories are present
-        assertTrue(controllerCategories.contains(Enums.Category.ART), "Category set should contain HISTORY");
-        assertTrue(controllerCategories.contains(Enums.Category.CELEBRITIES), "Category set should contain SCIENCE_NATURE");
-    }
+//    @Test
+//    public void testGetFormattedApiQuestionsWithoutFilters() throws Exception {
+//        mainController.generateApiList(List.of(Enums.Category.GEOGRAPHY, Enums.Category.MYTHOLOGY));
+//
+//        List<TriviaQuestion> questions = mainController.getFormattedApiQuestions();
+//        assertNotNull(questions, "Questions should not be null");
+//        assertFalse(questions.isEmpty(), "Questions list should not be empty");
+//
+//        // Verify that all questions belong to the generated categories
+//        for (TriviaQuestion question : questions) {
+//            assertTrue(Set.of(Enums.Category.GEOGRAPHY, Enums.Category.MYTHOLOGY).contains(question.category()), "Question should belong to one of the generated categories");
+//        }
+//    }
 
-    @Test
-    public void testGetFormattedApiQuestionsWithFilters() throws Exception {
-        // Generate API list with matching questions
-        mainController.generateApiList(List.of(Enums.Category.HISTORY));
-
-        Set<Enums.QuestionType> typeFilters = Set.of();
-        Set<Enums.Difficulty> difficultyFilters = Set.of(Enums.Difficulty.EASY);
-        Set<Enums.Category> categoryFilters = Set.of(Enums.Category.HISTORY);
-
-        List<TriviaQuestion> filteredQuestions = mainController.getFormattedApiQuestions(typeFilters, difficultyFilters, categoryFilters);
-
-        assertFalse(filteredQuestions.isEmpty(), "Filtered question list should not be empty after generating matching questions");
-
-        // Verify that all questions match the filters
-        for (TriviaQuestion question : filteredQuestions) {
-            assertEquals(Enums.Difficulty.EASY, question.difficulty(), "Question should match the EASY difficulty filter");
-            assertEquals(Enums.Category.HISTORY, question.category(), "Question should belong to the HISTORY category");
-        }
-    }
-
-    @Test
-    public void testGetFormattedApiQuestionsWithoutFilters() throws Exception {
-        mainController.generateApiList(List.of(Enums.Category.GEOGRAPHY, Enums.Category.MYTHOLOGY));
-
-        List<TriviaQuestion> questions = mainController.getFormattedApiQuestions();
-        assertNotNull(questions, "Questions should not be null");
-        assertFalse(questions.isEmpty(), "Questions list should not be empty");
-
-        // Verify that all questions belong to the generated categories
-        for (TriviaQuestion question : questions) {
-            assertTrue(Set.of(Enums.Category.GEOGRAPHY, Enums.Category.MYTHOLOGY).contains(question.category()), "Question should belong to one of the generated categories");
-        }
-    }
-
-    @Test
-    public void testGetFormattedUserQuestions() throws Exception {
-        List<Enums.Category> categories = List.of(Enums.Category.SPORTS, Enums.Category.ANIMALS);
-        mainController.generateApiList(categories);
-
-        List<TriviaQuestion> apiQuestions = mainController.getFormattedApiQuestions();
-        TriviaQuestion question1 = apiQuestions.get(0);
-        TriviaQuestion question2 = apiQuestions.get(30);
-
-        mainController.moveToUserCollection(question1);
-        mainController.moveToUserCollection(question2);
-
-        // Sort by category in ascending order
-        List<TriviaQuestion> sortedQuestions = mainController.getFormattedUserQuestions(Enums.Field.CATEGORY, true);
-        assertNotNull(sortedQuestions, "Sorted questions should not be null");
-
-        // Verify the order of questions
-        assertEquals(Enums.Category.ANIMALS, sortedQuestions.get(0).category(), "First question should belong to ANIMALS category");
-        assertEquals(Enums.Category.SPORTS, sortedQuestions.get(1).category(), "Second question should belong to SPORTS category");
-    }
+//    @Test
+//    public void testGetFormattedUserQuestions() throws Exception {
+//        List<Enums.Category> categories = List.of(Enums.Category.SPORTS, Enums.Category.ANIMALS);
+//        mainController.generateApiList(categories);
+//
+//        List<TriviaQuestion> apiQuestions = mainController.getFormattedApiQuestions();
+//        TriviaQuestion question1 = apiQuestions.get(0);
+//        TriviaQuestion question2 = apiQuestions.get(30);
+//
+//        mainController.moveToUserCollection(question1);
+//        mainController.moveToUserCollection(question2);
+//
+//        // Sort by category in ascending order
+//        List<TriviaQuestion> sortedQuestions = mainController.getFormattedUserQuestions(Enums.Field.CATEGORY, true);
+//        assertNotNull(sortedQuestions, "Sorted questions should not be null");
+//
+//        // Verify the order of questions
+//        assertEquals(Enums.Category.ANIMALS, sortedQuestions.get(0).category(), "First question should belong to ANIMALS category");
+//        assertEquals(Enums.Category.SPORTS, sortedQuestions.get(1).category(), "Second question should belong to SPORTS category");
+//    }
 
     @Test
     public void testLoadTriviaQuestions() throws IOException {
@@ -151,37 +152,37 @@ public class TestMainController {
         assertTrue(savedQuestions.contains(questionToMove), "Saved trivia should contain the question that was added to the user collection");
     }
 
-    @Test
-    public void testMoveToUserCollection() throws Exception {
-        // Generate some API questions
-        mainController.generateApiList(List.of(Enums.Category.HISTORY));
-        List<TriviaQuestion> apiQuestions = mainController.getApiQuestions();
-        TriviaQuestion question = apiQuestions.get(0);
+//    @Test
+//    public void testMoveToUserCollection() throws Exception {
+//        // Generate some API questions
+//        mainController.generateApiList(List.of(Enums.Category.HISTORY));
+//        List<TriviaQuestion> apiQuestions = mainController.getApiQuestions();
+//        TriviaQuestion question = apiQuestions.get(0);
+//
+//        // Move the question to the user collection
+//        mainController.moveToUserCollection(question);
+//
+//        // Verify that the question is now in the user collection and not in the API collection
+//        assertTrue(mainController.getUserQuestions().contains(question), "Question should be in the user collection");
+//        assertFalse(mainController.getApiQuestions().contains(question), "Question should not be in the API collection");
+//    }
 
-        // Move the question to the user collection
-        mainController.moveToUserCollection(question);
-
-        // Verify that the question is now in the user collection and not in the API collection
-        assertTrue(mainController.getUserQuestions().contains(question), "Question should be in the user collection");
-        assertFalse(mainController.getApiQuestions().contains(question), "Question should not be in the API collection");
-    }
-
-    @Test
-    public void testMoveToApiCollection() throws Exception {
-        // Generate some API questions
-        mainController.generateApiList(List.of(Enums.Category.HISTORY));
-        List<TriviaQuestion> apiQuestions = mainController.getApiQuestions();
-        TriviaQuestion question = apiQuestions.get(0);
-
-        // Move the question to the user collection
-        mainController.moveToUserCollection(question);
-
-        mainController.moveToApiCollection(question);
-
-        // Verify that the question is now in the API collection and not in the user collection
-        assertTrue(mainController.getApiQuestions().contains(question), "Question should be in the API collection");
-        assertFalse(mainController.getUserQuestions().contains(question), "Question should not be in the user collection");
-    }
+//    @Test
+//    public void testMoveToApiCollection() throws Exception {
+//        // Generate some API questions
+//        mainController.generateApiList(List.of(Enums.Category.HISTORY));
+//        List<TriviaQuestion> apiQuestions = mainController.getApiQuestions();
+//        TriviaQuestion question = apiQuestions.get(0);
+//
+//        // Move the question to the user collection
+//        mainController.moveToUserCollection(question);
+//
+//        mainController.moveToApiCollection(question);
+//
+//        // Verify that the question is now in the API collection and not in the user collection
+//        assertTrue(mainController.getApiQuestions().contains(question), "Question should be in the API collection");
+//        assertFalse(mainController.getUserQuestions().contains(question), "Question should not be in the user collection");
+//    }
 
     @Test
     public void testIsDuplicateQuestion() throws IOException {
