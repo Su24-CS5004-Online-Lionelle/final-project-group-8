@@ -59,18 +59,28 @@ public class FilterActionListener implements ActionListener {
         }
 
         Set<Enums.Difficulty> selectedDifficulties = new HashSet<>();
-        if (state.isDifficultyEasySelected())
+
+        if (state.isDifficultyEasySelected()) {
             selectedDifficulties.add(Difficulty.EASY);
-        if (state.isDifficultyMediumSelected())
+        }
+
+        if (state.isDifficultyMediumSelected()) {
             selectedDifficulties.add(Difficulty.MEDIUM);
-        if (state.isDifficultyHardSelected())
+        }
+
+        if (state.isDifficultyHardSelected()) {
             selectedDifficulties.add(Difficulty.HARD);
+        }
 
         Set<Enums.QuestionType> selectedTypes = new HashSet<>();
-        if (state.isTypeMultipleChoiceSelected())
+
+        if (state.isTypeMultipleChoiceSelected()) {
             selectedTypes.add(QuestionType.MULTIPLE);
-        if (state.isTypeTrueFalseSelected())
+        }
+
+        if (state.isTypeTrueFalseSelected()) {
             selectedTypes.add(QuestionType.BOOLEAN);
+        }
 
         List<TriviaQuestion> questions = controller.getFormattedApiQuestions(selectedTypes,
                 selectedDifficulties, selectedCategories);

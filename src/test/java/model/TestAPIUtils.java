@@ -1,3 +1,4 @@
+package model;
 // COMMENTING OUT API TESTS DUE TO VOLATILITY - ALL HAVE BEEN RUN AND PASSED.
 
 // import com.fasterxml.jackson.databind.JsonNode;

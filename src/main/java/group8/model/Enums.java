@@ -25,6 +25,9 @@ public class Enums {
         @JsonProperty("multiple")
         MULTIPLE("multiple");
 
+        /**
+         * Value of Question Type.
+         */
         private final String value;
 
         /**
@@ -74,12 +77,21 @@ public class Enums {
         @JsonProperty("easy")
         EASY("easy"),
 
+        /**
+         * Medium difficulty level.
+         */
         @JsonProperty("medium")
         MEDIUM("medium"),
 
+        /**
+         * Hard difficulty level.
+         */
         @JsonProperty("hard")
         HARD("hard");
 
+        /**
+         * Value of difficulty level.
+         */
         private final String value;
 
         /**
@@ -267,6 +279,9 @@ public class Enums {
         @JsonProperty("Vehicles")
         VEHICLES("Vehicles");
 
+        /**
+         * Value of category.
+         */
         private final String value;
 
         /**

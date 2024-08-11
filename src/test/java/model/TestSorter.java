@@ -1,3 +1,4 @@
+package model;
 import group8.model.TriviaQuestion;
 import group8.model.Enums.Field;
 import group8.model.Enums.QuestionType;

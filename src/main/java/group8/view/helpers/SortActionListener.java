@@ -22,8 +22,19 @@ import java.util.Map;
  */
 public class SortActionListener implements ActionListener {
 
+    /**
+     * Controller.
+     */
     private MainController controller;
+
+    /**
+     * View.
+     */
     private MainView mainView;
+
+    /**
+     * State of View.
+     */
     private MainViewState state;
     
     /**
