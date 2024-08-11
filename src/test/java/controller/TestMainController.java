@@ -35,15 +35,15 @@ public class TestMainController {
 
     @Test
     public void testGetAllCategories() throws Exception {
-        List<Enums.Category> categories = List.of(Enums.Category.HISTORY, Enums.Category.SCIENCE_NATURE);
+        List<Enums.Category> categories = List.of(Enums.Category.ART, Enums.Category.CELEBRITIES);
         mainController.generateApiList(categories);
         Set<Enums.Category> controllerCategories = mainController.getAllCategories();
         assertNotNull(controllerCategories, "Categories should not be null");
         assertFalse(controllerCategories.isEmpty(), "Categories set should contain elements");
 
         // Verify that specific known categories are present
-        assertTrue(controllerCategories.contains(Enums.Category.HISTORY), "Category set should contain HISTORY");
-        assertTrue(controllerCategories.contains(Enums.Category.SCIENCE_NATURE), "Category set should contain SCIENCE_NATURE");
+        assertTrue(controllerCategories.contains(Enums.Category.ART), "Category set should contain HISTORY");
+        assertTrue(controllerCategories.contains(Enums.Category.CELEBRITIES), "Category set should contain SCIENCE_NATURE");
     }
 
     @Test
@@ -68,7 +68,7 @@ public class TestMainController {
 
     @Test
     public void testGetFormattedApiQuestionsWithoutFilters() throws Exception {
-        mainController.generateApiList(List.of(Enums.Category.HISTORY, Enums.Category.SCIENCE_NATURE));
+        mainController.generateApiList(List.of(Enums.Category.GEOGRAPHY, Enums.Category.MYTHOLOGY));
 
         List<TriviaQuestion> questions = mainController.getFormattedApiQuestions();
         assertNotNull(questions, "Questions should not be null");
@@ -76,18 +76,18 @@ public class TestMainController {
 
         // Verify that all questions belong to the generated categories
         for (TriviaQuestion question : questions) {
-            assertTrue(Set.of(Enums.Category.HISTORY, Enums.Category.SCIENCE_NATURE).contains(question.category()), "Question should belong to one of the generated categories");
+            assertTrue(Set.of(Enums.Category.GEOGRAPHY, Enums.Category.MYTHOLOGY).contains(question.category()), "Question should belong to one of the generated categories");
         }
     }
 
     @Test
     public void testGetFormattedUserQuestions() throws Exception {
-        List<Enums.Category> categories = List.of(Enums.Category.HISTORY, Enums.Category.SCIENCE_NATURE);
+        List<Enums.Category> categories = List.of(Enums.Category.SPORTS, Enums.Category.ANIMALS);
         mainController.generateApiList(categories);
 
-        List<TriviaQuestion> apiQuestions = mainController.getApiQuestions();
+        List<TriviaQuestion> apiQuestions = mainController.getFormattedApiQuestions();
         TriviaQuestion question1 = apiQuestions.get(0);
-        TriviaQuestion question2 = apiQuestions.get(25);
+        TriviaQuestion question2 = apiQuestions.get(30);
 
         mainController.moveToUserCollection(question1);
         mainController.moveToUserCollection(question2);
@@ -97,8 +97,8 @@ public class TestMainController {
         assertNotNull(sortedQuestions, "Sorted questions should not be null");
 
         // Verify the order of questions
-        assertEquals(Enums.Category.HISTORY, sortedQuestions.get(0).category(), "First question should belong to HISTORY category");
-        assertEquals(Enums.Category.SCIENCE_NATURE, sortedQuestions.get(1).category(), "Second question should belong to SCIENCE_NATURE category");
+        assertEquals(Enums.Category.ANIMALS, sortedQuestions.get(0).category(), "First question should belong to ANIMALS category");
+        assertEquals(Enums.Category.SPORTS, sortedQuestions.get(1).category(), "Second question should belong to SPORTS category");
     }
 
     @Test
