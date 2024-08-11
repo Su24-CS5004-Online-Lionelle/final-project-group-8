@@ -16,9 +16,7 @@ public class SaveActionListener implements ActionListener {
     /** The list model for the user collection. */
     private DefaultListModel<TriviaQuestion> userListModel;
 
-    /**
-     * The program's Main Controller.
-     */
+    /** The program's Main Controller. */
     private MainController controller;
 
     /**
@@ -30,7 +28,6 @@ public class SaveActionListener implements ActionListener {
     public SaveActionListener(DefaultListModel<TriviaQuestion> userListModel, MainController controller) {
         this.userListModel = userListModel;
         this.controller = controller;
-
     }
 
     /**

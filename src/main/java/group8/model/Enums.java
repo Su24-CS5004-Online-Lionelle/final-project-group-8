@@ -3,12 +3,13 @@ package group8.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Contains enumerations used in the trivia application.
+ * A collection of enums representing various types, difficulties, categories,
+ * and fields used in trivia questions.
  */
 public class Enums {
 
     /**
-     * Enumeration representing the types of trivia questions.
+     * Enum representing the type of a trivia question.
      */
     public enum QuestionType {
 
@@ -24,35 +25,33 @@ public class Enums {
         @JsonProperty("multiple")
         MULTIPLE("multiple");
 
-        /**
-         * The string value of the question type.
-         */
         private final String value;
 
         /**
-         * Constructor to initialize the string value.
+         * Constructor to initialize the string value for the question type.
          *
-         * @param value the string representation of the question type
+         * @param value The string value associated with the question type.
          */
         QuestionType(String value) {
             this.value = value;
         }
 
         /**
-         * Gets the string value of the question type.
+         * Gets the string value associated with the question type.
          *
-         * @return the string value of the question type
+         * @return The string value of the question type.
          */
         public String getValue() {
             return value;
         }
 
         /**
-         * Gets the enum constant corresponding to the string value.
+         * Converts a string value to the corresponding QuestionType enum constant.
          *
-         * @param value the string value
-         * @return the corresponding QuestionType enum
-         * @throws IllegalArgumentException if the value does not match any enum constant
+         * @param value The string value to convert.
+         * @return The corresponding QuestionType enum constant.
+         * @throws IllegalArgumentException If the string value does not match any
+         *                                  QuestionType.
          */
         public static QuestionType fromValue(String value) {
             for (QuestionType type : QuestionType.values()) {
@@ -65,7 +64,7 @@ public class Enums {
     }
 
     /**
-     * Enumeration representing the difficulty levels of trivia questions.
+     * Enum representing the difficulty level of a trivia question.
      */
     public enum Difficulty {
 
@@ -75,47 +74,39 @@ public class Enums {
         @JsonProperty("easy")
         EASY("easy"),
 
-        /**
-         * Medium difficulty level.
-         */
         @JsonProperty("medium")
         MEDIUM("medium"),
 
-        /**
-         * Hard difficulty level.
-         */
         @JsonProperty("hard")
         HARD("hard");
 
-        /**
-         * The string value of the difficulty level.
-         */
         private final String value;
 
         /**
-         * Constructor to initialize the string value.
+         * Constructor to initialize the string value for the difficulty level.
          *
-         * @param value the string representation of the difficulty level
+         * @param value The string value associated with the difficulty level.
          */
         Difficulty(String value) {
             this.value = value;
         }
 
         /**
-         * Gets the string value of the difficulty level.
+         * Gets the string value associated with the difficulty level.
          *
-         * @return the string value of the difficulty level
+         * @return The string value of the difficulty level.
          */
         public String getValue() {
             return value;
         }
 
         /**
-         * Gets the enum constant corresponding to the string value.
+         * Converts a string value to the corresponding Difficulty enum constant.
          *
-         * @param value the string value
-         * @return the corresponding Difficulty enum
-         * @throws IllegalArgumentException if the value does not match any enum constant
+         * @param value The string value to convert.
+         * @return The corresponding Difficulty enum constant.
+         * @throws IllegalArgumentException If the string value does not match any
+         *                                  Difficulty.
          */
         public static Difficulty fromValue(String value) {
             for (Difficulty difficulty : Difficulty.values()) {
@@ -128,7 +119,7 @@ public class Enums {
     }
 
     /**
-     * Enumeration representing the categories of trivia questions.
+     * Enum representing various categories for trivia questions.
      */
     public enum Category {
 
@@ -276,35 +267,33 @@ public class Enums {
         @JsonProperty("Vehicles")
         VEHICLES("Vehicles");
 
-        /**
-         * The string value of the category.
-         */
         private final String value;
 
         /**
-         * Constructor to initialize the string value.
+         * Constructor to initialize the string value for the category.
          *
-         * @param value the string representation of the category
+         * @param value The string value associated with the category.
          */
         Category(String value) {
             this.value = value;
         }
 
         /**
-         * Gets the string value of the category.
+         * Gets the string value associated with the category.
          *
-         * @return the string value of the category
+         * @return The string value of the category.
          */
         public String getValue() {
             return value;
         }
 
         /**
-         * Gets the enum constant corresponding to the string value.
+         * Converts a string value to the corresponding Category enum constant.
          *
-         * @param value the string value
-         * @return the corresponding Category enum
-         * @throws IllegalArgumentException if the value does not match any enum constant
+         * @param value The string value to convert.
+         * @return The corresponding Category enum constant.
+         * @throws IllegalArgumentException If the string value does not match any
+         *                                  Category.
          */
         public static Category fromValue(String value) {
             for (Category category : Category.values()) {
@@ -317,7 +306,8 @@ public class Enums {
     }
 
     /**
-     * Enumeration representing the fields of a trivia question.
+     * Enum representing different fields used for sorting or filtering trivia
+     * questions.
      */
     public enum Field {
 
@@ -342,29 +332,30 @@ public class Enums {
         private final String value;
 
         /**
-         * Constructor to initialize the string value.
+         * Constructor to initialize the string value for the field.
          *
-         * @param value the string representation of the field
+         * @param value The string value associated with the field.
          */
         Field(String value) {
             this.value = value;
         }
 
         /**
-         * Gets the string value of the field.
+         * Gets the string value associated with the field.
          *
-         * @return the string value of the field
+         * @return The string value of the field.
          */
         public String getValue() {
             return value;
         }
 
         /**
-         * Gets the enum constant corresponding to the string value.
+         * Converts a string value to the corresponding Field enum constant.
          *
-         * @param value the string value
-         * @return the corresponding Field enum
-         * @throws IllegalArgumentException if the value does not match any enum constant
+         * @param value The string value to convert.
+         * @return The corresponding Field enum constant.
+         * @throws IllegalArgumentException If the string value does not match any
+         *                                  Field.
          */
         public static Field fromValue(String value) {
             for (Field field : Field.values()) {
