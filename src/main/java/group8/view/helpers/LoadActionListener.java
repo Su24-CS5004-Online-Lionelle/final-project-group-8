@@ -23,14 +23,18 @@ public class LoadActionListener implements ActionListener {
     /** The program's main controller. */
     private final MainController controller;
 
+    /** The program's main view. */
     private final MainView view;
 
     /**
      * Constructs a LoadActionListener with the specified user list model.
      *
-     * @param userListModel the list model for the user collection
+     * @param controller The program's main controller.
+     * @param view The program's main view.
+     * @param userListModel the list model for the user collection.
      */
-    public LoadActionListener(DefaultListModel<TriviaQuestion> userListModel, MainController controller, MainView view) {
+    public LoadActionListener(DefaultListModel<TriviaQuestion> userListModel,
+                              MainController controller, MainView view) {
         this.userListModel = userListModel;
         this.controller = controller;
         this.view = view;
