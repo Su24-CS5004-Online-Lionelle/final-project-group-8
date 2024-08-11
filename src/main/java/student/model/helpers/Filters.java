@@ -1,12 +1,12 @@
-package group8.model.helpers;
+package student.model.helpers;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import group8.model.TriviaQuestion;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.QuestionType;
 
-import group8.model.Enums.Category;
+import student.model.TriviaQuestion;
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.QuestionType;
 
 
 

@@ -1,10 +1,11 @@
-package group8.view;
+package student.view;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import group8.controller.MainController;
-import group8.model.Enums;
-import group8.model.TriviaQuestion;
-import group8.view.helpers.*;
+
+import student.controller.MainController;
+import student.model.Enums;
+import student.model.TriviaQuestion;
+import student.view.helpers.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -259,7 +260,7 @@ public class MainView extends JFrame {
      */
     private JPanel createApiTopPanel() {
         JPanel apiTopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton filterButton = createIconButton("src/main/java/group8/view/icons/filter.png", 20, 20);
+        JButton filterButton = createIconButton("src/main/java/student/view/icons/filter.png", 20, 20);
         filterButton.addActionListener(new FilterActionListener(frame, this, state, controller));
         apiTopPanel.add(filterButton);
         return apiTopPanel;

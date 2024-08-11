@@ -1,10 +1,11 @@
 package controller;
 
-import group8.controller.MainController;
-import group8.model.Enums;
-import group8.model.TriviaQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import student.controller.MainController;
+import student.model.Enums;
+import student.model.TriviaQuestion;
 
 import java.io.IOException;
 import java.util.List;

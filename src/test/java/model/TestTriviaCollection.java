@@ -2,15 +2,15 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import group8.model.APITriviaCollection;
-import group8.model.TriviaQuestion;
-import group8.model.UserTriviaCollection;
-import group8.model.helpers.Filters;
-import group8.model.Enums;
-import group8.model.Enums.Category;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.QuestionType;
-import group8.model.Enums.Field;
+import student.model.APITriviaCollection;
+import student.model.Enums;
+import student.model.TriviaQuestion;
+import student.model.UserTriviaCollection;
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.Field;
+import student.model.Enums.QuestionType;
+import student.model.helpers.Filters;
 
 import java.util.Arrays;
 import java.util.Collections;

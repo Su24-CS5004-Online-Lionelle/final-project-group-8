@@ -1,11 +1,11 @@
-package group8.model;
+package student.model;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import group8.model.helpers.Filters;
-import group8.model.Enums.Field;
+import student.model.Enums.Field;
+import student.model.helpers.Filters;
 
 /**
  * Interface representing a collection of trivia questions.

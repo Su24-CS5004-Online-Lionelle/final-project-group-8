@@ -1,8 +1,4 @@
-package group8.model;
-
-import group8.model.Enums.Field;
-import group8.model.helpers.Filters;
-import group8.model.helpers.Sorter;
+package student.model;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -10,6 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+
+import student.model.Enums.Field;
+import student.model.helpers.Filters;
+import student.model.helpers.Sorter;
 
 /**
  * Abstract class representing a collection of trivia questions.

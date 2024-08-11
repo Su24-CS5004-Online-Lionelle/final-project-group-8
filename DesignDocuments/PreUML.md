@@ -1,7 +1,7 @@
 # Mock Directory Structure
 
 ## Project Root
-- **Group8**
+- **Student**
   - TriviaApp.java (main())
   - **Controller/**
     - IMainController.java

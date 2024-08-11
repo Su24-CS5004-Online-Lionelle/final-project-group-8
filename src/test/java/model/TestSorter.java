@@ -1,13 +1,15 @@
 package model;
-import group8.model.TriviaQuestion;
-import group8.model.Enums.Field;
-import group8.model.Enums.QuestionType;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.Category;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import group8.model.APITriviaCollection;
-import group8.model.ITriviaCollection;
+
+import student.model.APITriviaCollection;
+import student.model.ITriviaCollection;
+import student.model.TriviaQuestion;
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.Field;
+import student.model.Enums.QuestionType;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

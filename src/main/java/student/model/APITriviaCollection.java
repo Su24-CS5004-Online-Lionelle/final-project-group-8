@@ -1,4 +1,4 @@
-package group8.model;
+package student.model;
 
 import java.util.Collection;
 import java.util.HashSet;

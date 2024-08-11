@@ -1,13 +1,14 @@
 package model;
-import group8.model.Enums.Category;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.QuestionType;
-import group8.model.TriviaQuestion;
-
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import student.model.TriviaQuestion;
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.QuestionType;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestTriviaQuestion {

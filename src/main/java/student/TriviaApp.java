@@ -1,9 +1,9 @@
-package group8;
-
-import group8.controller.MainController;
-import group8.view.MainView;
+package student;
 
 import javax.swing.*;
+
+import student.controller.MainController;
+import student.view.MainView;
 
 /**
  * TriviaApp is the entry point for the Trivia Generator application.

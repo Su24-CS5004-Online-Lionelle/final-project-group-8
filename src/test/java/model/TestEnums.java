@@ -1,10 +1,10 @@
 package model;
-import group8.model.Enums.Category;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.Field;
-import group8.model.Enums.QuestionType;
-
 import org.junit.jupiter.api.Test;
+
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.Field;
+import student.model.Enums.QuestionType;
 
 import static org.junit.jupiter.api.Assertions.*;
 

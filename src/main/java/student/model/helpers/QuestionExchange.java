@@ -1,8 +1,8 @@
-package group8.model.helpers;
+package student.model.helpers;
 
-import group8.model.APITriviaCollection;
-import group8.model.TriviaQuestion;
-import group8.model.UserTriviaCollection;
+import student.model.APITriviaCollection;
+import student.model.TriviaQuestion;
+import student.model.UserTriviaCollection;
 
 /**
  * Helper class for managing the exchange of trivia questions between

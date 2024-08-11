@@ -1,8 +1,9 @@
-package group8.model.helpers;
+package student.model.helpers;
 
 import java.util.Comparator;
-import group8.model.Enums.Field;
-import group8.model.TriviaQuestion;
+
+import student.model.TriviaQuestion;
+import student.model.Enums.Field;
 
 public final class Sorter {
     /**

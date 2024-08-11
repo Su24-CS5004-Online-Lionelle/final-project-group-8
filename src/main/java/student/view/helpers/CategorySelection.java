@@ -1,8 +1,9 @@
-package group8.view.helpers;
-
-import group8.model.Enums;
+package student.view.helpers;
 
 import javax.swing.*;
+
+import student.model.Enums;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

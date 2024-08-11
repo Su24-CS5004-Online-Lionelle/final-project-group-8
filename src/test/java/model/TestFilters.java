@@ -3,18 +3,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import group8.model.APITriviaCollection;
-import group8.model.Enums.Category;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.QuestionType;
-import group8.model.ITriviaCollection;
-import group8.model.TriviaQuestion;
-import group8.model.helpers.Filters;
-
 import org.junit.jupiter.api.BeforeAll;
 
 
 import org.junit.jupiter.api.Test;
+
+import student.model.APITriviaCollection;
+import student.model.ITriviaCollection;
+import student.model.TriviaQuestion;
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.QuestionType;
+import student.model.helpers.Filters;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFilters {

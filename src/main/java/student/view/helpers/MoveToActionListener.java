@@ -1,13 +1,13 @@
-package group8.view.helpers;
-
-import group8.controller.MainController;
-import group8.model.TriviaQuestion;
-import group8.view.MainView;
+package student.view.helpers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import student.controller.MainController;
+import student.model.TriviaQuestion;
+import student.view.MainView;
 
 /**
  * MoveToActionListener handles the action of moving a selected TriviaQuestion

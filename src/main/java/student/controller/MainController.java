@@ -1,18 +1,18 @@
-package group8.controller;
-
-import group8.model.*;
-import group8.model.Enums.Category;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.Field;
-import group8.model.Enums.QuestionType;
-import group8.model.helpers.APIUtils;
-import group8.model.helpers.Filters;
-import group8.model.helpers.QuestionExchange;
+package student.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import student.model.*;
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.Field;
+import student.model.Enums.QuestionType;
+import student.model.helpers.APIUtils;
+import student.model.helpers.Filters;
+import student.model.helpers.QuestionExchange;
 
 /**
  * MainController handles the interaction between the model and view.

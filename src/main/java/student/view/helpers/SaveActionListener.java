@@ -1,9 +1,10 @@
-package group8.view.helpers;
-
-import group8.controller.MainController;
-import group8.model.TriviaQuestion;
+package student.view.helpers;
 
 import javax.swing.*;
+
+import student.controller.MainController;
+import student.model.TriviaQuestion;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;

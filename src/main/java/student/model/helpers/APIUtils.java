@@ -1,4 +1,4 @@
-package group8.model.helpers;
+package student.model.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,8 +10,9 @@ import java.net.URL;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import group8.model.Enums;
-import group8.model.TriviaQuestion;
+
+import student.model.Enums;
+import student.model.TriviaQuestion;
 
 /**
  * Utility class for interacting with the Open Trivia Database API.

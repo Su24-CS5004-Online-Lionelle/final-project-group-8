@@ -3,9 +3,9 @@ package model;
 
 // import com.fasterxml.jackson.databind.JsonNode;
 // import com.fasterxml.jackson.databind.ObjectMapper;
-// import group8.model.Enums;
-// import group8.model.TriviaQuestion;
-// import group8.model.helpers.APIUtils;
+// import student.model.Enums;
+// import student.model.TriviaQuestion;
+// import student.model.helpers.APIUtils;
 // import org.junit.jupiter.api.Test;
 
 // import java.util.HashMap;

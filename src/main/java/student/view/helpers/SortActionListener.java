@@ -1,12 +1,12 @@
-package group8.view.helpers;
-
-import group8.controller.MainController;
-import group8.model.TriviaQuestion;
-import group8.view.MainView;
-import group8.model.Enums;
-import group8.model.Enums.Field;
+package student.view.helpers;
 
 import javax.swing.*;
+
+import student.controller.MainController;
+import student.model.Enums;
+import student.model.TriviaQuestion;
+import student.model.Enums.Field;
+import student.view.MainView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

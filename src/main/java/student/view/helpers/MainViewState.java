@@ -1,10 +1,10 @@
-package group8.view.helpers;
+package student.view.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import group8.model.Enums;
-import group8.model.Enums.Field;
+import student.model.Enums;
+import student.model.Enums.Field;
 
 /**
  * MainViewState class represents the state of filter selections in the trivia

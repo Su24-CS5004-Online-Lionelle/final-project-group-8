@@ -1,11 +1,11 @@
-package group8.model;
-
-import group8.model.Enums.Category;
-import group8.model.Enums.Difficulty;
-import group8.model.Enums.QuestionType;
+package student.model;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import student.model.Enums.Category;
+import student.model.Enums.Difficulty;
+import student.model.Enums.QuestionType;
 
 
 /**

@@ -1,8 +1,9 @@
-package group8.view.helpers;
-
-import group8.model.TriviaQuestion;
+package student.view.helpers;
 
 import javax.swing.*;
+
+import student.model.TriviaQuestion;
+
 import java.awt.*;
 
 /**
