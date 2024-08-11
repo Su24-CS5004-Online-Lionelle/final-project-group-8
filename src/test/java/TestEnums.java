@@ -1,4 +1,3 @@
-package model;
 import group8.model.Enums.Category;
 import group8.model.Enums.Difficulty;
 import group8.model.Enums.Field;
