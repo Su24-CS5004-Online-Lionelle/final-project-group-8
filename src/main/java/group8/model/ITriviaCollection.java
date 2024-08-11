@@ -44,6 +44,7 @@ public interface ITriviaCollection {
      * Filter the trivia questions in the collection based on a filter.
      *
      * @param filter the filter criteria
+     * @return a set of filtered TriviaQuestion
      */
     Set<TriviaQuestion> filterQuestions(Filters filter);
 

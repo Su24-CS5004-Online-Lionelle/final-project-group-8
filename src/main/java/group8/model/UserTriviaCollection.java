@@ -7,6 +7,10 @@ import java.util.*;
  * This class extends the TriviaCollection abstract class.
  */
 public class UserTriviaCollection extends TriviaCollection {
+
+    /**
+     * A set that holds the collection of trivia questions for the user.
+     */
     private Set<TriviaQuestion> userCollection;
 
     /**

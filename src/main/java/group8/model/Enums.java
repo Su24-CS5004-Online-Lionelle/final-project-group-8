@@ -13,9 +13,15 @@ public class Enums {
      */
     public enum QuestionType {
 
+        /**
+         * Boolean type question.
+         */
         @JsonProperty("boolean")
         BOOLEAN("boolean"),
 
+        /**
+         * Multiple choice question.
+         */
         @JsonProperty("multiple")
         MULTIPLE("multiple");
 
@@ -62,6 +68,9 @@ public class Enums {
      */
     public enum Difficulty {
 
+        /**
+         * Easy difficulty level.
+         */
         @JsonProperty("easy")
         EASY("easy"),
 
@@ -114,75 +123,147 @@ public class Enums {
      */
     public enum Category {
 
+        /**
+         * Animals category.
+         */
         @JsonProperty("Animals")
         ANIMALS("Animals"),
 
+        /**
+         * Art category.
+         */
         @JsonProperty("Art")
         ART("Art"),
 
+        /**
+         * Celebrities category.
+         */
         @JsonProperty("Celebrities")
         CELEBRITIES("Celebrities"),
 
+        /**
+         * Entertainment: Board Games category.
+         */
         @JsonProperty("Entertainment: Board Games")
         ENTERTAINMENT_BOARD_GAMES("Entertainment: Board Games"),
 
+        /**
+         * Entertainment: Books category.
+         */
         @JsonProperty("Entertainment: Books")
         ENTERTAINMENT_BOOKS("Entertainment: Books"),
 
+        /**
+         * Entertainment: Cartoon & Animations category.
+         */
         @JsonProperty("Entertainment: Cartoon & Animations")
         ENTERTAINMENT_CARTOON_ANIMATIONS("Entertainment: Cartoon & Animations"),
 
+        /**
+         * Entertainment: Comics category.
+         */
         @JsonProperty("Entertainment: Comics")
         ENTERTAINMENT_COMICS("Entertainment: Comics"),
 
+        /**
+         * Entertainment: Film category.
+         */
         @JsonProperty("Entertainment: Film")
         ENTERTAINMENT_FILM("Entertainment: Film"),
 
+        /**
+         * Entertainment: Japanese Anime & Manga category.
+         */
         @JsonProperty("Entertainment: Japanese Anime & Manga")
         ENTERTAINMENT_JAPANESE_ANIME_MANGA("Entertainment: Japanese Anime & Manga"),
 
+        /**
+         * Entertainment: Music category.
+         */
         @JsonProperty("Entertainment: Music")
         ENTERTAINMENT_MUSIC("Entertainment: Music"),
 
+        /**
+         * Entertainment: Musicals & Theatres category.
+         */
         @JsonProperty("Entertainment: Musicals & Theatres")
         ENTERTAINMENT_MUSICALS_THEATRES("Entertainment: Musicals & Theatres"),
 
+        /**
+         * Entertainment: Television category.
+         */
         @JsonProperty("Entertainment: Television")
         ENTERTAINMENT_TELEVISION("Entertainment: Television"),
 
+        /**
+         * Entertainment: Video Games category.
+         */
         @JsonProperty("Entertainment: Video Games")
         ENTERTAINMENT_VIDEO_GAMES("Entertainment: Video Games"),
 
+        /**
+         * General Knowledge category.
+         */
         @JsonProperty("General Knowledge")
         GENERAL_KNOWLEDGE("General Knowledge"),
 
+        /**
+         * Geography category.
+         */
         @JsonProperty("Geography")
         GEOGRAPHY("Geography"),
 
+        /**
+         * History category.
+         */
         @JsonProperty("History")
         HISTORY("History"),
 
+        /**
+         * Mythology category.
+         */
         @JsonProperty("Mythology")
         MYTHOLOGY("Mythology"),
 
+        /**
+         * Politics category.
+         */
         @JsonProperty("Politics")
         POLITICS("Politics"),
 
+        /**
+         * Science & Nature category.
+         */
         @JsonProperty("Science & Nature")
         SCIENCE_NATURE("Science & Nature"),
 
+        /**
+         * Science: Computers category.
+         */
         @JsonProperty("Science: Computers")
         SCIENCE_COMPUTERS("Science: Computers"),
 
+        /**
+         * Science: Gadgets category.
+         */
         @JsonProperty("Science: Gadgets")
         SCIENCE_GADGETS("Science: Gadgets"),
 
+        /**
+         * Science: Mathematics category.
+         */
         @JsonProperty("Science: Mathematics")
         SCIENCE_MATHEMATICS("Science: Mathematics"),
 
+        /**
+         * Sports category.
+         */
         @JsonProperty("Sports")
         SPORTS("Sports"),
 
+        /**
+         * Vehicles category.
+         */
         @JsonProperty("Vehicles")
         VEHICLES("Vehicles");
 
@@ -230,10 +311,24 @@ public class Enums {
      */
     public enum Field {
 
+        /**
+         * The type field.
+         */
         TYPE("type"),
+
+        /**
+         * The difficulty field.
+         */
         DIFFICULTY("difficulty"),
+
+        /**
+         * The category field.
+         */
         CATEGORY("category");
 
+        /**
+         * The string value of the field.
+         */
         private final String value;
 
         /**

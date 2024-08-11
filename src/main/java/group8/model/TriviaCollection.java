@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  * Abstract class representing a collection of trivia questions.
  */
 public abstract class TriviaCollection implements ITriviaCollection {
+
     /**
      * The collection of trivia questions.
      */

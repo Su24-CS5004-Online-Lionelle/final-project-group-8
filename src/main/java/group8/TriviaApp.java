@@ -5,7 +5,6 @@ import group8.view.MainView;
 
 import javax.swing.*;
 
-
 /**
  * TriviaApp is the entry point for the Trivia Generator application.
  * It initializes the main controller and main view of the application.
