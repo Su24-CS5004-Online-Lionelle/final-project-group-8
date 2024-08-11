@@ -1,3 +1,5 @@
+package model;
+
 import group8.model.APITriviaCollection;
 import group8.model.Enums;
 import group8.model.TriviaQuestion;
@@ -8,8 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestQuestionExchange {
 
@@ -68,5 +69,72 @@ public class TestQuestionExchange {
         assertTrue(!userCollection.getAllQuestions().contains(question));
     }
 
+    @Test
+    public void testMoveNonExistentQuestionToUser() {
+        TriviaQuestion nonExistentQuestion = new TriviaQuestion(
+                Enums.QuestionType.BOOLEAN, Enums.Difficulty.HARD, Enums.Category.GEOGRAPHY,
+                "Is the earth flat?", "False", Arrays.asList("True")
+        );
 
+        questionExchange.moveToUserCollection(nonExistentQuestion);
+
+        assertFalse(userCollection.getAllQuestions().contains(nonExistentQuestion));
+        assertFalse(apiCollection.getAllQuestions().contains(nonExistentQuestion));
+    }
+
+    @Test
+    public void testMoveNonExistentQuestionToApi() {
+        TriviaQuestion nonExistentQuestion = new TriviaQuestion(
+                Enums.QuestionType.BOOLEAN, Enums.Difficulty.HARD, Enums.Category.SCIENCE_NATURE,
+                "Does water freeze at 0°C?", "True", Arrays.asList("False")
+        );
+
+        questionExchange.moveToApiCollection(nonExistentQuestion);
+
+        assertFalse(userCollection.getAllQuestions().contains(nonExistentQuestion));
+        assertFalse(apiCollection.getAllQuestions().contains(nonExistentQuestion));
+    }
+
+    @Test
+    public void testMoveNullQuestionToUser() {
+
+        questionExchange.moveToUserCollection(null);
+
+        assertEquals(STATIC_QUESTIONS.size(), apiCollection.getAllQuestions().size());
+        assertTrue(userCollection.getAllQuestions().isEmpty());
+    }
+
+    @Test
+    public void testMoveNullQuestionToApi() {
+
+        questionExchange.moveToApiCollection(null);
+
+        assertEquals(STATIC_QUESTIONS.size(), apiCollection.getAllQuestions().size());
+        assertTrue(userCollection.getAllQuestions().isEmpty());
+    }
+
+    @Test
+    public void testMoveSameQuestionMultipleTimes() {
+        TriviaQuestion question = STATIC_QUESTIONS.get(2);
+
+        // Move the question to the user collection
+        questionExchange.moveToUserCollection(question);
+
+        // Attempt to move it again (it should no longer be in the API collection)
+        questionExchange.moveToUserCollection(question);
+
+        // Verify that the question is in the user collection and not in the API collection
+        assertTrue(userCollection.getAllQuestions().contains(question));
+        assertFalse(apiCollection.getAllQuestions().contains(question));
+
+        // Move the question back to the API collection
+        questionExchange.moveToApiCollection(question);
+
+        // Attempt to move it again (it should no longer be in the user collection)
+        questionExchange.moveToApiCollection(question);
+
+        // Verify that the question is in the API collection and not in the user collection
+        assertTrue(apiCollection.getAllQuestions().contains(question));
+        assertFalse(userCollection.getAllQuestions().contains(question));
+    }
 }
