@@ -2,7 +2,7 @@
 
 ## Minimum Requirements
 1. Graphical User Interface using Java Swing.
-2. Able to view all Trivia Questions in the collection - in a logical order as they're pulled from API.
+2. Able to view all Trivia Questions in the collection in a logical order, as Trivia are sorted alphabetically by category and question.
 3. Able to build a list of Trivia Questions from the API collection, stored as the User Collection.
 4. Able to save out User Collection list using JSON and text file format.
 
