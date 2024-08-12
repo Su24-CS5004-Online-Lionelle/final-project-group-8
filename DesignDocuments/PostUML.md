@@ -298,9 +298,7 @@ classDiagram
     + resetToken()$ : void
     + requestToken()$ : void
     + requestCategories()$ : void
-    - sendGetRequest(String urlString)$ : JsonNode
-    + getSessionToken()$ : String
-    + getCategoryMap()$ : Map~String, String~
+    + sendGetRequest(String urlString)$ : JsonNode
     + htmlConverter(String input)$ : String
   }
 

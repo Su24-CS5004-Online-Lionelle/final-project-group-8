@@ -11,9 +11,11 @@
 
 * Document Links
   * [Project Proposal](./DesignDocuments/Proposal.md)
-  * [UI/UX Flow Diagram](./DesignDocuments/FlowDiagram.png)
+  * [Pre UI/UX Flow Diagram](./DesignDocuments/FlowDiagram.png)
+  * [Post UI/UX Flow Diagram](./DesignDocuments/FlowDiagramFinal.png)
   * [Pre UML](./DesignDocuments/PreUML.md)
   * [Post UML](./DesignDocuments/PostUML.md)
+  * [Features List](./DesignDocuments/Features.md)
   * [Program Manual](./Manual/README.md)
   * [Citations](./DesignDocuments/citations.md)
 
